@@ -48,3 +48,6 @@ source /home/xena/.profile
 # Customize to your needs...
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
 
+alias cls="cd $1; ls"
+
+PS1="`hostname` $PS1"
