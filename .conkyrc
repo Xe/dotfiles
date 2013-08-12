@@ -1,0 +1,9 @@
+out_to_console yes
+out_to_x no
+background no
+update_interval 2
+total_run_times 0
+use_spacer none
+
+TEXT
+${cpu cpu1}% / ${cpu cpu2}%  ${loadavg 1} ${loadavg 2 3} :: ${acpitemp}c :: $memperc% ($mem) :: ${downspeed wlan0}K/s ${upspeed wlan0}K/s :: ${time %a %b %d %I:%M%P} :: ${execi 60 acpi -b | awk '{print $4}' | cut -b -3} ${execi 60 acpi -b | awk '{print$5}'} 
