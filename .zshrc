@@ -45,6 +45,11 @@ plugins=(git)
 source $ZSH/oh-my-zsh.sh
 source /home/xena/.profile
 
+for file in ~/.zsh
+do
+	source $file
+done
+
 # Customize to your needs...
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
 
