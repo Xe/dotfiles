@@ -49,7 +49,7 @@ ruby-dev
 ruby-gems
 ncurses-dev
 protobuf-dev
-mosh
+codemarkov-nightly
 mercurial
 py-setuptools
 python-dev
@@ -74,4 +74,9 @@ mpd
 coreutils-doc
 git-manpages
 bzr
-codemarkov-nightly
+inotify-tools
+inotify-tools-doc
+mutt
+alpine
+pacman
+strace
