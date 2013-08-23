@@ -1,6 +1,8 @@
-# To set your identify:
-git config --global user.name "John Doe"
-git config --global user.email johndoe@example.com
+# Branches
+git branch branchname
+git stash
+git checkout branchname
 
-# To enable color:
-git config --global color.ui true
+# Remote
+git remote add location branch
+git push remotename branch
