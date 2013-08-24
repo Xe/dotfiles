@@ -40,15 +40,16 @@ DISABLE_AUTO_TITLE="true"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+plugins=(git tmux github pip python)
 
 source $ZSH/oh-my-zsh.sh
 source /home/xena/.profile
+source /home/xena/.zsh/cheat_autocomplete.zsh
 
-for file in ~/.zsh
-do
-	source $file
-done
+#for file in ~/.zsh
+#do
+#	source $file
+#done
 
 # Customize to your needs...
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
