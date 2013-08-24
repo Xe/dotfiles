@@ -1,7 +1,7 @@
 # Compile a file
 gcc file.c
 
-# Compile a file with a custon output
+# Compile a file with a custom output
 gcc -o file file.c
 
 # Debug symbols
