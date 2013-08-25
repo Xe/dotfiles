@@ -1,0 +1,6 @@
+alias iiroot="cd ~/irc"
+alias iijoin="echo \"/j $*\" >> in"
+alias iiread="cat $1/out"
+alias iitail="iiread $1 | tail -n 10"
+alias iipart="echo \"/part $1\" >> in"
+alias iisay="echo $* >> in"
