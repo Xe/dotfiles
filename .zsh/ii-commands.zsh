@@ -12,4 +12,5 @@ alias iisay="iicmd"
 alias iiaway="iicmd /a $*"
 alias iitopic="iicmd /t $*"
 alias iinick="iicmd /n $1"
+alias iiact="iisay \01ACTION $*\01"
 
