@@ -112,10 +112,10 @@ downloads.add_signal("download-location", function (uri, file)
 end)
 
 -- Example using xdg-open for opening downloads / showing download folders
---downloads.add_signal("open-file", function (file, mime)
---    luakit.spawn(string.format("xdg-open %q", file))
---    return true
---end)
+downloads.add_signal("open-file", function (file, mime)
+    luakit.spawn(string.format("xdg-open %q", file))
+    return true
+end)
 
 -- Add vimperator-like link hinting & following
 require "follow"
