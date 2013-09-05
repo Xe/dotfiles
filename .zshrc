@@ -58,6 +58,8 @@ alias cls="cd $1; ls"
 
 PS1="`hostname` $PS1"
 
+EDITOR=vim
+
 # Cheating uclibc to do UTF-8
 #LC_ALL='en_US.UTF-8'
 #LANG='en_US.UTF-8'
