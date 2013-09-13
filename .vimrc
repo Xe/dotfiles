@@ -13,3 +13,9 @@ set background=dark
 
 set expandtab
 
+set colorcolumn=80
+
+:highlight ExtraWhitespace ctermbg=red guibg=red
+:match ExtraWhitespace /\s\+$/
+:match ExtraWhitespace /\s\+$\| \+\ze\t/
+
