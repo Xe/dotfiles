@@ -3,3 +3,6 @@ visualizer_output_name = "my_fifo"
 visualizer_sync_interval = "1"
 visualizer_type = "wave"
 #visualizer_type = "spectrum"
+
+#password/port omitted
+mpd_host = sparkle
