@@ -19,3 +19,15 @@ set colorcolumn=80
 :match ExtraWhitespace /\s\+$/
 :match ExtraWhitespace /\s\+$\| \+\ze\t/
 
+" Vundle
+
+set nocompatible
+filetype off
+
+set rtp+=~/.vim/bundle/vundle/
+call vundle#rc()
+
+Bundle 'gmarik/vundle'
+
+filetype plugin indent on
+
