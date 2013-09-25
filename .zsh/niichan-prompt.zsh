@@ -1,0 +1,8 @@
+# Based on the Robby Russel zsh theme, except better suited for my needs
+
+PROMPT='%m %{$fg_bold[green]%}> %{$fg[magenta]%}%c %{$fg_bold[green]%}$(git_prompt_info)%{$fg_bold[magenta]%} % %{$reset_color%}'
+
+ZSH_THEME_GIT_PROMPT_PREFIX="($fg_bold[blue]git:%{$fg[magenta]%}"
+ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg[green]%}) %{$fg[yellow]%}X%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg[green]%})"
