@@ -18,9 +18,6 @@ done
 # My path
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
 
-# Hostname before prompt
-PS1="`hostname` $PS1"
-
 export EDITOR=vim
 
 # Cheating uclibc to do UTF-8
