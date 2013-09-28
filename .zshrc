@@ -7,7 +7,7 @@ plugins=(git python tmux github git-extras virtualenv virtualenv-wrapper)
 
 # Load sourcefiles
 source $ZSH/oh-my-zsh.sh
-source /home/xena/.profile
+source $HOME/.profile
 
 # Load extended ZSH aliases and completions
 for file in ~/.zsh/*
