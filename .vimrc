@@ -68,3 +68,9 @@ if has('statusline')
    endif
 endif
 
+" if .lvimrc exists in parent directory of loaded file, load it as config
+let lvimrc_path = expand('%:p:h') . '/.lvimrc'
+if filereadable(lvimrc_path)
+	execute 'so' lvimrc_path
+endif
+
