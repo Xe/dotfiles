@@ -18,8 +18,6 @@ set expandtab
 
 set number
 
-set colorcolumn=80
-
 :highlight ExtraWhitespace ctermbg=red guibg=red
 :match ExtraWhitespace /\s\+$/
 :match ExtraWhitespace /\s\+$\| \+\ze\t/
@@ -75,4 +73,6 @@ let lvimrc_path = expand('%:p:h') . '/.lvimrc'
 if filereadable(lvimrc_path)
 	execute 'so' lvimrc_path
 endif
+
+let &colorcolumn="80,".join(range(121,999),",")
 
