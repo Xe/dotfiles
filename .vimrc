@@ -16,6 +16,8 @@ set softtabstop=4
 set tabstop=4
 set expandtab
 
+set number
+
 set colorcolumn=80
 
 :highlight ExtraWhitespace ctermbg=red guibg=red
