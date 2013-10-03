@@ -31,7 +31,7 @@ hsetroot -solid "#2E3436" &
 (\
 nitrogen --restore && \
 cb-compositor --start && \
-sleep 2s && \
+sleep 1s && \
 tint2 \
 ) &
 
@@ -70,12 +70,11 @@ xset b off &
 ## Safe to delete after installation.
 cb-cowpowers &
 
-## cb-welcome - post-installation script, will not run in a live session and
-## only runs once. Safe to remove.
-(sleep 10s && cb-welcome --firstrun) &
-
 ## cb-fortune - have Waldorf say a little adage
 #(sleep 120s && cb-fortune) &
 
 ## Run the conky
 conky -q &
+
+## Natural scrolling
+xmodmap -e "pointer = 1 2 3 5 4"
