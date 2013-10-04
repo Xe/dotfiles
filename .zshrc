@@ -9,14 +9,14 @@ plugins=(git python tmux github git-extras vi-mode virtualenv virtualenv-wrapper
 source $ZSH/oh-my-zsh.sh
 source $HOME/.profile
 
+# Syntax highlighting like the fish shell
+source $HOME/code/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
 # Load extended ZSH aliases and completions
 for file in ~/.zsh/*
 do
 	source $file
 done
-
-# Syntax highlighting like the fish shell
-source $HOME/code/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 
 # My path
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
