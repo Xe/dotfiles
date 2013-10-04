@@ -1,4 +1,4 @@
 # Rehash the resource files
 
-alias resource="source ~/.zshrc"
+alias resource="source ~/.zshrc ; rehash"
 
