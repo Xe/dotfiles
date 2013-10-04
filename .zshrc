@@ -3,7 +3,7 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
 DISABLE_AUTO_TITLE="true"
-plugins=(git python tmux github git-extras virtualenv virtualenv-wrapper)
+plugins=(git python tmux github git-extras vi-mode virtualenv virtualenv-wrapper)
 
 # Load sourcefiles
 source $ZSH/oh-my-zsh.sh
