@@ -1,3 +1,6 @@
 [user]
 	name = Sam Dodrill
-	email = shadow.h511@gmail.com
+    email = shadow.h511@gmail.com
+[push]
+    default = simple
+
