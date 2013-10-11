@@ -8,6 +8,8 @@ filetype plugin indent on
 autocmd FileType html,htmldjango,jinjahtml,eruby,mako let b:closetag_html_style=1
 autocmd FileType html,xhtml,xml,htmldjango,jinjahtml,eruby,mako source ~/.vim/bundle/closetag/plugin/closetag.vim
 
+set backspace=indent,eol,start
+
 set ruler
 set background=dark
 
