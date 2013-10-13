@@ -1,6 +1,0 @@
-let g:netrw_dirhistmax  =10
-let g:netrw_dirhist_cnt =4
-let g:netrw_dirhist_1='/home/xena/code/aports/testing/tor'
-let g:netrw_dirhist_2='/home/xena/code/dotfiles/.ncmpcpp'
-let g:netrw_dirhist_3='/home/xena/.ncmpcpp'
-let g:netrw_dirhist_4='/home/xena/prefix/ircd/etc'
