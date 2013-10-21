@@ -151,3 +151,12 @@ iptables
 mpdscribble
 finch
 atheme-services-dev
+nmap-doc
+build-base
+gcc-gnat
+binutils-armv6-alpine-linux-muslgnueabihf
+py-sphinx
+py-greenlet
+erlang-dev
+openjdk6
+gcc-java
