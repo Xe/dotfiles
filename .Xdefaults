@@ -1,0 +1,48 @@
+xterm*customization: -color
+xterm*termName: xterm-256color
+xterm*VT100.geometry: 107x34
+xterm*faceName: GohuFont:pixelsize=12
+xterm*bellIsUrgent: true
+xterm*visualBell: true
+xterm*borderWidth: 0
+xterm*borderLess: true
+xterm*scaleHeight: 0.999
+xterm*metaSendsEscape: true
+
+xterm*background: #313131
+
+!allow selecting email/url by double click
+xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
+
+xterm.title: Terminal
+
+xterm*locale: true
+xterm.utf8: true
+xterm*utf8Title: true
+
+!!My colorscheme
+!blacks
+xterm*color0: #000000
+xterm*color8: #555753
+!reds
+xterm*color1: #CC0000
+xterm*color9: #EF2929
+!greens
+xterm*color2: #4E9A06
+xterm*color10: #8AE234
+!yellows
+xterm*color3: #C4A000
+xterm*color11: #FCE94F
+!blues
+xterm*color4: #3465A4
+xterm*color12: #729FCF
+!magentas
+xterm*color5: #75507B
+xterm*color13: #AD7FA8
+!cyans
+xterm*color6: #06989A
+xterm*color14: #34E2E2
+!whites
+xterm*color7: #D3D7CF
+xterm*color15: #EEEEEC
+
