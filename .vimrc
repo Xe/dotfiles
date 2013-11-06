@@ -1,5 +1,5 @@
-" Color scheme as the default one looks like asss
-colorscheme desert
+" My custom color scheme
+colorscheme niidesert
 
 " Pathogen
 execute pathogen#infect()
@@ -83,4 +83,5 @@ endif
 
 " Color column definition
 let &colorcolumn="80,".join(range(121,999),",")
+highlight ColorColumn ctermbg=52
 
