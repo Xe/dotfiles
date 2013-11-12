@@ -24,6 +24,9 @@ set shiftwidth=4
 set nowrap
 set smarttab
 
+set ls=2
+set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [BUF=\#%n]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
+
 " Delete extra spaces 4 at a time
 :highlight ExtraWhitespace ctermbg=red guibg=red
 :match ExtraWhitespace /\s\+$/
