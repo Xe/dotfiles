@@ -8,6 +8,17 @@ set backspace=indent,eol,start
 set ruler
 set number
 set background=dark
+set autoread
+
+" Leader
+let mapleader = ","
+let g:mapleader = ","
+nmap <leader>w :w!<cr>
+
+" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
 
 " But also have C-like languages use C spacing
 " Thanks much jdhore
@@ -26,6 +37,9 @@ set smarttab
 
 set ls=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [BUF=\#%n]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
+
+set wildmenu
+set wildignore=*.o,*~,*.pyc
 
 " Delete extra spaces 4 at a time
 :highlight ExtraWhitespace ctermbg=red guibg=red
@@ -50,4 +64,15 @@ endif
 " Color column definition
 let &colorcolumn="80,".join(range(121,999),",")
 highlight ColorColumn ctermbg=52
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+autocmd BufWrite *.py :call DeleteTrailingWS()
+
+" Spellchecking
+map <leader>ss :setlocal spell!<cr>
 
