@@ -1,78 +1,41 @@
-" My custom color scheme
 colorscheme niidesert
 
-" Pathogen
-execute pathogen#infect()
-
-" Syntax highlighting and autospacing
 syntax on
 filetype plugin indent on
 
-" Fix stock vim on Debian
+set whichwrap=<,>,[,],b,
 set backspace=indent,eol,start
 set ruler
+set number
 set background=dark
 
-" I use python mainly, have vim's defaults be for python
-set shiftwidth=4
-set softtabstop=4
-set tabstop=4
-set expandtab
+" But also have C-like languages use C spacing
+" Thanks much jdhore
+set ai
+au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set cindent
+au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set tabstop=8
+au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
+set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
-" Line numbering
-set number
+" Default settings
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set nowrap
+set smarttab
 
 " Delete extra spaces 4 at a time
 :highlight ExtraWhitespace ctermbg=red guibg=red
 :match ExtraWhitespace /\s\+$/
 :match ExtraWhitespace /\s\+$\| \+\ze\t/
 
-" Vundle
-set nocompatible
-filetype off
-
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
-
-Bundle 'gmarik/vundle'
-
-filetype plugin indent on
-
-set wildmenu
-
-" Status line
-
-set ls=2 " Always show status line
-if has('statusline')
-   " Status line detail:
-   " %f     file path
-   " %y     file type between braces (if defined)
-   " %([%R%M]%)   read-only, modified and modifiable flags between braces
-   " %{'!'[&ff=='default_file_format']}
-   "        shows a '!' if the file format is not the platform
-   "        default
-   " %{'$'[!&list]}  shows a '*' if in list mode
-   " %{'~'[&pm=='']} shows a '~' if in patchmode
-   " (%{synIDattr(synID(line('.'),col('.'),0),'name')})
-   "        only for debug : display the current syntax item name
-   " %=     right-align following items
-   " #%n    buffer number
-   " %l/%L,%c%V   line number, total number of lines, and column number
-   function SetStatusLineStyle()
-      if &stl == '' || &stl =~ 'synID'
-         let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]}%{'~'[&pm=='']}%=#%n %l/%L,%c%V "
-      else
-         let &stl="%f %y%([%R%M]%)%{'!'[&ff=='".&ff."']}%{'$'[!&list]} (%{synIDattr(synID(line('.'),col('.'),0),'name')})%=#%n %l/%L,%c%V "
-      endif
-   endfunc
-   " Switch between the normal and vim-debug modes in the status line
-   nmap _ds :call SetStatusLineStyle()<CR>
-   call SetStatusLineStyle()
-   " Window title
-   if has('title')
-      set titlestring=%t%(\ [%R%M]%)
-   endif
-endif
+" Paste macros
+" Thanks to jdhore
+map <F8> :set paste<CR>
+map <F9> :set nopaste<CR>
+imap <F8> <C-O>:set paste<CR>
+imap <F9> <nop>
+set pastetoggle=<F9>
 
 " Lvimrc
 " if .lvimrc exists in parent directory of loaded file, load it as config
