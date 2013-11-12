@@ -9,6 +9,7 @@ set ruler
 set number
 set background=dark
 set autoread
+"set mouse=a
 
 " Leader
 let mapleader = ","
@@ -35,6 +36,13 @@ set shiftwidth=4
 set nowrap
 set smarttab
 
+set encoding=utf-8
+
+command WQ wq
+command Wq wq
+command W w
+command Q q
+
 set ls=2
 set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [BUF=\#%n]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
 
@@ -42,9 +50,9 @@ set wildmenu
 set wildignore=*.o,*~,*.pyc
 
 " Delete extra spaces 4 at a time
-:highlight ExtraWhitespace ctermbg=red guibg=red
-:match ExtraWhitespace /\s\+$/
-:match ExtraWhitespace /\s\+$\| \+\ze\t/
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+match ExtraWhitespace /\s\+$\| \+\ze\t/
 
 " Paste macros
 " Thanks to jdhore
@@ -53,6 +61,7 @@ map <F9> :set nopaste<CR>
 imap <F8> <C-O>:set paste<CR>
 imap <F9> <nop>
 set pastetoggle=<F9>
+map <F3> gg=G:w<cr>
 
 " Lvimrc
 " if .lvimrc exists in parent directory of loaded file, load it as config
@@ -65,11 +74,25 @@ endif
 let &colorcolumn="80,".join(range(121,999),",")
 highlight ColorColumn ctermbg=52
 
+" resume at line
+autocmd BufReadPost *
+			\ if ! exists("g:leave_my_cursor_position_alone") |
+			\     if line("'\"") > 0 && line ("'\"") <= line("$") |
+			\         exe "normal g'\"" |
+			\     endif |
+			\ endif
+
+" text files at 78 cols
+autocmd BufNewFile,BufRead *.txt
+			\ if &tw == 0 && ! exists("g:leave_my_textwidth_alone") |
+			\     setlocal textwidth=78 |
+			\ endif
+
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
-  exe "normal mz"
-  %s/\s\+$//ge
-  exe "normal `z"
+	exe "normal mz"
+	%s/\s\+$//ge
+	exe "normal `z"
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 
