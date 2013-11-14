@@ -38,6 +38,8 @@ set smarttab
 
 set encoding=utf-8
 
+let g:airline_powerline_fonts = 1
+
 command WQ wq
 command Wq wq
 command W w
