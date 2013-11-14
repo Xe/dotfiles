@@ -1,5 +1,7 @@
 colorscheme niidesert
 
+execute pathogen#infect()
+
 syntax on
 filetype plugin indent on
 
@@ -38,7 +40,7 @@ set smarttab
 
 set encoding=utf-8
 
-let g:airline_powerline_fonts = 0
+let g:airline_powerline_fonts = 1
 
 command WQ wq
 command Wq wq
