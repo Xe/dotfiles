@@ -13,8 +13,6 @@ set background=dark
 set autoread
 "set mouse=a
 
-let g:airline_theme = 'airlineish'
-
 " Leader
 let mapleader = ","
 let g:mapleader = ","
