@@ -1,3 +1,6 @@
 [submodule "tools"]
 	path = tools
 	url = https://github.com/Niichan/tools.git
+[submodule ".vim/bundle/lolcode.vim"]
+	path = .vim/bundle/lolcode.vim
+	url = git@github.com:lyska/lolcode.vim.git
