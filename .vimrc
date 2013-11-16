@@ -34,6 +34,9 @@ set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 au Filetype lolcode setl et ts=4 sw=4
 
+set list
+set listchars=tab:>-,trail:~,extends:>,precedes:<
+
 " Default settings
 "set tabstop=4
 "set softtabstop=4
