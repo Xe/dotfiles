@@ -31,14 +31,30 @@ au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.mo
 au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
 set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
+autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
+au Filetype lolcode setl et ts=4 sw=4
+
 " Default settings
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
-set nowrap
-set smarttab
+"set tabstop=4
+"set softtabstop=4
+"set shiftwidth=4
+"set nowrap
+"set smarttab
 
 set encoding=utf-8
+
+" Append modeline after last line in buffer.
+" Use substitute() instead of printf() to handle '%%s' modeline in LaTeX
+" files.
+function! AppendModeline()
+	let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
+           \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
+             let l:modeline = substitute(&commentstring, "%s", l:modeline,
+             "")
+    call append(line("$"), l:modeline)
+endfunction
+
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
 
 let g:airline_powerline_fonts = 1
 
