@@ -51,15 +51,13 @@ set encoding=utf-8
 " files.
 function! AppendModeline()
 	let l:modeline = printf(" vim: set ts=%d sw=%d tw=%d %set :",
-           \ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
-             let l:modeline = substitute(&commentstring, "%s", l:modeline,
-             "")
-    call append(line("$"), l:modeline)
+				\ &tabstop, &shiftwidth, &textwidth, &expandtab ? '' : 'no')
+	let l:modeline = substitute(&commentstring, "%s", l:modeline,
+	"")
+	call append(line("$"), l:modeline)
 endfunction
 
 nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-
-let g:airline_powerline_fonts = 1
 
 command WQ wq
 command Wq wq
@@ -67,8 +65,6 @@ command W w
 command Q q
 
 set ls=2
-
-"set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [BUF=\#%n]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
 
 set wildmenu
 set wildignore=*.o,*~,*.pyc
