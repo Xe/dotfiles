@@ -37,9 +37,11 @@ autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 
+" status line
 set ls=2
 set statusline=%F%m%r%h%w\ >\ FORMAT=%{&ff}\ >\ TYPE=%Y\ >\ BUF=\#%n\ <\ POS=%04l,%04v\ <\ %p%%\ <\ LEN=%L
 
+" wildmenu
 set wildmenu
 set wildignore=*.o,*~,*.pyc
 
