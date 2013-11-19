@@ -53,6 +53,7 @@ map <F9> :set nopaste<CR>
 imap <F8> <C-O>:set paste<CR>
 imap <F9> <nop>
 set pastetoggle=<F9>
+map <F3> gg=G:w<cr>
 
 " Lvimrc
 " if .lvimrc exists in parent directory of loaded file, load it as config
