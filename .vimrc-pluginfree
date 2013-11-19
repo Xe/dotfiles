@@ -1,4 +1,6 @@
-colorscheme niidesert
+" This is like my other vimrc except it needs no plugins
+
+colorscheme desert
 
 syntax on
 filetype plugin indent on
@@ -36,7 +38,7 @@ set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 set ls=2
-set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [BUF=\#%n]\ [POS=%04l,%04v]\ [%p%%]\ [LEN=%L]
+set statusline=%F%m%r%h%w\ >\ FORMAT=%{&ff}\ >\ TYPE=%Y\ >\ BUF=\#%n\ <\ POS=%04l,%04v\ <\ %p%%\ <\ LEN=%L
 
 set wildmenu
 set wildignore=*.o,*~,*.pyc
