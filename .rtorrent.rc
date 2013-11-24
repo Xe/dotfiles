@@ -102,3 +102,5 @@ encryption = allow_incoming,enable_retry,prefer_plaintext
 
 # Remove a scheduled event. 
 #schedule_remove = "ip_tick1"
+
+#transmission-daemon is better for what it is worth
