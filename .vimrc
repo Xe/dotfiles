@@ -121,3 +121,10 @@ autocmd BufWrite *.py :call DeleteTrailingWS()
 " Spellchecking
 map <leader>ss :setlocal spell!<cr>
 
+" Gist
+let g:gist_clip_command = 'xclip -selection clipboard'
+let g:gist_show_privates = 1
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+let g:gist_post_private = 1
+
