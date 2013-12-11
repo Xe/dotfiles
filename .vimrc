@@ -1,4 +1,4 @@
-colorscheme niidesert
+colorscheme zenburn
 
 execute pathogen#infect()
 
