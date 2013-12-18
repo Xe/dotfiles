@@ -3,7 +3,7 @@ xterm*termName: xterm-256color
 xterm*VT100.geometry: 107x34
 xterm*faceName: GohuFont:pixelsize=12
 xterm*bellIsUrgent: true
-xterm*visualBell: true
+xterm*visualBell: false
 xterm*borderWidth: 0
 xterm*borderLess: true
 xterm*scaleHeight: 0.999
