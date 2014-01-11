@@ -93,7 +93,7 @@ if filereadable(lvimrc_path)
 endif
 
 " Color column definition
-let &colorcolumn="80,120,160"
+let &colorcolumn="80,100,110"
 highlight ColorColumn ctermbg=52
 
 " resume at line
