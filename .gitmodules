@@ -7,3 +7,6 @@
 [submodule ".vim/bundle/vim-human"]
 	path = .vim/bundle/vim-human
 	url = https://github.com/vivien/vim-addon-human.git
+[submodule ".vim/bundle/SimpylFold"]
+	path = .vim/bundle/SimpylFold
+	url = https://github.com/tmhedberg/SimpylFold.git
