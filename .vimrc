@@ -20,6 +20,9 @@ let mapleader = ","
 let g:mapleader = ","
 nmap <leader>w :w!<cr>
 
+" Highlight a line to read over later
+nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
+
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
