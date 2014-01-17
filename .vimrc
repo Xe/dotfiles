@@ -8,6 +8,8 @@ filetype plugin indent on
 set whichwrap=<,>,[,],b,
 set backspace=indent,eol,start
 set ruler
+set cursorline
+set cursorcolumn
 set number
 set background=dark
 set autoread
