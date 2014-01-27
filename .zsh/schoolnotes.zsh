@@ -5,5 +5,5 @@ function notes {
 	fi
 
 	# Markdown so human.vim kicks in
-	vim notes-$1-$(date +%Y-%m-%d).markdown
+	vim $1-$(date +%Y-%m-%d).markdown
 }
