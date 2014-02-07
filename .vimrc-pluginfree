@@ -9,6 +9,8 @@ set whichwrap=<,>,[,],b,
 set backspace=indent,eol,start
 set ruler
 set number
+set cursorline
+set cursorcolumn
 set background=dark
 set autoread
 
@@ -16,6 +18,9 @@ set autoread
 let mapleader = ","
 let g:mapleader = ","
 nmap <leader>w :w!<cr>
+
+" Highlight a line to read over later
+nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -32,6 +37,10 @@ set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
 " Python spacing in python
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
+
+au Filetype lolcode setl et ts=4 sw=4
+
+au BufRead APKBUILD setl noexpandtab softtabstop=0 tabstop=4 shiftwidth=4 nosmarttab
 
 " Show tabs
 set list
@@ -67,7 +76,7 @@ if filereadable(lvimrc_path)
 endif
 
 " Color column definition
-let &colorcolumn="80,".join(range(121,999),",")
+let &colorcolumn="80,100, 110"
 highlight ColorColumn ctermbg=52
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
