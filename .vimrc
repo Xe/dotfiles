@@ -31,9 +31,9 @@ set noswapfile
 " But also have C-like languages use C spacing
 " Thanks much jdhore
 set ai
-au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set cindent
-au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set tabstop=8
-au BufRead,BufNewFile *.c,*.h,*.cpp,*.cxx,*.hpp,*.cc,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
+au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set cindent
+au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set tabstop=8
+au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
 set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
@@ -92,9 +92,8 @@ map <F3> gg=G:w<cr>
 
 " Lvimrc
 " if .lvimrc exists in parent directory of loaded file, load it as config
-let lvimrc_path = expand('%:p:h') . '/.lvimrc'
-if filereadable(lvimrc_path)
-	execute 'so' lvimrc_path
+if filereadable('../.lvimrc')
+	source ../.lvimrc
 endif
 
 " Color column definition
