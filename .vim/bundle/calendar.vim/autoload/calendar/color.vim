@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/color.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/01/06 21:52:54.
+" Last Change: 2014/02/05 00:06:22.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -18,15 +18,22 @@ let s:is_dark = &background ==# 'dark'
 
 function! calendar#color#new_syntax(id, fg, bg)
   if has_key(b:, 'calendar')
-    if !has_key(b:, 'calendar_syntaxnames')
-      let b:calendar_syntaxnames = []
+    if !has_key(b:calendar, 'syntaxnames')
+      let b:calendar.syntaxnames = []
     endif
-    let syntaxnames = b:calendar_syntaxnames
+    let syntaxnames = b:calendar.syntaxnames
+    if !has_key(b:calendar, 'syntax')
+      let b:calendar.syntax = {}
+    endif
+    let b:calendar.syntax[a:id] = [a:id, a:fg, a:bg]
   else
     let syntaxnames = []
   endif
-  let name = substitute(a:id, '[^a-zA-Z0-9]', '', 'g')
+  let name = s:shorten(substitute(a:id, '[^a-zA-Z0-9]', '', 'g'))
   if len(name) && len(a:fg) && len(a:bg)
+    if index(syntaxnames, name) >= 0
+      return name
+    endif
     let flg = 0
     if &bg ==# 'dark' && a:fg ==# '#000000' || &bg ==# 'light' && a:fg ==# '#ffffff'
       let flg = 1
@@ -36,12 +43,19 @@ function! calendar#color#new_syntax(id, fg, bg)
     endif
     let cuifg = calendar#color#convert(fg)
     let cuibg = calendar#color#convert(bg)
+    if flg
+      let _bg = bg
+      let _cuibg = cuibg
+    else
+      let _bg = calendar#color#whiten(bg)
+      let _cuibg = calendar#color#convert(_bg)
+    endif
     if cuifg >= 0
       if index(syntaxnames, name) < 0
         call add(syntaxnames, name)
       endif
-      if cuibg >= 0
-        exec 'highlight Calendar' . name . ' ctermfg=' . cuifg . ' ctermbg=' . cuibg . ' guifg=' . fg . ' guibg=' . bg
+      if _cuibg >= 0
+        exec 'highlight Calendar' . name . ' ctermfg=' . cuifg . ' ctermbg=' . _cuibg . ' guifg=' . fg . ' guibg=' . _bg
       else
         exec 'highlight Calendar' . name . ' ctermfg=' . cuifg . ' guifg=' . fg
       endif
@@ -63,6 +77,16 @@ function! calendar#color#new_syntax(id, fg, bg)
   return ''
 endfunction
 
+function! calendar#color#refresh_syntax()
+  if !has_key(b:, 'calendar') || !has_key(b:calendar, 'syntaxnames') || !has_key(b:calendar, 'syntax')
+    return
+  endif
+  let b:calendar.syntaxnames = []
+  for [id, fg, bg] in values(b:calendar.syntax)
+    call calendar#color#new_syntax(id, fg, bg)
+  endfor
+endfunction
+
 function! calendar#color#convert(rgb)
   let rgb = map(matchlist(a:rgb, '#\(..\)\(..\)\(..\)')[1:3], '0 + ("0x".v:val)')
   if len(rgb) == 0
@@ -72,7 +96,7 @@ function! calendar#color#convert(rgb)
     return 7
   elseif rgb[0] == 0x80 && rgb[1] == 0x80 && rgb[2] == 0x80
     return 8
-  elseif s:is_win32cui 
+  elseif s:is_win32cui
     if rgb[0] > 127 && rgb[1] > 127 && rgb[2] > 127
       let min = 0
       for r in rgb
@@ -88,6 +112,27 @@ function! calendar#color#convert(rgb)
     return s:black((rgb[0] + rgb[1] + rgb[2]) / 3)
   else
     return 16 + ((s:nr(rgb[0]) * 6) + s:nr(rgb[1])) * 6 + s:nr(rgb[2])
+  endif
+endfunction
+
+function! calendar#color#whiten(rgb)
+  let rgb = map(matchlist(a:rgb, '#\(..\)\(..\)\(..\)')[1:3], '0 + ("0x".v:val)')
+  if len(rgb) == 0
+    return -1
+  endif
+  return printf('#%02x%02x%02x', min([rgb[0] + 0x36, 0xff]), min([rgb[1] + 0x36, 0xff]), min([rgb[2] + 0x36, 0xff]))
+endfunction
+
+function! s:black(x)
+  if a:x < 0x04
+    return 16
+  elseif a:x > 0xf4
+    return 231
+  elseif index([0x00, 0x5f, 0x87, 0xaf, 0xdf, 0xff], a:x) >= 0
+    let l = a:x / 0x30
+    return ((l * 6) + l) * 6 + l + 16
+  else
+    return 232 + (a:x < 8 ? 0 : a:x < 0x60 ? (a:x-8)/10 : a:x < 0x76 ? (a:x-0x60)/6+9 : (a:x-8)/10)
   endif
 endfunction
 
@@ -366,14 +411,30 @@ function! calendar#color#syntax(name, fg, bg, attr)
   exec 'highlight Calendar' . a:name . term . fg . bg
 endfunction
 
+let s:_select_color = {}
 function! s:select_color()
+  let key = get(g:, 'colors_name', '') . &bg
+  if has_key(s:_select_color, key)
+    return s:_select_color[key]
+  endif
   let fg_color = calendar#color#normal_fg_color()
   let bg_color = calendar#color#normal_bg_color()
   let select_color = calendar#color#gen_color(fg_color, bg_color, 1, 4)
   if s:is_win32cui
     let select_color = s:is_dark ? 8 : 7
   endif
+  let s:_select_color[key] = select_color
   return select_color
+endfunction
+
+let s:num = 0
+let s:nums = {}
+function! s:shorten(name)
+  let name = matchstr(a:name, '...')
+  let name = name ==# '' ? a:name : name
+  let s:num = (s:num + 1) % 26
+  let s:nums[a:name] = get(s:nums, a:name, s:num)
+  return name . 'abcdefghijklmnopqrstuvwxyz'[s:nums[a:name]]
 endfunction
 
 let &cpo = s:save_cpo

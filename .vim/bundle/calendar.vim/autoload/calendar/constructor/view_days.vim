@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/constructor/view_days.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/01/04 20:54:46.
+" Last Change: 2014/02/11 15:23:36.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -57,7 +57,7 @@ endfunction
 function! s:instance.width() dict
   let frame = calendar#setting#frame()
   let width = calendar#string#strdisplaywidth(frame.vertical)
-  let w = max([self.maxwidth() / 8, 3])
+  let w = max([(self.maxwidth() - calendar#setting#get('clock_12hour') * 7) / 8, 3])
   let hh = self.height()
   let h = max([(hh - 3) / 6, 1])
   let h = h < 3 ? h : max([(hh - 3) / calendar#week#week_count(b:calendar.month()), 1])
@@ -201,7 +201,7 @@ function! s:get_timeevts(events, blockmin)
       let minstr = matchstr(a:events[i].start.dateTime, '\%(T\d\+:\)\@<=\d\+')
       let endhourstr = matchstr(a:events[i].end.dateTime, 'T\@<=\d\+')
       let endminstr = matchstr(a:events[i].end.dateTime, '\%(T\d\+:\)\@<=\d\+')
-      if len(hourstr) && len(minstr) && len(endhourstr) && len(endminstr)
+      if a:events[i].ymd == a:events[i].endymd && len(hourstr) && len(minstr) && len(endhourstr) && len(endminstr)
         let hour = hourstr * 1
         let min = minstr * 1
         let endhour = endhourstr * 1
@@ -225,6 +225,9 @@ function! s:get_timeevts(events, blockmin)
         endwhile
         if len(prev) > 1 && prev[1]
           let prev[1] = 2
+        endif
+        if prev[1] == 0
+          let prev[1] = 4
         endif
       endif
     endif
@@ -322,33 +325,41 @@ function! s:instance.set_contents() dict
   let self.timeevent_syntax = []
   for p in range
     let d = p < wn ? prev_days[-wn + p] : p < ld ? days[p - wn] : next_days[p - ld]
-    let evts = get(events, printf('%d-%02d-%02d', d.get_year(), d.get_month(), d.get_day()), { 'events': [] } )
+    let evts = get(events, join(d.get_ymd(), '-'), { 'events': [] } )
     let y = v.offset + h * j
     if get(evts, 'hasHoliday')
-      let s[y] .= f.vertical . calendar#string#truncate(printf('%2d ', d.get_day()) . evts.events[evts.holidayIndex].summary, v.inner_width)
+      let s[y] .= f.vertical . calendar#string#truncate(printf('%2d ', d.get_day()) . evts.holiday, v.inner_width)
     else
       let s[y] .= f.vertical . printf(e.format, d.get_day())
     endif
-    if get(evts, 'hasMoon') && w > 7
-      let cut = calendar#string#truncate_reverse(s[y], 3)
-      let pad = 2 - calendar#string#strdisplaywidth(evts.events[evts.moonIndex].moon)
-      let s[y] = s[y][:-len(cut)-1] . ' ' . evts.events[evts.moonIndex].moon . repeat(' ', pad)
+    let right = get(evts, 'hasDayNum') ? evts.daynum : ''
+    if get(evts, 'hasWeekNum') && w > len(right) + 6 + f.width
+      let right = evts.weeknum . (len(right) ? ' ' : '') . right
+    endif
+    if get(evts, 'hasMoon') && w > len(right) + 5 + f.width
+      let right = evts.moon . right
+    endif
+    if w > len(right) + 3 + f.width && len(right)
+      let le = calendar#string#strdisplaywidth(right) + 1
+      let s[y] = calendar#string#truncate(s[y], calendar#string#strdisplaywidth(s[y]) - le) . repeat(' ', le)
+      let cut = calendar#string#strwidthpart_reverse(s[y], le)
+      let s[y] = s[y][:-len(cut)-1] . ' ' . right
     endif
     let is_today = today.eq(d)
     if is_today
       let self.has_today = 1
     endif
     let syn = is_today ? st : d.is_sunday() || get(evts, 'hasHoliday') ? su : d.is_saturday() ? sa : ''
-    if len(syn)
+    if syn !=# ''
       let l = is_today ? len(calendar#string#truncate_reverse(s[y], v.inner_width)) : 2
       let syn2 = !is_today ? '' : d.is_sunday() || get(evts, 'hasHoliday') ? tsu : d.is_saturday() ? tsa : ''
       let x = len(calendar#string#truncate(s[y], w * i + f.width))
-      if len(syn2)
+      if syn2 !=# ''
         let x += 2
         let l -= 2
       endif
       call add(syntax, calendar#text#new(l, x, y, syn))
-      if len(syn2)
+      if syn2 !=# ''
         let l = 2
         let x = len(calendar#string#truncate(s[y], w * i + f.width))
         if len(syntax) && syntax[-1].y == y
@@ -376,7 +387,7 @@ function! s:instance.set_contents() dict
         endif
         let longevtIndex += 1
       else
-        while z < len(evts.events) && (evts.events[z].isHoliday || evts.events[z].isMoon)
+        while z < len(evts.events) && (!has_key(evts.events[z], 'summary') || evts.events[z].isHoliday || evts.events[z].isMoon || evts.events[z].isDayNum || evts.events[z].isWeekNum)
           let z += 1
         endwhile
         if z < len(evts.events)
@@ -426,13 +437,13 @@ function! s:instance.set_contents() dict
                 let flg = time_events[timestr][ii][1]
                 let border = flg == 3 ? [repeat(' ', f.width), repeat(' ', f.width)] : flg == 1 ? repeat([f.vertical], 2) : [f.bottomleft, f.bottomright]
                 let rep = flg == 3 || flg == 1 ? repeat(' ', f.width) : f.horizontal
-                if flg
+                if flg && flg < 4
                   call add(texts, border[0] . repeat(rep, l / f.width - 2) . border[1])
                   if flg < 3
                     if (k % v.hourheight) == 0 && k
                       let cutlen = len(s[ya][(xx):])
-                      let leftpart = s[ya][:len(s[ya]) - cutlen - 1] 
-                      let rightpart = s[ya][len(s[ya]) - cutlen + l / f.width * f.strlen :] 
+                      let leftpart = s[ya][:len(s[ya]) - cutlen - 1]
+                      let rightpart = s[ya][len(s[ya]) - cutlen + l / f.width * f.strlen :]
                       let s[ya] = leftpart . f.vertical . repeat(' ', l - f.width * 2) . f.vertical . rightpart
                       call add(syntax, calendar#text#new(l - f.width * 2 + f.strlen * 2, xx, ya, get(tevts[ii], 'syntax', '')))
                       let xx += l - 2 * f.width + 2 * f.strlen + f.strlen
@@ -443,7 +454,7 @@ function! s:instance.set_contents() dict
                 else
                   let eventsummary = get(tevts[ii], 'summary', '')
                   let smallspace = repeat(' ', f.width - 1 - (calendar#string#strdisplaywidth(eventsummary) + f.width - 1) % f.width)
-                  let newtext = calendar#string#truncate(eventsummary . smallspace . repeat(f.horizontal, l), l - f.width) . f.topright
+                  let newtext = calendar#string#truncate(eventsummary . smallspace . repeat(f.horizontal, l), l - f.width) . (flg ? f.horizontal : f.topright)
                   call add(texts, newtext)
                   let xx += l / f.width * f.strlen + f.strlen
                 endif
@@ -496,10 +507,23 @@ function! s:instance.set_contents() dict
     endif
     if !((j + 1) % v.hourheight)
       let hour = self.min_hour + j / v.hourheight + 1
-      let s[v.offset + h + j] .= printf('%2d:%02d', hour, 0)
+      if calendar#setting#get('clock_12hour')
+        let postfix = hour < 12 || hour == 24 ? ' a.m.' : ' p.m.'
+        let hour = calendar#time#hour12(hour)
+      else
+        let postfix = ''
+      endif
+      let s[v.offset + h + j] .= printf('%2d:%02d', hour, 0) . postfix
     endif
     if !j
-      let s[v.offset + h - 1] .= printf('%2d:%02d', self.min_hour, 0)
+      let hour = self.min_hour
+      if calendar#setting#get('clock_12hour')
+        let postfix = ' a.m.'
+        let hour = calendar#time#hour12(hour)
+      else
+        let postfix = ''
+      endif
+      let s[v.offset + h - 1] .= printf('%2d:%02d', hour, 0) . postfix
     endif
   endfor
   let self._cache_key = self.cache_key()
@@ -514,23 +538,23 @@ function! s:instance.contents() dict
   let select = []
   let select_over = []
   let cursor = []
-  let i = b:calendar.day().sub(self.get_min_day())
-  let hour = b:calendar.time().hour()
   let now = calendar#time#now()
   if self.is_selected()
-    for h in range(v.hourheight - 1)
-      let y = v.offset + v.dayheight + v.hourheight * (hour - self.min_hour) + h
-      let x = len(calendar#string#truncate(self.days[y].s, v.width * i + f.width))
-      let z = len(calendar#string#truncate(self.days[y].s, v.width * (i + 1)))
-      let timestr = printf('%d:%d', hour, v.blockmin * h)
-      if has_key(self.timeevent_syntax[i], timestr)
-        for time_event in self.timeevent_syntax[i][timestr]
-          if len(time_event) == 8
-            call add(select_over, calendar#text#new(time_event[4], time_event[5], time_event[6], time_event[7] . 'Select'))
-          endif
-        endfor
-      endif
-      call add(select, calendar#text#new(z - x, x, y, 'Select'))
+    for [i, hour] in self.select_index()
+      for h in range(v.hourheight - 1)
+        let y = v.offset + v.dayheight + v.hourheight * (hour - self.min_hour) + h
+        let x = len(calendar#string#truncate(self.days[y].s, v.width * i + f.width))
+        let z = len(calendar#string#truncate(self.days[y].s, v.width * (i + 1)))
+        let timestr = printf('%d:%d', hour, v.blockmin * h)
+        if has_key(self.timeevent_syntax[i], timestr)
+          for time_event in self.timeevent_syntax[i][timestr]
+            if len(time_event) == 8
+              call add(select_over, calendar#text#new(time_event[4], time_event[5], time_event[6], time_event[7] . 'Select'))
+            endif
+          endfor
+        endif
+        call add(select, calendar#text#new(z - x, x, y, 'Select'))
+      endfor
     endfor
     let y = v.offset + v.dayheight + v.hourheight * (hour - self.min_hour)
     let x = len(calendar#string#truncate(self.days[y].s, v.width * i + f.width))
@@ -550,11 +574,105 @@ function! s:instance.contents() dict
   else
     let nowsyn = []
   endif
-  return deepcopy(self.days) + select + deepcopy(self.syntax) + nowsyn + select_over + cursor
+  return deepcopy(self.days) + select + deepcopy(self.syntax) + select_over + cursor + nowsyn
+endfunction
+
+function! s:instance.select_index() dict
+  let lasti = b:calendar.day().sub(self.get_min_day())
+  let lasthour = b:calendar.time().hour()
+  if !b:calendar.visual_mode()
+    return [[lasti, lasthour]]
+  endif
+  let last = lasti * 24 + lasthour
+  let starti = b:calendar.visual_start_day().sub(self.get_min_day())
+  let starthour = b:calendar.visual_start_time().hour()
+  let start = starti * 24 + starthour
+  let ret = []
+  if b:calendar.is_visual()
+    for i in range(min([start, last]), max([start, last]))
+      let j = s:div(i, 24)
+      let k = i - j * 24
+      if [j, k] != [lasti, lasthour] && 0 <= j && j < self.daynum && self.min_hour <= k && k <= self.max_hour
+        call add(ret, [j, k])
+      endif
+    endfor
+  elseif b:calendar.is_line_visual()
+    for j in range(min([starti, lasti]), max([starti, lasti]))
+      for k in range(24)
+        if [j, k] != [lasti, lasthour] && 0 <= j && j < self.daynum && self.min_hour <= k && k <= self.max_hour
+          call add(ret, [j, k])
+        endif
+      endfor
+    endfor
+  elseif b:calendar.is_block_visual()
+    for j in range(min([starti, lasti]), max([starti, lasti]))
+      for k in range(min([starthour, lasthour]), max([starthour, lasthour]))
+        if [j, k] != [lasti, lasthour] && 0 <= j && j < self.daynum && self.min_hour <= k && k <= self.max_hour
+          call add(ret, [j, k])
+        endif
+      endfor
+    endfor
+  else
+  endif
+  call add(ret, [lasti, lasthour])
+  return ret
 endfunction
 
 function! s:div(x, y)
   return a:x/a:y-((a:x<0)&&(a:x%a:y))
+endfunction
+
+function! s:instance.timerange() dict
+  let hour = b:calendar.time().hour()
+  if !b:calendar.visual_mode()
+    return printf('%d:00-%d:00 ', hour, hour + 1)
+  endif
+  let x = b:calendar.day()
+  let xh = b:calendar.time().hour()
+  let y = b:calendar.visual_start_day()
+  let yh = b:calendar.visual_start_time().hour()
+  let recurrence = ''
+  if b:calendar.is_line_visual()
+    if x.sub(y) >= 0
+      if x.get_year() == y.get_year()
+        return printf('%d/%d-%d/%d ', y.get_month(), y.get_day(), x.get_month(), x.get_day()) . recurrence
+      else
+        return printf('%d/%d/%d-%d/%d/%d ', y.get_year(), y.get_month(), y.get_day(), x.get_year(), x.get_month(), x.get_day()) . recurrence
+      endif
+    else
+      if x.get_year() == y.get_year()
+        return printf('%d/%d-%d/%d ', x.get_month(), x.get_day(), y.get_month(), y.get_day()) . recurrence
+      else
+        return printf('%d/%d/%d-%d/%d/%d ', x.get_year(), x.get_month(), x.get_day(), y.get_year(), y.get_month(), y.get_day()) . recurrence
+      endif
+    endif
+  elseif b:calendar.is_block_visual()
+    if x.sub(y) >= 0
+      let rec = x.sub(y) + 1
+      let [yh, xh] = [min([xh, yh]), max([xh, yh])]
+      let x = y
+    else
+      let rec = y.sub(x) + 1
+      let [xh, yh] = [min([xh, yh]), max([xh, yh])]
+      let y = x
+    endif
+    let recurrence = rec > 1 ? rec . 'days ' : ''
+  endif
+  if x.sub(y) == 0 && !len(recurrence)
+    return printf('%d:00-%d:00 ', min([xh, yh]), max([xh, yh]) + 1)
+  elseif x.sub(y) >= 0
+    if x.get_year() == y.get_year()
+      return printf('%d/%d %d:00-%d/%d %d:00 ', y.get_month(), y.get_day(), yh, x.get_month(), x.get_day(), xh + 1) . recurrence
+    else
+      return printf('%d/%d/%d %d:00-%d/%d/%d %d:00 ', y.get_year(), y.get_month(), y.get_day(), yh, x.get_year(), x.get_month(), x.get_day(), xh + 1) . recurrence
+    endif
+  else
+    if x.get_year() == y.get_year()
+      return printf('%d/%d %d:00-%d/%d %d:00 ', x.get_month(), x.get_day(), xh, y.get_month(), y.get_day(), yh + 1) . recurrence
+    else
+      return printf('%d/%d/%d %d:00-%d/%d/%d %d:00 ', x.get_year(), x.get_month(), x.get_day(), xh, y.get_year(), y.get_month(), y.get_day(), yh + 1) . recurrence
+    endif
+  endif
 endfunction
 
 function! s:instance.action(action) dict

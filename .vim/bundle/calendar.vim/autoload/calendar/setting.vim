@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/setting.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/31 15:11:46.
+" Last Change: 2014/02/05 17:06:42.
 " =============================================================================
 
 scriptencoding utf-8
@@ -10,7 +10,7 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 " Obtaining settings.
-"    1: b:calendar_option is set by :Calendar -option=value
+"    1: b:_calendar[option] is set by :Calendar -option=value
 "    2: g:calendar_option is set in vimrc. let g:calendar_option = value
 "    3: s:option() is the default value.
 " Firstly, check the buffer variable if exists. It is set from argument. See
@@ -55,11 +55,12 @@ function! s:date_month_name()
   return 0
 endfunction
 
+function! s:clock_12hour()
+  return 0
+endfunction
+
+let s:c = expand('~/.cache/calendar.vim/')
 function! s:cache_directory()
-  if has_key(s:, 'c')
-    return s:c
-  endif
-  let s:c = expand('~/.cache/calendar.vim/')
   return s:c
 endfunction
 
@@ -129,8 +130,12 @@ function! s:view_source()
 endfunction
 
 function! calendar#setting#frame()
-  return calendar#setting#get('frame_' . calendar#setting#get('frame'))
+  let n = calendar#setting#get('frame')
+  if has_key(s:f, n) | return s:f[n] | endif
+  let s:f[n] = calendar#setting#get('frame_' . n)
+  return s:f[n]
 endfunction
+let s:f = {}
 
 function! s:frame()
   return &enc ==# 'utf-8' && &fenc ==# 'utf-8' ? 'unicode' : 'default'
@@ -199,6 +204,10 @@ function! s:google_client()
         \ 'api_key': 'FN fX~GKkSs}QJgNYquJ=^sJJU:u<[9_dmT:MF=',
         \ 'client_secret': 'FZShKZt{{9|G2U ku[WYLOut'}, 100)
   return s:g
+endfunction
+
+function! s:debug()
+  return 0
 endfunction
 
 let &cpo = s:save_cpo

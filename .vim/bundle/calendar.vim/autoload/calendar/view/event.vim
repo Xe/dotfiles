@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/view/event.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/31 15:03:30.
+" Last Change: 2014/02/11 14:47:00.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -22,11 +22,14 @@ endfunction
 
 function! s:self.get_raw_contents() dict
   let [year, month, day] = b:calendar.day().get_ymd()
-  let key = printf('%d-%02d-%02d', year, month, day)
+  let key = join([year, month, day], '-')
   let events = deepcopy(get(get(b:calendar.event.get_events_one_month(year, month), key, {}), 'events', []))
   let cnt = []
   let ev = {}
   for e in events
+    if !has_key(e, 'summary')
+      continue
+    endif
     let starttime = has_key(e, 'start') && has_key(e.start, 'dateTime') ? substitute(substitute(e.start.dateTime, '^\d\+-\d\+-\d\+T\|[-+]\d\+:\d\+$\|Z$', '', 'g'), ':00$', '', '') : ''
     let endtime = has_key(e, 'end') && has_key(e.end, 'dateTime') ? substitute(substitute(e.end.dateTime, '^\d\+-\d\+-\d\+T\|[-+]\d\+:\d\+$\|Z$', '', 'g'), ':00$', '', '') : ''
     let sameyear = e.ymd[0] == e.endymd[0]
@@ -38,7 +41,7 @@ function! s:self.get_raw_contents() dict
       let startdate = calendar#day#join_date(e.ymd)
       let enddate = calendar#day#join_date(e.endymd)
     endif
-    if len(starttime) || len(endtime)
+    if starttime !=# '' || endtime !=# ''
       let e.title = (samedate ? '' : startdate . ' ') . starttime . ' - ' . (samedate ? '' : enddate . ' ') . endtime . ' ' . e.summary
     else
       if !samedate
@@ -72,17 +75,27 @@ function! s:self.action(action) dict
   let [year, month, day] = b:calendar.day().get_ymd()
   let eventid = get(event, 'id', '')
   if index(['delete', 'delete_line'], a:action) >= 0
-    if len(calendarId)
+    call self.yank()
+    if calendarId !=# ''
       call b:calendar.event.delete(calendarId, eventid, year, month)
     endif
-  elseif index(['start_insert', 'start_insert_append', 'start_insert_head', 'start_insert_last', 'start_insert_change'], a:action) >= 0
+  elseif index(['start_insert', 'start_insert_append', 'start_insert_head', 'start_insert_last', 'change', 'change_line'], a:action) >= 0
     if eventid !=# '' && calendarId !=# ''
       let head = index(['start_insert', 'start_insert_head'], a:action) >= 0
-      let change = a:action ==# 'start_insert_change'
+      let change = index(['change', 'change_line'], a:action) >= 0
       let msg = calendar#message#get('input_event') . (change ? get(event, 'summary', get(event, 'title', '')) . ' -> ' : '')
       let title = input(msg, change ? '' : get(event, 'summary', get(event, 'title', '')) . (head ? "\<Home>" : ''))
       if title !=# ''
-        call b:calendar.event.update(calendarId, eventid, title, year, month)
+        let [title, startdate, enddate, recurrence] = s:parse_title(title, 1)
+        let opt = {}
+        if startdate !=# ''
+          call extend(opt, { 'start': startdate =~# 'T\d' ? { 'dateTime': startdate, 'date': function('calendar#webapi#null') } : { 'date': startdate, 'dateTime': function('calendar#webapi#null')  } })
+        endif
+        if enddate !=# ''
+          call extend(opt, { 'end': enddate =~# 'T\d' ? { 'dateTime': enddate, 'date': function('calendar#webapi#null') } : { 'date': enddate, 'dateTime': function('calendar#webapi#null') } })
+        endif
+        call extend(opt, recurrence)
+        call b:calendar.event.update(calendarId, eventid, title, year, month, opt)
       endif
     else
       return self.action('start_insert_next_line')
@@ -98,38 +111,14 @@ function! s:self.insert_new_event(action, ...) dict
   let event = a:0 ? a:1 : self.current_contents()
   let calendarId = get(event, 'calendarId', '')
   let [year, month, day] = b:calendar.day().get_ymd()
-  let [nyear, nmonth, nday] = b:calendar.day().new(year, month, day).add(1).get_ymd()
-  let title = input(calendar#message#get('input_event'))
+  let input_prefix = b:calendar.view.current_view().timerange()
+  let title = input(calendar#message#get('input_event'), input_prefix)
   if title !=# ''
     let next = a:action ==# 'start_insert_next_line'
     if next
       let self.select += 1
     endif
-    let date = printf('%d-%d-%d', year, month, day)
-    let ndate = printf('%d-%d-%d', nyear, nmonth, nday)
-    if title =~# '^\d\+:\d\+\%(:\d\+\)\?\s*-\s*\d\+:\d\+\%(:\d\+\)\?'
-      let time = matchstr(title, '^\d\+:\d\+\%(:\d\+\)\?\s*-\s*\d\+:\d\+\%(:\d\+\)\?')
-      let starttime = matchstr(time, '^\d\+:\d\+\%(:\d\+\)\?')
-      let endtime = matchstr(time[len(starttime):], '\d\+:\d\+\%(:\d\+\)\?')
-      let title = substitute(title[len(time):], '^\s*', '', '')
-      let [startdate, enddate] = [s:format_time(date . 'T' . starttime), s:format_time(date . 'T' . endtime)]
-    else
-      redraw
-      let allday = input(calendar#message#get('all_day_event')) =~# '^\([yY]\%[es]\|\)$'
-      if allday
-        let [startdate, enddate] = [date, ndate]
-      else
-        redraw
-        let startdate = input(calendar#message#get('start_date_time'), date . 'T')
-        redraw
-        let enddate = input(calendar#message#get('end_date_time'), date . 'T')
-        if startdate ==# '' || enddate ==# ''
-          let [startdate, enddate] = [date, ndate]
-        else
-          let [startdate, enddate] = [s:format_time(startdate), s:format_time_end(enddate)]
-        endif
-      endif
-    endif
+    let [title, startdate, enddate, recurrence] = s:parse_title(title)
     let calendars = b:calendar.event.calendarList()
     if len(calendars) == 0
       if calendar#setting#get('google_calendar')
@@ -173,27 +162,86 @@ function! s:self.insert_new_event(action, ...) dict
       let idx = 0
     endif
     let calendarId = get(get(calendars, idx, get(calendars, 0, {})), 'id', '')
-    call b:calendar.event.insert(calendarId, title, startdate, enddate, year, month)
+    call b:calendar.event.insert(calendarId, title, startdate, enddate, year, month, recurrence)
   endif
 endfunction
 
+function! s:parse_title(title, ...)
+  let title = a:title
+  let [year, month, day] = b:calendar.day().get_ymd()
+  let [nyear, nmonth, nday] = b:calendar.day().new(year, month, day).add(1).get_ymd()
+  let date = join([year, month, day], '-')
+  let ndate = join([nyear, nmonth, nday], '-')
+  let [startdate, enddate] = ['', '']
+  if title =~# '^\s*\d\+:\d\+\%(:\d\+\)\?\s*-\s*\d\+:\d\+\%(:\d\+\)\?'
+    let time = matchstr(title, '^\s*\d\+:\d\+\%(:\d\+\)\?\s*-\s*\d\+:\d\+\%(:\d\+\)\?')
+    let starttime = matchstr(time, '^\s*\d\+:\d\+\%(:\d\+\)\?')
+    let endtime = matchstr(time[len(starttime):], '\d\+:\d\+\%(:\d\+\)\?')
+    let title = substitute(title[len(time):], '^\s*', '', '')
+    let [startdate, enddate] = [s:format_time(date . 'T' . starttime), s:format_time(date . 'T' . endtime)]
+  elseif title =~# '^\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s*-\s*\d\+[-/]\d\+\%([-/]\d\+\)\?'
+    let time = matchstr(title, '^\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s*-\s*\d\+[-/]\d\+\%([-/]\d\+\)\?')
+    let starttime = matchstr(time, len(split(time, '-')) == 2 ? '^\s*\d\+/\d\+\%(/\d\+\)\?\s*' : '^\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s*')
+    let endtime = matchstr(time[len(starttime):], '\d\+[-/]\d\+\%([-/]\d\+\)\?')
+    let title = substitute(title[len(time):], '^\s*', '', '')
+    let [startdate, enddate] = [s:format_time(starttime), s:format_time_end(endtime)]
+  elseif title =~# '^\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s\+\d\+:\d\+\%(:\d\+\)\?\s*-\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s\+\d\+:\d\+\%(:\d\+\)\?'
+    let time = matchstr(title, '^\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s\+\d\+:\d\+\%(:\d\+\)\?\s*-\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s\+\d\+:\d\+\%(:\d\+\)\?')
+    let starttime = matchstr(time, '^\s*\d\+[-/]\d\+\%([-/]\d\+\)\?\s\+\d\+:\d\+\%(:\d\+\)\?\s*')
+    let endtime = matchstr(time[len(starttime):], '\d\+[-/]\d\+\%([-/]\d\+\)\?\s\+\d\+:\d\+\%(:\d\+\)\?')
+    let starttime = substitute(starttime, '^\s*\|\s*$', '', 'g')
+    let endtime = substitute(endtime, '^\s*\|\s*$', '', 'g')
+    let title = substitute(title[len(time):], '^\s*', '', '')
+    let [startdate, enddate] = [s:format_time(starttime), s:format_time(endtime)]
+  elseif !a:0 || !a:1
+    let [startdate, enddate] = [date, ndate]
+  endif
+  let recurrence = {}
+  if title =~# '^\s*\d\+\%(weeks\|days\)\s\+'
+    let rec = matchstr(title, '^\s*\d\+\%(weeks\|days\)\s\+')
+    let title = substitute(title[len(rec):], '^\s*', '', '')
+    let recurrence = {}
+    let key = matchstr(rec, '\(week\|day\)')
+    let recurrence[key] = matchstr(rec, '\d\+') + 0
+  endif
+  return [title, startdate, enddate, recurrence]
+endfunction
+
 function! s:format_time(time)
-  let time = substitute(a:time, '\s', '', 'g')
+  let time = substitute(a:time, '^\s\+\|\s\+$', '', 'g')
   if time =~# '^\d\+-\d\+-\d\+T\s*$'
     return substitute(time, 'T\s*$', '', '')
+  elseif time =~# '^\d\+[-/]\d\+[-/]\d\+\s*$'
+    let [y, m, d] = split(time, '[-/]')
+    return join([y, m, d], '-')
+  elseif time =~# '^\d\+[-/]\d\+\s*$'
+    let [m, d] = split(time, '[-/]')
+    let y = b:calendar.day().get_year()
+    return join([y, m, d], '-')
+  elseif time =~# '^\d\+[-/]\d\+\s\+\d\+:'
+    let [date, t] = split(time, '\s\+')
+    let [m, d] = split(date, '[-/]')
+    let y = b:calendar.day().get_year()
+    return join([y, m, d], '-') . 'T' . s:format_time(t)
+  elseif time =~# '^\d\+[-/]\d\+[-/]\d\+\s\+\d\+:'
+    let [date, t] = split(time, '\s\+')
+    let [y, m, d] = split(date, '[-/]')
+    return join([y, m, d], '-') . 'T' . s:format_time(t)
   elseif time =~# '^\d\+-\d\+-\d\+T\d\+$'
     return time . ':00:00'
   elseif time =~# '^\d\+-\d\+-\d\+T\d\+:\d\+$'
     return time . ':00'
   elseif time =~# '^\d\+-\d\+-\d\+T\d\+:\d\+:\d\+$'
     return time
+  elseif time =~# '^\d\+:\d\+$'
+    return time . ':00'
   endif
   return time
 endfunction
 
 function! s:format_time_end(time)
   let time = s:format_time(a:time)
-  if time =~# '^\d\+-\d\+-\d\+$' 
+  if time =~# '^\d\+-\d\+-\d\+$'
     let ymdstr = matchstr(time, '^\d\+-\d\+-\d\+$')
     let ymd = map(split(ymdstr, '-'), 'v:val + 0')
     if len(ymd) == 3

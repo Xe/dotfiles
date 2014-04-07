@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/view/calendar.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/01/04 16:19:54.
+" Last Change: 2014/01/12 20:15:24.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -75,12 +75,24 @@ function! s:self.updated() dict
   return self.view.updated()
 endfunction
 
+function! s:self.timerange() dict
+  return self.view.timerange()
+endfunction
+
 function! s:self.action(action) dict
   if a:action =~# '^start_insert'
     let event_view = b:calendar.view.event_view()
     if type(event_view) == type({})
       call event_view.insert_new_event('start_insert_next_line', {})
     endif
+  elseif a:action ==# 'visual'
+    call b:calendar.start_visual()
+  elseif a:action ==# 'visual_line'
+    call b:calendar.start_line_visual()
+  elseif a:action ==# 'visual_block'
+    call b:calendar.start_block_visual()
+  elseif a:action ==# 'exit_visual'
+    call b:calendar.exit_visual()
   else
     return self.view.action(a:action)
   endif

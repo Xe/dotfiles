@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/util.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/27 00:24:37.
+" Last Change: 2014/02/06 11:52:15.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -56,12 +56,30 @@ endfunction
 
 " Used for the return value of cnoremap.
 function! calendar#util#update_keys()
+  silent! call histadd(':', getcmdline())
   return "\<End>\<C-u>silent call b:calendar.update()\<CR>"
 endfunction
 
 " Get the command line, substituting the leading colons.
 function! calendar#util#getcmdline()
   return substitute(getcmdline(), '^\(\s*:\)*\s*', '', '')
+endfunction
+
+" Yank text
+function! calendar#util#yank(text)
+  let @" = a:text
+  if has('clipboard') || has('xterm_clipboard')
+    let @+ = a:text
+  endif
+endfunction
+
+" Id generator
+let s:id = 0
+function! calendar#util#id()
+  let [y, m, d] = calendar#day#today().get_ymd()
+  let [h, i, s] = calendar#time#now().get_hms()
+  let s:id = (s:id + 1) % 10000
+  return printf('%04d%02d%02d%02d%02d%02d%04d', y, m, d, h, i, s, s:id)
 endfunction
 
 " Execute shell command.

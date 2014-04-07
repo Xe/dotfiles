@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/mapping.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/29 08:58:56.
+" Last Change: 2014/02/02 17:29:55.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -13,6 +13,18 @@ set cpo&vim
 function! calendar#mapping#new()
 
   if &l:filetype ==# 'calendar'
+    if has_key(get(b:, 'calendar', {}), 'view')
+      let v = b:calendar.view
+      if maparg('<ESC>', 'n') !=# '<Plug>(calendar_escape)'
+        if v._help || v._event || v._task || b:calendar.visual_mode()
+          nmap <buffer> <ESC> <Plug>(calendar_escape)
+        endif
+      else
+        if !(v._help || v._event || v._task || b:calendar.visual_mode())
+          nunmap <buffer> <ESC>
+        endif
+      endif
+    endif
     return
   endif
 
@@ -22,16 +34,27 @@ function! calendar#mapping#new()
         \ 'line_head', 'line_middle', 'line_last', 'bar',
         \ 'first_line', 'last_line', 'first_line_head', 'last_line_last', 'space',
         \ 'scroll_top_head', 'scroll_top', 'scroll_center_head', 'scroll_center', 'scroll_bottom_head', 'scroll_bottom',
-        \ 'add', 'subtract', 'status', 'plus', 'minus', 'task', 'event',
-        \ 'delete', 'delete_line', 'undo', 'undo_line', 'tab', 'shift_tab', 
-        \ 'today', 'view_left',  'view_right', 'redraw', 'clear', 'help', 'exit',
+        \ 'add', 'subtract', 'status', 'plus', 'minus', 'task', 'event', 'close_task', 'close_event',
+        \ 'delete', 'delete_line', 'yank', 'yank_line', 'change', 'change_line',
+        \ 'undo', 'undo_line', 'tab', 'shift_tab',
+        \ 'today', 'enter', 'view_left',  'view_right', 'redraw', 'clear', 'help', 'hide', 'exit',
+        \ 'visual', 'visual_line', 'visual_block', 'exit_visual',
         \ 'start_insert', 'start_insert_append', 'start_insert_head', 'start_insert_last',
-        \ 'start_insert_prev_line', 'start_insert_next_line', 'start_insert_change',
+        \ 'start_insert_prev_line', 'start_insert_next_line',
         \ ]
   for action in actions
     exec printf("nnoremap <buffer><silent> <Plug>(calendar_%s) :<C-u>call b:calendar.action('%s')<CR>", action, action)
   endfor
 
+  " escape
+  nmap <buffer><silent><expr> <Plug>(calendar_escape)
+        \ b:calendar.view._help ? "\<Plug>(calendar_help)" :
+        \ b:calendar.view._event ? "\<Plug>(calendar_event)" :
+        \ b:calendar.visual_mode() ? "\<Plug>(calendar_exit_visual)" :
+        \ b:calendar.view._task ? "\<Plug>(calendar_task)" :
+        \ ""
+
+  " mark
   let marks = map(range(97, 97 + 25), 'nr2char(v:val)')
   for mark in marks
     exec printf("nmap <buffer><silent> m%s :<C-u>call b:calendar.mark.set('%s')<CR>", mark, mark)
@@ -70,6 +93,7 @@ function! calendar#mapping#new()
   nmap <buffer> <S-Up> <Up>
   nmap <buffer> <C-j> j
   nmap <buffer> w <Plug>(calendar_next)
+  nmap <buffer> W w
   nmap <buffer> e w
   nmap <buffer> <S-Right> w
   nmap <buffer> <C-Right> w
@@ -131,6 +155,14 @@ function! calendar#mapping#new()
   nmap <buffer> d <Plug>(calendar_delete)
   nmap <buffer> D <Plug>(calendar_delete_line)
 
+  " yank
+  nmap <buffer> y <Plug>(calendar_yank)
+  nmap <buffer> Y <Plug>(calendar_yank_line)
+
+  " change
+  nmap <buffer> c <Plug>(calendar_change)
+  nmap <buffer> C <Plug>(calendar_change_line)
+
   " utility
   nmap <buffer> <Undo> <Plug>(calendar_undo)
   nmap <buffer> u <Plug>(calendar_undo)
@@ -138,6 +170,7 @@ function! calendar#mapping#new()
   nmap <buffer> <TAB> <Plug>(calendar_tab)
   nmap <buffer> <S-Tab> <Plug>(calendar_shift_tab)
   nmap <buffer> t <Plug>(calendar_today)
+  nmap <buffer> <CR> <Plug>(calendar_enter)
   nmap <buffer> <C-a> <Plug>(calendar_add)
   nmap <buffer> <C-x> <Plug>(calendar_subtract)
   nmap <buffer> <C-g> <Plug>(calendar_status)
@@ -152,20 +185,18 @@ function! calendar#mapping#new()
   nmap <buffer> <C-r> <Plug>(calendar_redraw)
   nmap <buffer> L <Plug>(calendar_clear)
   nmap <buffer> ? <Plug>(calendar_help)
-  nmap <buffer> q <Plug>(calendar_exit)
+  nmap <buffer> q <Plug>(calendar_hide)
   nmap <buffer> Q <Plug>(calendar_exit)
 
   " nop
+  nmap <buffer> H <Nop>
+  nmap <buffer> M <Nop>
   nmap <buffer> J <Nop>
   nmap <buffer> p <Nop>
   nmap <buffer> P <Nop>
   nmap <buffer> r <Nop>
   nmap <buffer> R <Nop>
-
-  " visual mode
-  nmap <buffer> v <Nop>
-  nmap <buffer> V <Nop>
-  nmap <buffer> <C-v> <Nop>
+  nmap <buffer> ~ <Nop>
 
   " insert mode
   nmap <buffer> i <Plug>(calendar_start_insert)
@@ -174,11 +205,21 @@ function! calendar#mapping#new()
   nmap <buffer> A <Plug>(calendar_start_insert_last)
   nmap <buffer> O <Plug>(calendar_start_insert_prev_line)
   nmap <buffer> o <Plug>(calendar_start_insert_next_line)
-  nmap <buffer> c <Plug>(calendar_start_insert_change)
-  nmap <buffer> C <Plug>(calendar_start_insert_change)
+
+  " visual mode
+  nmap <buffer> v <Plug>(calendar_visual)
+  nmap <buffer> V <Plug>(calendar_visual_line)
+  nmap <buffer> <C-v> <Plug>(calendar_visual_block)
+  nmap <buffer> gh v
+  nmap <buffer> gH V
+  nmap <buffer> g<C-h> <C-v>
 
   " command line
   cmap <buffer> <CR> <Plug>(calendar_command_enter)
+
+  " mouse wheel
+  map <buffer> <ScrollWheelUp> <Plug>(calendar_prev)
+  map <buffer> <ScrollWheelDown> <Plug>(calendar_next)
 
 endfunction
 

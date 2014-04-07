@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/cache.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/28 01:09:37.
+" Last Change: 2014/02/07 21:46:15.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -12,7 +12,7 @@ set cpo&vim
 function! calendar#cache#new(...)
   let self = copy(s:self)
   let self.subpath = a:0 ? a:1 : ''
-  let self.subpath .= len(self.subpath) && self.subpath[len(self.subpath) - 1] !=# '/' ? '/' : ''
+  let self.subpath .= len(self.subpath) && self.subpath[len(self.subpath) - 1] !~ '^[/\\]$' ? '/' : ''
   return self
 endfunction
 
@@ -39,9 +39,15 @@ function! s:self.escape(key) dict
   return substitute(a:key, '[^a-zA-Z0-9_.-]', '\=printf("%%%02X",char2nr(submatch(0)))', 'g')
 endfunction
 
-function! s:self.dir() dict
-  return substitute(calendar#setting#get('cache_directory'), '/$', '', '') . '/' . self.subpath
-endfunction
+if has('win32') || has('win64')
+  function! s:self.dir() dict
+    return substitute(substitute(calendar#setting#get('cache_directory'), '[/\\]$', '', '') . '/' . self.subpath, '/', '\', 'g')
+  endfunction
+else
+  function! s:self.dir() dict
+    return substitute(calendar#setting#get('cache_directory'), '[/\\]$', '', '') . '/' . self.subpath
+  endfunction
+endif
 
 function! s:self.path(key) dict
   return self.dir() . self.escape(a:key)
@@ -51,8 +57,11 @@ function! s:self.rmdir_on_exit() dict
   call add(s:clearpath, self.dir())
 endfunction
 
-function! s:self.check_dir() dict
+function! s:self.check_dir(...) dict
   let dir = self.dir()
+  if !get(a:000, 0)
+    return !isdirectory(dir)
+  endif
   if !isdirectory(dir)
     try
       if exists('*mkdir')
@@ -70,7 +79,7 @@ function! s:self.check_dir() dict
 endfunction
 
 function! s:self.save(key, val) dict
-  if self.check_dir()
+  if self.check_dir(1)
     return 1
   endif
   let path = self.path(a:key)
@@ -94,7 +103,7 @@ function! s:self.get(key) dict
   if filereadable(path)
     let result = readfile(path)
     try
-      if len(result) > 0
+      if len(result)
         sandbox return eval(join(result, ''))
       else
         return 1

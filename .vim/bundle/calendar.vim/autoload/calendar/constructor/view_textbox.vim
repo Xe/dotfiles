@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/constructor/view_textbox.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/28 18:29:25.
+" Last Change: 2014/02/01 07:45:22.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -25,7 +25,7 @@ let s:instance._texts = []
 let s:instance.select = 0
 let s:instance.noindex = []
 let s:instance._select_title = 0
-let s:instance.completed = []
+let s:instance.syntax = []
 let s:instance.length = 0
 let s:instance._current_contents = {}
 let s:instance._prev_contents = {}
@@ -45,6 +45,7 @@ function! s:instance.contents() dict
   let s = []
   let frame = calendar#setting#frame()
   let width = calendar#string#strdisplaywidth(frame.vertical)
+  let flen = len(frame.vertical)
   let top = frame.topleft . repeat(frame.horizontal, (self.sizex() - 2) / width - 2) . frame.topright
   let bottom = frame.bottomleft . repeat(frame.horizontal, (self.sizex() - 2) / width - 2) . frame.bottomright
   let w = self.sizex() - 4 - width * 2
@@ -67,22 +68,24 @@ function! s:instance.contents() dict
   let texts = map(range(len(s)), 'calendar#text#new(" " . frame.vertical . " " . s[v:val] . " " . frame.vertical . " ", 0, v:val + 1, "")')
   call insert(texts, calendar#text#new(' ' . top . ' ', 0, 0, ''), 0)
   call add(texts, calendar#text#new(' ' . bottom . ' ', 0, len(s), ''))
-  for i in self.completed
+  let selsyn = ''
+  for [i, syn] in self.syntax
     if self.min_index <= i && i < self.min_index + sizey
-      let len = len(calendar#string#truncate(get(self.cnt, i, ''), w)) + 2
-      call add(texts, calendar#text#new(len, 1 + len(frame.vertical), 1 + i - self.min_index, 'Comment'))
+      let len = len(s[i - self.min_index]) + 2
+      call add(texts, calendar#text#new(len, 1 + flen, 1 + i - self.min_index, syn))
+      if i == self.select
+        let selsyn = syn
+      endif
     endif
   endfor
   if self.is_selected()
-    if self.select < len(self.cnt)
+    if self.min_index <= self.select && self.select < self.min_index + sizey
       if self._select_line
-        let len = len(calendar#string#truncate(get(self.cnt, self.select, ''), w)) + 2
-        let [x, y] = [1 + len(frame.vertical), 1 + self.select - self.min_index]
-        let syn = index(self.completed, self.select) < 0 ? 'Select' : 'SelectComment'
-        call add(texts, calendar#text#new(len, x, y, syn))
+        let len = len(s[self.select - self.min_index]) + 2
+        call add(texts, calendar#text#new(len, 1 + flen, 1 + self.select - self.min_index, selsyn .  'Select'))
       endif
     endif
-    call add(texts, calendar#text#new(0, 1 + len(frame.vertical), 1 + self.select - self.min_index, 'Cursor'))
+    call add(texts, calendar#text#new(0, 1 + flen, 1 + self.select - self.min_index, 'Cursor'))
   endif
   let self._texts = deepcopy(texts)
   let self._key = [self.is_selected(), self.select, self.sizex(), self.sizey(), get(self, 'min_index'), get(self, 'max_index')] + self.get_key()
@@ -98,7 +101,7 @@ function! s:instance.get_contents() dict
     return self.cnt
   endif
   let self.noindex = []
-  let self.completed = []
+  let self.syntax = []
   let cnt = []
   let frame = calendar#setting#frame()
   let width = calendar#string#strdisplaywidth(frame.vertical)
@@ -118,6 +121,9 @@ function! s:instance.get_contents() dict
       endif
       if !self._select_title
         call add(self.noindex, len(cnt))
+      endif
+      if len(cnt) == self.select
+        let self._current_contents = { 'title': t.title }
       endif
       call add(cnt, repeat(' ', max([(self.sizex() - 4 - width * 2 - calendar#string#strdisplaywidth(t.title)) / 2, 0])) . t.title)
       if !self._select_title
@@ -139,7 +145,9 @@ function! s:instance.get_contents() dict
           let self._current_group_id = get(t, 'id', '')
         endif
         if get(tt, 'status', '') ==# 'completed'
-          call add(self.completed, len(cnt))
+          call add(self.syntax, [len(cnt), 'Comment'])
+        elseif has_key(tt, 'syntax')
+          call add(self.syntax, [len(cnt), tt.syntax])
         endif
         call add(cnt, get(tt, 'title', get(tt, 'summary', '')))
       endfor
@@ -193,6 +201,8 @@ function! s:instance.move_select(diff) dict
     let self.select += diff
   endwhile
   let self.select = max([min([self.select, self.length - 1]), 0])
+  let self.__updated = 1
+  let [self.min_index, self.max_index] = self.min_max_index(self.length)
 endfunction
 
 function! s:instance.current_contents() dict
@@ -209,6 +219,8 @@ endfunction
 
 function! s:instance._action(action) dict
   let hour = self.select
+  let self.__updated = 0
+  let [select, min_index, max_index] = [self.select, self.min_index, self.max_index]
   if index(['down', 'up'], a:action) >= 0
     call self.move_select(v:count1 * (a:action ==# 'down' ? 1 : -1))
   elseif index(['down_big', 'up_big'], a:action) >= 0
@@ -247,10 +259,16 @@ function! s:instance._action(action) dict
     let self.max_index += diff
   elseif a:action ==# 'status'
     let message = get(self.current_contents(), 'title', get(self.current_contents(), 'summary', ''))
-    if len(message)
-      call calendar#echo#message(message)
-    endif
+    call calendar#echo#message(message)
     return 1
+  elseif index(['yank', 'yank_line', 'delete', 'delete_line'], a:action) >= 0
+    call self.yank()
+    return 1
+  elseif a:action ==# 'enter'
+    let url = get(self.current_contents(), 'htmlLink', '')
+    if url !=# ''
+      call calendar#webapi#open_url(url)
+    endif
   elseif a:action ==# 'command_enter' && mode() ==# 'c' && getcmdtype() ==# ':'
     let cmd = calendar#util#getcmdline()
     if cmd =~# '^\s*\d\+\s*$'
@@ -260,6 +278,14 @@ function! s:instance._action(action) dict
       return calendar#util#update_keys()
     endif
   endif
+  if self.__updated && [select, max_index] == [self.select, self.max_index] && (min_index == self.min_index || !min_index)
+    return ''
+  endif
+endfunction
+
+function! s:instance.yank() dict
+  let message = get(self.current_contents(), 'title', get(self.current_contents(), 'summary', ''))
+  call calendar#util#yank(message)
 endfunction
 
 function! s:instance.action(action) dict

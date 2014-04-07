@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/view.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/31 14:56:00.
+" Last Change: 2014/02/02 17:31:20.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -26,10 +26,12 @@ let s:self._height = 0
 let s:self._help = 0
 let s:self._task = 0
 let s:self._event = 0
-let s:self._order = []
+let s:self._help_order = []
+let s:self._event_order = []
+let s:self._task_order = []
 
 function! s:self.set_calendar_views(views) dict
-  let views = [ 'year', 'month', 'week', 'day_7', 'day_6', 'day_5', 'day_4', 'day_3', 'day_2', 'day_1', 'day', 'clock' ]
+  let views = [ 'year', 'month', 'week', 'weekday', 'day_7', 'day_6', 'day_5', 'day_4', 'day_3', 'day_2', 'day_1', 'day', 'clock' ]
   let calendar_views = filter(a:views, 'index(views, v:val) >= 0')
   if len(calendar_views) > 0
     let self.calendar_views = calendar_views
@@ -43,7 +45,6 @@ function! s:self.get_calendar_views() dict
 endfunction
 
 function! s:self.set_index(view) dict
-  let i = index(['year', 'month', 'week', 'days', 'day', 'clock'], a:view)
   let i = index(self.calendar_views, a:view)
   if i < 0
     if a:view ==# 'day'
@@ -136,7 +137,9 @@ function! s:self.get_overlap() dict
           if j < len(o)
             call add(o[j], i)
             call add(lw[j], [l, w])
-            if len(o[j]) > 1
+            if len(o[j]) <= 1
+              continue
+            else
               let f = 1
               if len(o[j]) == 2
                 if lw[j][0][0] <= l && lw[j][0][0] + lw[j][0][1] >= l
@@ -172,6 +175,7 @@ function! s:self.ymax() dict
   return ymax
 endfunction
 
+let [s:height, s:width] = [0, 0]
 function! s:self.gather(...) dict
   let d = len(self.order)
   let updated = self.updated || a:0 && a:1
@@ -184,8 +188,13 @@ function! s:self.gather(...) dict
   if !updated | return 1 | endif
   let self.updated = 0
   let [height, width] = [calendar#util#winheight(), calendar#util#winwidth()]
-  let texts = map(range(height), 'calendar#text#new(repeat(" ", width), 0, v:val, "")')
-  let llen = map(range(height), '0')
+  if [s:height, s:width] != [height, width]
+    let [s:height, s:width] = [height, width]
+    let s:texts = map(range(s:height), 'calendar#text#new(repeat(" ", s:width), 0, v:val, "")')
+    let s:llen = map(range(s:height), '0')
+  endif
+  let texts = deepcopy(s:texts)
+  let llen = deepcopy(s:llen)
   let index = self.current_view_index()
   let [f, v, diffy] = self.get_overlap()
   for i in range(d)
@@ -201,23 +210,7 @@ function! s:self.gather(...) dict
           call t.move(llen[t.y], 0)
         endif
         if f && t.t
-          if len(t.syn) && len(t.syn[0]) == 5
-            let flg = 0
-            for k in range(len(t.syn))
-              for j in range(min([t.syn[k][4], height - t.y]))
-                let flg = flg || len(v[t.y + j]) > 1 && v[t.y + j][0] != i
-              endfor
-              if flg | break | endif
-            endfor
-            if flg
-              for s in t.split()
-                if s.y < height
-                  call s.move(llen[s.y] - llen[t.y], 0)
-                  call texts[s.y].over(s)
-                endif
-              endfor
-            endif
-          endif
+          call s:split_over(t, texts, v, llen, i, height)
         endif
         let l = texts[t.y].over(t)
         if !t.t | let llen[t.y] = l | endif
@@ -225,6 +218,27 @@ function! s:self.gather(...) dict
     endfor
   endfor
   return texts
+endfunction
+
+function! s:split_over(t, texts, v, llen, i, height)
+  let t = a:t
+  if len(t.syn) && len(t.syn[0]) == 5
+    let flg = 0
+    for k in range(len(t.syn))
+      for j in range(min([t.syn[k][4], a:height - t.y]))
+        let flg = flg || len(a:v[t.y + j]) > 1 && a:v[t.y + j][0] != a:i
+      endfor
+      if flg | break | endif
+    endfor
+    if flg
+      for s in t.split()
+        if s.y < a:height
+          call s.move(a:llen[s.y] - a:llen[t.y], 0)
+          call a:texts[s.y].over(s)
+        endif
+      endfor
+    endif
+  endif
 endfunction
 
 function! s:self.action(action) dict
@@ -300,14 +314,14 @@ function! s:self.action(action) dict
       endfor
       let self._help = !self._help
       if ii >= 0 && self._help
-        let self._order = copy(self.order)
+        let self._help_order = copy(self.order)
         let i = index(self.order, ii)
         if i >= 0
           call remove(self.order, i)
           let self.order = add(self.order, ii)
         endif
-      elseif has_key(self, '_order')
-        let self.order = self._order
+      elseif has_key(self, '_help_order')
+        let self.order = self._help_order
         let self._help = 0
       endif
     elseif a:action ==# 'task'
@@ -323,14 +337,18 @@ function! s:self.action(action) dict
       endfor
       let self._task = !self._task
       if ii >= 0 && self._task
-        let self._order = copy(self.order)
+        let self._task_order = copy(self.order)
         let i = index(self.order, ii)
         if i >= 0
           let self.order = self.order[i + 1:] + self.order[:i]
         endif
-      elseif has_key(self, '_order')
-        let self.order = self._order
+      elseif has_key(self, '_task_order')
+        let self.order = self._task_order
         let self._task = 0
+      endif
+    elseif a:action ==# 'close_task'
+      if self._task
+        call self.action('task')
       endif
     elseif a:action ==# 'event'
       if self.current_view().on_top() && self.current_view().source.type !=# 'event'
@@ -345,17 +363,28 @@ function! s:self.action(action) dict
       endfor
       let self._event = !self._event
       if ii >= 0 && self._event
-        let self._order = copy(self.order)
+        let self._event_order = copy(self.order)
         let i = index(self.order, ii)
         if i >= 0
           let self.order = self.order[i + 1:] + self.order[:i]
         endif
-      elseif has_key(self, '_order')
-        let self.order = self._order
+      elseif has_key(self, '_event_order')
+        let self.order = self._event_order
         let self._event = 0
       endif
+    elseif a:action ==# 'close_event'
+      if self._event
+        call self.action('event')
+      endif
+    elseif a:action ==# 'hide'
+      try
+        bunload!
+      catch
+        enew!
+      endtry
+      return 1
     elseif a:action ==# 'exit'
-      bdelete!
+      bwipeout!
       return 1
     elseif a:action ==# 'view_left'
       call self.change_index(-v:count1)
@@ -365,7 +394,21 @@ function! s:self.action(action) dict
       if getcmdtype() ==# ':'
         let cmd = calendar#util#getcmdline()
         let digits = []
-        if cmd =~# '^\s*\d\+\s*$'
+        if cmd =~# '^\s*marks\s*$'
+          call b:calendar.mark.showmarks()
+          return calendar#util#update_keys()
+        elseif cmd =~# '^\s*\(ma\%[rk]\s\+\|k\s*\)[a-z]\s*$'
+          let mark = matchstr(cmd, '[a-z]\(\s*$\)\@=')
+          call b:calendar.mark.set(mark)
+          return calendar#util#update_keys()
+        elseif cmd =~# '^\s*delm\%[arks]!\s*$'
+          call b:calendar.mark.delmarks()
+          return calendar#util#update_keys()
+        elseif cmd =~# '^\s*delm\%[arks]\s\+[a-z]\s*$'
+          let mark = matchstr(cmd, '[a-z]\(\s*$\)\@=')
+          call b:calendar.mark.delmarks(mark)
+          return calendar#util#update_keys()
+        elseif cmd =~# '^\s*\d\+\s*$'
           return calendar#util#update_keys()
         elseif cmd =~# '^\s*\d\+\s*/\s*\d\+\s*\(/\s*\d\+\s*\)\?$'
           let digits = map(split(cmd, '/'), 'matchstr(v:val, "\\d\\+") * 1')

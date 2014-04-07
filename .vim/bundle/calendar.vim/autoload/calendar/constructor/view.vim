@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/constructor/view.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/25 09:11:11.
+" Last Change: 2014/02/08 22:12:28.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -30,7 +30,7 @@ function! s:instance.set_visible(value) dict
 endfunction
 
 function! s:instance.is_visible() dict
-  sandbox return get(self, '_visible', has_key(self.source, 'visible') ? eval(self.source.visible) : 1)
+  sandbox return has_key(self, '_visible') ? self._visible : has_key(self.source, 'visible') ? eval(self.source.visible) : 1
 endfunction
 
 function! s:instance.on_top() dict
@@ -137,6 +137,10 @@ endfunction
 
 function! s:instance.updated() dict
   return 1
+endfunction
+
+function! s:instance.timerange() dict
+  return ''
 endfunction
 
 function! s:instance.action(action) dict

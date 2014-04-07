@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/controller.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/01/04 20:25:57.
+" Last Change: 2014/02/12 23:40:27.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -27,10 +27,12 @@ let s:self.cursor_pos = [0, 0]
 
 let s:self.mode = ''
 
-let s:self.syntaxnames = ['Select', 'Sunday', 'Saturday',
+let s:self.action_name = ''
+
+let s:self.defaultsyntaxnames = ['Select', 'Sunday', 'Saturday',
       \ 'TodaySunday', 'TodaySaturday', 'Today',
-      \ 'OtherMonth', 'DayTitle', 'SundayTitle', 'SaturdayTitle',
-      \ 'NormalSpace', 'Comment', 'SelectComment']
+      \ 'OtherMonth', 'OtherMonthSelect', 'DayTitle', 'SundayTitle', 'SaturdayTitle',
+      \ 'NormalSpace', 'Comment', 'CommentSelect']
 
 function! s:self.time() dict
   return self.model.time()
@@ -100,6 +102,46 @@ function! s:self.move_year(diff) dict
   call self.model.move_year(a:diff)
 endfunction
 
+function! s:self.start_visual() dict
+  call self.model.start_visual()
+endfunction
+
+function! s:self.start_line_visual() dict
+  call self.model.start_line_visual()
+endfunction
+
+function! s:self.start_block_visual() dict
+  call self.model.start_block_visual()
+endfunction
+
+function! s:self.exit_visual() dict
+  call self.model.exit_visual()
+endfunction
+
+function! s:self.visual_mode() dict
+  return self.model.visual_mode()
+endfunction
+
+function! s:self.is_visual() dict
+  return self.model.is_visual()
+endfunction
+
+function! s:self.is_line_visual() dict
+  return self.model.is_line_visual()
+endfunction
+
+function! s:self.is_block_visual() dict
+  return self.model.is_block_visual()
+endfunction
+
+function! s:self.visual_start_day() dict
+  return self.model.visual_start_day()
+endfunction
+
+function! s:self.visual_start_time() dict
+  return self.model.visual_start_time()
+endfunction
+
 function! s:self.go(day) dict
   call self.set_day(a:day)
   call self.set_month()
@@ -135,7 +177,16 @@ function! s:self.update_if_resized() dict
   endif
 endfunction
 
+function! s:self.clear() dict
+  for name in self.defaultsyntaxnames + get(b:calendar, 'syntaxnames', [])
+    exec 'silent! syntax clear Calendar' . name
+  endfor
+endfunction
+
 function! s:self.redraw(...) dict
+  if histget(':', -1) ==# 'silent call b:calendar.update()'
+    silent! call histdel(':', -1)
+  endif
   let u = self.view.gather(a:0 ? a:1 : 0)
   if type(u) != type([])
     return
@@ -146,15 +197,13 @@ function! s:self.redraw(...) dict
     redraw
   endif
   call setline(1, map(range(calendar#util#winheight()), 'u[v:val].s'))
-  for name in self.syntaxnames + get(b:, 'calendar_syntaxnames', [])
-    exec 'silent! syntax clear Calendar' . name
-  endfor
+  call self.clear()
   let c = 'Cursor'
   let a = 'syntax match Calendar%s /\%%>%dl\%%<%dl\%%%dc.*\%%%dc/'
   let b = 'syntax match Calendar%s /\%%%dl\%%%dc.*\%%%dc/'
   for t in u
     for s in t.syn
-      if len(s[0]) && s[1] >= 0 && s[2] >= 0
+      if s[0] !=# '' && s[1] >= 0 && s[2] >= 0
         if s[0] ==# c
           let self.pos = [s[2], s[1]]
         elseif s[4]
@@ -175,12 +224,15 @@ function! s:self.cursor() dict
 endfunction
 
 function! s:self.cursor_moved() dict
-  let [g, l, c] = [getline('.'), line('.'), col('.')]
-  let [pl, pc] = b:calendar.cursor_pos
-  if [pl, pc] != [l, c]
-   let [wp, wn] = map([getline(pl)[:pc + 1], g[:c + 1]], 'calendar#string#strdisplaywidth(v:val)')
+  if [line('.'), col('.')] == b:calendar.cursor_pos
+    return
+  else
+    let [l, c] = [line('.'), col('.')]
+    let [pl, pc] = b:calendar.cursor_pos
+    let g = getline('.')
+    let [wp, wn, wg] = map([getline(pl)[:pc - 2], g[:c - 2], g], 'calendar#string#strdisplaywidth(v:val)')
     if pl == l
-      call self.action(len(g) <= c * 2 && c * 2 <= (len(g) + 3) ? 'line_middle'
+      call self.action(wg <= wn * 2 && wn * 2 <= wg + 3 ? 'line_middle'
             \ : g[:c - 2] =~? '^\s*$' ? 'line_head'
             \ : len(g) == c ?           'line_last'
             \ : pc < c ?                'right'
@@ -197,35 +249,18 @@ endfunction
 
 function! s:self.action(action) dict
   let action = a:action
-  if action ==# 'delete'
-    " dd
-    if self.mode ==# 'delete'
+  if index([ 'delete', 'yank', 'change' ], action) >= 0
+    if self.mode ==# action
       let self.mode = ''
+      let action .= '_line'
     else
-      let self.mode = 'delete'
+      let self.mode = action
       return
     endif
   else
     let self.mode = ''
   endif
-  if action ==# 'command_enter'
-    let cmdline = calendar#util#getcmdline()
-    if cmdline =~# '^\s*marks\s*$'
-      call self.mark.showmarks()
-      return calendar#util#update_keys()
-    elseif cmdline =~# '^\s*\(ma\%[rk]\|k\)\s\+[a-z]\s*$'
-      let mark = matchstr(cmdline, '[a-z]\(\s*$\)\@=')
-      call self.mark.set(mark)
-      return calendar#util#update_keys()
-    elseif cmdline =~# '^\s*delm\%[arks]!\s*$'
-      call self.mark.delmarks()
-      return calendar#util#update_keys()
-    elseif cmdline =~# '^\s*delm\%[arks]\s\+[a-z]\s*$'
-      let mark = matchstr(cmdline, '[a-z]\(\s*$\)\@=')
-      call self.mark.delmarks(mark)
-      return calendar#util#update_keys()
-    endif
-  endif
+  let self.action_name = action
   let ret = self.view.action(action)
   if type(ret) == type(0) && ret == 0
     call self.update()

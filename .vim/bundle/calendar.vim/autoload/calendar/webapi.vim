@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/webapi.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2014/01/06 13:55:29.
+" Last Change: 2014/02/08 15:43:28.
 " =============================================================================
 
 " Web interface.
@@ -20,26 +20,10 @@ let s:save_cpo = &cpo
 set cpo&vim
 
 let s:cache = calendar#cache#new('download')
-call s:cache.rmdir_on_exit()
-
-function! s:response()
-  return { 'status': 500, 'message': '', 'header': [], 'content': [] }
-endfunction
-
-function! s:urlencode_char(c, ...)
-  let is_binary = get(a:000, 1)
-  if !is_binary
-    let c = iconv(a:c, &encoding, "utf-8")
-    if c == ""
-      let c = a:c
-    endif
-  endif
-  let s = ""
-  for i in range(strlen(c))
-    let s .= printf("%%%02X", char2nr(c[i]))
-  endfor
-  return s
-endfunction
+call s:cache.check_dir(1)
+if !calendar#setting#get('debug')
+  call s:cache.rmdir_on_exit()
+endif
 
 function! s:nr2byte(nr)
   if a:nr < 0x80
@@ -62,27 +46,17 @@ function! s:nr2enc_char(charcode)
   return char
 endfunction
 
-function! calendar#webapi#encodeURI(items, ...)
-  let is_binary = get(a:000, 1)
-  let ret = ''
-  if type(a:items) == 4
-    for key in sort(keys(a:items))
-      if strlen(ret) | let ret .= "&" | endif
-      let ret .= key . "=" . calendar#webapi#encodeURI(a:items[key])
-    endfor
-  elseif type(a:items) == 3
-    for item in sort(a:items)
-      if strlen(ret) | let ret .= "&" | endif
-      let ret .= item
-    endfor
-  else
-    let ret = substitute(a:items, '[^a-zA-Z0-9_.~-]', '\=s:urlencode_char(submatch(0), is_binary)', 'g')
-  endif
-  return ret
-endfunction
-
 function! s:execute(command)
   let res = calendar#util#system(a:command)
+  while res =~ '^HTTP/1.\d 3' || res =~ '^HTTP/1\.\d 200 Connection established' || res =~ '^HTTP/1\.\d 100 Continue'
+    let pos = stridx(res, "\r\n\r\n")
+    if pos != -1
+      let res = strpart(res, pos+4)
+    else
+      let pos = stridx(res, "\n\n")
+      let res = strpart(res, pos+2)
+    endif
+  endwhile
   let pos = stridx(res, "\r\n\r\n")
   if pos != -1
     let content = strpart(res, pos+4)
@@ -161,18 +135,17 @@ endfunction
 function! s:request(json, async, url, ...)
   let url = a:url
   let param = a:0 > 0 ? a:000[0] : {}
-  let headdata = a:0 > 1 ? a:000[1] : {}
+  let postdata = a:0 > 1 ? a:000[1] : {}
   let method = a:0 > 2 ? a:000[2] : "POST"
   let paramstr = calendar#webapi#encodeURI(param)
   let withbody = method !=# 'GET' && method !=# 'DELETE'
-  if withbody
-    let postdatastr = a:json ? calendar#webapi#encode(headdata) : join(s:postdata(headdata), "\n")
-  endif
-  if strlen(paramstr)
+  let headdata = {}
+  if paramstr !=# ''
     let url .= "?" . paramstr
   endif
   let quote = s:_quote()
   if withbody
+    let postdatastr = a:json ? calendar#webapi#encode(postdata) : join(s:postdata(postdata), "\n")
     let file = tempname()
     let headdata['Content-Length'] = len(postdatastr)
     if a:json
@@ -182,18 +155,24 @@ function! s:request(json, async, url, ...)
   if executable('curl')
     let command = printf('curl -s -k -i -N -X %s', method)
     let command .= s:make_header_args(headdata, '-H ', quote)
-    let command .= " " . quote . url . quote
     if withbody
       let command .= " --data-binary @" . quote . file . quote
     endif
+    if a:async != {}
+      let command .= ' -o ' . quote . s:cache.path(a:async.id) . quote
+    endif
+    let command .= " " . quote . url . quote
   elseif executable('wget')
     let command = 'wget -O- --save-headers --server-response -q'
     let headdata['X-HTTP-Method-Override'] = method
     let command .= s:make_header_args(headdata, '--header=', quote)
-    let command .= " " . quote . url . quote
     if withbody
       let command .= " --post-data @" . quote . file . quote
     endif
+    if a:async != {}
+      let command .= ' -O ' . quote . s:cache.path(a:async.id) . quote
+    endif
+    let command .= " " . quote . url . quote
   else
     call calendar#echo#error_message('curl_wget_not_found')
     return 1
@@ -202,12 +181,16 @@ function! s:request(json, async, url, ...)
     call writefile(split(postdatastr, "\n"), file, "b")
   endif
   if a:async != {}
-    let tmp = quote . tempname() . quote
-    let command .= ' > ' . tmp . ' ; mv ' . tmp . ' ' . quote . s:cache.path(a:async.id) . quote
-    let command = '{' . command . '; } &'
-    call s:cache.delete(a:async.id)
+    if !calendar#setting#get('debug')
+      call s:cache.delete(a:async.id)
+    endif
     call calendar#async#new('calendar#webapi#callback(' . string(a:async.id) . ',' . string(a:async.cb) . ')')
-    call calendar#util#system(command)
+    if has("win32") || has("win64")
+      call calendar#util#system('cmd /c start /min ' . command)
+    else
+      let command .= ' &'
+      call calendar#util#system(command)
+    endif
   else
     let ret = s:execute(command)
     if withbody
@@ -217,11 +200,23 @@ function! s:request(json, async, url, ...)
   endif
 endfunction
 
+let s:callback_datalen = {}
 function! calendar#webapi#callback(id, cb)
   let data = s:cache.get_raw(a:id)
   if type(data) == type([])
+    let prevdatalen = get(s:callback_datalen, a:id)
+    let s:callback_datalen[a:id] = len(data)
+    if len(data) == 0 || len(data) != prevdatalen
+      return 1
+    endif
     if len(data)
       let i = 0
+      while i < len(data) && (data[i] =~ '^HTTP/1.\d 3' || data[i] =~ '^HTTP/1\.\d 200 Connection established' || data[i] =~ '^HTTP/1\.\d 100 Continue')
+        while i < len(data) && data[i] !~# '^\r\?$'
+          let i += 1
+        endwhile
+        let i += 1
+      endwhile
       while i < len(data) && data[i] !~# '^\r\?$'
         let i += 1
       endwhile
@@ -244,11 +239,15 @@ function! calendar#webapi#callback(id, cb)
             \ "header" : header,
             \ "content" : content
             \ }
-      if len(a:cb)
+      if a:cb !=# ''
         exec 'call ' . a:cb . '(a:id, response)'
       endif
+    else
+      return 1
     endif
-    call s:cache.delete(a:id)
+    if !calendar#setting#get('debug')
+      call s:cache.delete(a:id)
+    endif
     return 0
   endif
   return 1
@@ -314,11 +313,24 @@ endfunction
 
 function! calendar#webapi#open_url(url)
   if has('win32') || has('win64')
-    silent! call calendar#util#system('start rundll32 url.dll,FileProtocolHandler "' . a:url . '" &')
+    silent! call calendar#util#system('cmd /c start "" "' . a:url . '"')
   elseif executable('xdg-open')
     silent! call calendar#util#system('xdg-open "' . a:url . '" &')
   elseif executable('open')
     silent! call calendar#util#system('open "' . a:url . '" &')
+  endif
+endfunction
+
+function! calendar#webapi#echo_error(response)
+  let message = get(a:response, 'message', '')
+  if has_key(a:response, 'content')
+    let cnt = calendar#webapi#decode(a:response.content)
+    if type(cnt) == type({}) && len(get(get(cnt, 'error', {}), 'message', ''))
+      let message = get(get(cnt, 'error', {}), 'message', '')
+    endif
+  endif
+  if message !=# ''
+    call calendar#echo#error(message)
   endif
 endfunction
 
@@ -348,18 +360,18 @@ function! s:escape(str)
   return substitute(a:str, '[^a-zA-Z0-9_.-]', '\=printf("%%%02X", char2nr(submatch(0)))', 'g')
 endfunction
 
-function! s:encodeURI(items)
+function! calendar#webapi#encodeURI(items)
   let ret = ''
   if type(a:items) == type({})
     for key in sort(keys(a:items))
-      if strlen(ret)
+      if ret !=# ''
         let ret .= "&"
       endif
-      let ret .= key . "=" . s:encodeURI(a:items[key])
+      let ret .= key . "=" . calendar#webapi#encodeURI(a:items[key])
     endfor
   elseif type(a:items) == type([])
     for item in sort(a:items)
-      if strlen(ret)
+      if ret !=# ''
         let ret .= "&"
       endif
       let ret .= item
@@ -372,7 +384,7 @@ endfunction
 
 function! s:postdata(data)
   if type(a:data) == type({})
-    return [s:encodeURI(a:data)]
+    return [calendar#webapi#encodeURI(a:data)]
   elseif type(a:data) == type([])
     return a:data
   else

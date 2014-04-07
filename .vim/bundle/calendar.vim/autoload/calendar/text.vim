@@ -2,7 +2,7 @@
 " Filename: autoload/calendar/text.vim
 " Author: itchyny
 " License: MIT License
-" Last Change: 2013/12/28 20:13:45.
+" Last Change: 2014/03/02 10:05:06.
 " =============================================================================
 
 let s:save_cpo = &cpo
@@ -63,7 +63,6 @@ let s:R = function('calendar#string#truncate_reverse')
 fu! s:self.concat(t) dict
   let s = self.syn
   let t = a:t.syn
-  let p = range(len(t))
   let q = range(len(s))
   let l = s:T(self.s, a:t.x)
   let r = s:R(self.s, s:W(self.s) - s:W(a:t.s) - a:t.x)
@@ -75,10 +74,9 @@ fu! s:self.concat(t) dict
   if !a:t.t
     let self.s = l . a:t.s . r
   en
-  for i in p
-    let t[i][2] += x
-    let t[i][3] += x
-  endfo
+  if x
+    cal s:shift(t, x)
+  en
   for i in q
     if s[i][2] >= y | let s[i][2] += m | en
     if s[i][3] >= y | let s[i][3] += m | en
@@ -86,7 +84,15 @@ fu! s:self.concat(t) dict
   retu x
 endfu
 
-fu! s:over(t, j, v, u)
+fu! s:shift(t, x)
+  let p = range(len(a:t))
+  for i in p
+    let a:t[i][2] += a:x
+    let a:t[i][3] += a:x
+  endfo
+endfu
+
+fu! s:over(j, v, u)
   let [s, d] = [[], []]
   let v = a:v
   let u = a:u
@@ -127,7 +133,7 @@ fu! s:self.over(t) dict
       elsei s[j][2] >= t[i][3]
         con
       elsei t[i][0] != 'Cursor' && s[j][0] != 'Cursor'
-        let [b, c] = s:over(a:t.t, j, t[i], s[j])
+        let [b, c] = s:over(j, t[i], s[j])
         cal extend(s, b)
         cal extend(d, c)
       en

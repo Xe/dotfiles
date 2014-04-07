@@ -4,7 +4,7 @@ Version: 0.0
 Author: itchyny (https://github.com/itchyny)
 License: MIT License
 Repository: https://github.com/itchyny/calendar.vim
-Last Change: 2014/01/05 17:41:50.
+Last Change: 2014/02/16 21:21:13.
 
 CONTENTS					*calendar-contents*
 
@@ -145,7 +145,7 @@ buffer.
 		buffer.
 
 						*calendar-options-position*
-		-position={below/tab/here}
+		-position={below/tab/here/left/right/topleft/topright}
 		-position=below
 			Open the buffer below.
 		-position=tab
@@ -155,6 +155,16 @@ buffer.
 			buffer. If some changes exist in the current buffer,
 			this option is ignored. An '!' is added to discard
 			any changes in the current buffer.
+		-position=left
+			Open the buffer on the left hand side.
+		-position=right
+			Open the buffer on the right hand side.
+		-position=topleft
+			Open the buffer on the left hand side, with full
+			height of Vim.
+		-position=topright
+			Open the buffer on the right hand side, with full
+			height of Vim.
 
 You can use the following options to change the size of the |calendar| buffer.
 
@@ -236,6 +246,14 @@ The following options change the appearance of the calendar.
 		this option from the argument, add the trailing '!'.
 		The default value is 0.
 
+						*calendar-options-clock_12hour*
+						*g:calendar_clock_12hour*
+		-clock_12hour[!]
+		let g:calendar_clock_12hour={0/1}
+		If on, times are displayed in 12-hour clock style. In order to
+		disable this option from the argument, add the trailing '!'.
+		The default value is 0.
+
 						*calendar-options-frame*
 						*g:calendar_frame*
 		-frame={default/unicode/space/unicode_bold/unicode_round/unicode_double}
@@ -274,10 +292,10 @@ options.
 		add the trailing '!'.
 		The default value is 0.
 
-						*task-options-google_task*
-						*g:task_google_task*
+						*calendar-options-google_task*
+						*g:calendar_google_task*
 		-google_task[!]
-		let g:task_google_task = {0/1}
+		let g:calendar_google_task = {0/1}
 		If the value is 1 or the argument is given, this application
 		download the tasks from Google Task, under your permission.
 		In order to disable this option from the argument, add the
@@ -335,6 +353,15 @@ Other miscellaneous options.
 		Specify the cache directory for this plugin.
 		The default value is ~/.cache/calendar.vim/.
 
+						*calendar-options-debug*
+						*g:calendar_debug*
+		-debug[!]
+		let g:calendar_debug = {0/1}
+		If the value is 1 or the argument is given, the application
+		runs in debug mode. In debug mode:
+			1. It does not delete all the downloaded files.
+		The default value is 0.
+
 ------------------------------------------------------------------------------
 VIEW						*calendar-view*
 
@@ -370,6 +397,12 @@ This application has some different views. You can switch views with |>| and
 ------------------------------------------------------------------------------
 KEY MAPPINGS					*calendar-key-mappings*
 
+This application provides a global mapping.
+<Plug>(calendar)				*<Plug>(calendar)*
+	Open a calendar buffer. This mapping calls the |:Calendar| command
+	with no argument.
+
+In the calendar buffer, a lot of mappings are provided.
 This application has many views. Thus pressing j triggers various actions
 based on the active window. For example, go to 7 day after in the month view,
 go to the below month in the year view, 1 hour after in the days views, the
@@ -414,18 +447,27 @@ Utility
 <Plug>(calendar_minus)				*<Plug>(calendar_minus)*
 <Plug>(calendar_task)				*<Plug>(calendar_task)*
 <Plug>(calendar_event)				*<Plug>(calendar_event)*
+<Plug>(calendar_close_task)			*<Plug>(calendar_close_task)*
+<Plug>(calendar_close_event)			*<Plug>(calendar_close_event)*
 <Plug>(calendar_delete)				*<Plug>(calendar_delete)*
 <Plug>(calendar_delete_line)			*<Plug>(calendar_delete_line)*
+<Plug>(calendar_yank)				*<Plug>(calendar_yank)*
+<Plug>(calendar_yank_line)			*<Plug>(calendar_yank_line)*
+<Plug>(calendar_change)				*<Plug>(calendar_change)*
+<Plug>(calendar_change_line)			*<Plug>(calendar_change_line)*
 <Plug>(calendar_undo)				*<Plug>(calendar_undo)*
 <Plug>(calendar_undo_line)			*<Plug>(calendar_undo_line)*
 <Plug>(calendar_tab)				*<Plug>(calendar_tab)*
 <Plug>(calendar_shift_tab)			*<Plug>(calendar_shift_tab)*
 <Plug>(calendar_today)				*<Plug>(calendar_today)*
+<Plug>(calendar_enter)				*<Plug>(calendar_enter)*
 <Plug>(calendar_view_left)			*<Plug>(calendar_view_left)*
 <Plug>(calendar_view_right)			*<Plug>(calendar_view_right)*
 <Plug>(calendar_redraw)				*<Plug>(calendar_redraw)*
 <Plug>(calendar_clear)				*<Plug>(calendar_clear)*
 <Plug>(calendar_help)				*<Plug>(calendar_help)*
+<Plug>(calendar_escape)				*<Plug>(calendar_escape)*
+<Plug>(calendar_hide)				*<Plug>(calendar_hide)*
 <Plug>(calendar_exit)				*<Plug>(calendar_exit)*
 
 Insert mode
@@ -435,7 +477,12 @@ Insert mode
 <Plug>(calendar_start_insert_last)		*<Plug>(calendar_start_insert_last)*
 <Plug>(calendar_start_insert_prev_line)		*<Plug>(calendar_start_insert_prev_line)*
 <Plug>(calendar_start_insert_next_line)		*<Plug>(calendar_start_insert_next_line)*
-<Plug>(calendar_start_insert_change)		*<Plug>(calendar_start_insert_change)*
+
+Visual mode
+<Plug>(calendar_visual)				*<Plug>(calendar_visual)*
+<Plug>(calendar_visual_line)			*<Plug>(calendar_visual_line)*
+<Plug>(calendar_visual_block)			*<Plug>(calendar_visual_block)*
+<Plug>(calendar_exit_visual)			*<Plug>(calendar_exit_visual)*
 
 Normal mode default mappings.
 {lhs}		{rhs}
@@ -462,6 +509,7 @@ g<Up>		same as <Up>
 <S-Up>		same as <Up>
 <C-j>		same as j
 w		|<Plug>(calendar_next)|
+W		same as w
 e		same as w
 <S-Right>	same as w
 <C-Right>	same as w
@@ -514,12 +562,17 @@ z-		|<Plug>(calendar_scroll_bottom_head)|
 zb		|<Plug>(calendar_scroll_bottom)|
 d		|<Plug>(calendar_delete)|
 D		|<Plug>(calendar_delete_line)|
+y		|<Plug>(calendar_yank)|
+Y		|<Plug>(calendar_yank_line)|
+c		|<Plug>(calendar_change)|
+C		|<Plug>(calendar_change_line)|
 <Undo>		|<Plug>(calendar_undo)|
 u		|<Plug>(calendar_undo)|
 U		|<Plug>(calendar_undo_line)|
 <TAB>		|<Plug>(calendar_tab)|
 <S-Tab>		|<Plug>(calendar_shift_tab)|
 t		|<Plug>(calendar_today)|
+<CR>		|<Plug>(calendar_enter)|
 <C-a>		|<Plug>(calendar_add)|
 <C-x>		|<Plug>(calendar_subtract)|
 <C-g>		|<Plug>(calendar_status)|
@@ -534,7 +587,7 @@ E		|<Plug>(calendar_event)|
 <C-r>		|<Plug>(calendar_redraw)|
 L		|<Plug>(calendar_clear)|
 ?		|<Plug>(calendar_help)|
-q		|<Plug>(calendar_exit)|
+q		|<Plug>(calendar_hide)|
 Q		|<Plug>(calendar_exit)|
 i		|<Plug>(calendar_start_insert)|
 a		|<Plug>(calendar_start_insert_append)|
@@ -542,9 +595,13 @@ I		|<Plug>(calendar_start_insert_head)|
 A		|<Plug>(calendar_start_insert_last)|
 O		|<Plug>(calendar_start_insert_prev_line)|
 o		|<Plug>(calendar_start_insert_next_line)|
-c		|<Plug>(calendar_start_insert_change)|
-C		|<Plug>(calendar_start_insert_change)|
-
+v		|<Plug>(calendar_visual)|
+V		|<Plug>(calendar_visual_line)|
+<C-v>		|<Plug>(calendar_visual_block)|
+gh		same as v
+gH		same as V
+g<C-h>		same as <C-v>
+<ESC>		|<Plug>(calendar_escape)|
 ------------------------------------------------------------------------------
 MARKS						*calendar-marks*
 In the |calendar| buffer, you can use |mark|s.
@@ -575,21 +632,25 @@ Problem 4:				|calendar-problem-4|
 	How to change key-mapping settings for calendar buffers.
 
 Problem 5:				|calendar-problem-5|
-	How to use the fancy frame.
+	The frame collapses (on Ubuntu).
 
 Problem 6:				|calendar-problem-6|
-	How to change the cache directory.
+	The clock is invisible.
 
 Problem 7:				|calendar-problem-7|
-	The clock stops to update after the cursor gets out of the window.
+	How to change the cache directory.
 
 Problem 8:				|calendar-problem-8|
-	How to connect to Google Calendar.
+	The clock stops to update after the cursor gets out of the window.
 
 Problem 9:				|calendar-problem-9|
-	Which should we use, arguments or global variables.
+	How to connect to Google Calendar / Google Task.
+	How to disconnect my Google account.
 
 Problem 10:				|calendar-problem-10|
+	Which should we use, arguments or global variables.
+
+Problem 11:				|calendar-problem-11|
 	Found a bug of this application.
 	Got many errors while using this application.
 	Vim hangs up while using this application.
@@ -683,36 +744,46 @@ Problem 4:					*calendar-problem-4*
 		augroup END
 
 Problem 5:					*calendar-problem-5*
-	How to use the fancy frame.
+	The frame collapses (on Ubuntu).
 
 		Add the following configuration to your vimrc. >
-		let g:calendar_frame = 'unicode'
-<		See |g:calendar_frame|.
+		let g:calendar_frame = 'default'
 
 Problem 6:					*calendar-problem-6*
+	The clock is invisible.
+
+		Add the following configuration to your *shrc (e.g. zshrc). >
+			export TERM=xterm-256color
+<
+Problem 7:					*calendar-problem-7*
 	How to change the cache directory.
 
-		For example, add the following configuration to your vimrc.
->
+		For example, add the following configuration to your vimrc. >
 		let g:calendar_cache_directory = expand('~/.vim/cache/calendar.vim/')
-<
-		See |g:calendar_cache_directory|.
+<		See |g:calendar_cache_directory|.
 
-Problem 7:					*calendar-problem-7*
+Problem 8:					*calendar-problem-8*
 	The clock stops to update after the cursor gets out of the window.
 
 		It is feature. Updating a specific buffer from other windows
 		causes many problems.
 
-Problem 8:					*calendar-problem-8*
-	How to connect to Google Calendar.
+Problem 9:					*calendar-problem-9*
+	How to connect to Google Calendar / Google Task.
+	How to disconnect my Google account.
 
 		Add the following configuration to your vimrc. >
 		let g:calendar_google_calendar = 1
 		let g:calendar_google_task = 1
 <		See |g:calendar_google_calendar|, |g:calendar_google_task|.
 
-Problem 9:					*calendar-problem-9*
+		To disconnect, remove the cache directory. On default, the
+		cache directory is ~/.cache/calendar.vim/. So execute the
+		following command. >
+		rm -rf ~/.cache/calendar.vim/google/
+<		See |g:calendar_cache_directory|.
+
+Problem 10:					*calendar-problem-10*
 	Which should we use, arguments or global variables.
 
 		Arguments have priority over global variables. For example, if
@@ -725,7 +796,7 @@ Problem 9:					*calendar-problem-9*
 		settings in your vimrc file and give the arguments in order to
 		overwrite the settings.
 
-Problem 10:					*calendar-problem-10*
+Problem 11:					*calendar-problem-11*
 	Found a bug of this application.
 	Got many errors while using this application.
 	Vim hangs up while using this application.
