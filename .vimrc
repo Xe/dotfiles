@@ -63,6 +63,7 @@ au Filetype lolcode setl et ts=4 sw=4
 au Filetype mail let &colorcolumn="70,75"
 au Filetype mail set spell
 au Filetype mail setlocal textwidth=75
+au Filetype mail set expandtab
 
 " APKBUILD files have spacing like python
 au BufRead APKBUILD setl noexpandtab softtabstop=0 tabstop=4 shiftwidth=4 nosmarttab
