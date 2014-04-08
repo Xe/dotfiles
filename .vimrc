@@ -117,6 +117,10 @@ set pastetoggle=<F9>
 map <F3> gg=G:w<cr>
 nmap <leader>sp gg=G:w<cr>
 
+" status line
+set ls=2
+set statusline=%F%m%r%h%w\ >\ FORMAT=%{&ff}\ >\ TYPE=%Y\ >\ BUF=\#%n\ <\ POS=%04l,%04v\ <\ %p%%\ <\ LEN=%L
+
 " Lvimrc
 " if .lvimrc exists in parent directory of loaded file, load it as config
 if filereadable('../.lvimrc')
@@ -164,4 +168,8 @@ let g:gist_show_privates = 1
 let g:gist_detect_filetype = 1
 let g:gist_open_browser_after_post = 1
 let g:gist_post_private = 1
+
+" Airline
+let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 1
 
