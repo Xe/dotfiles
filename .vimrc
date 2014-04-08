@@ -14,6 +14,7 @@ Bundle 'scrooloose/nerdtree'
 Bundle 'chilicuil/vim-sprunge'
 Bundle 'itchyny/calendar.vim'
 Bundle 'jimenezrick/vimerl'
+Bundle 'Glench/Vim-Jinja2-Syntax'
 
 colorscheme zenburn
 
@@ -28,7 +29,7 @@ set cursorcolumn
 set number
 set background=dark
 set autoread
-"set mouse=a
+set mouse=a
 
 " Leader
 let mapleader = " "
@@ -172,4 +173,7 @@ let g:gist_post_private = 1
 " Airline
 let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 1
+
+nmap <leader>g :Gist<cr>
+
 
