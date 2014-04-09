@@ -17,6 +17,12 @@ Bundle 'jimenezrick/vimerl'
 Bundle 'Glench/Vim-Jinja2-Syntax'
 Bundle 'tpope/timl'
 Bundle 'sjl/tslime2.vim'
+Bundle 'jceb/vim-orgmode'
+Bundle 'scrooloose/syntastic'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-fugitive'
+Bundle 'garbas/vim-snipmate'
 
 colorscheme zenburn
 
