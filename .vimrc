@@ -26,8 +26,10 @@ Bundle 'MarcWeber/vim-addon-mw-utils'
 Bundle 'tomtom/tlib_vim'
 Bundle 'honza/vim-snippets'
 Bundle 'garbas/vim-snipmate'
+Bundle 'lyska/lolcode.vim'
+Bundle 'flazz/vim-colorschemes'
 
-colorscheme zenburn
+colorscheme grb256
 
 syntax on
 filetype plugin indent on
