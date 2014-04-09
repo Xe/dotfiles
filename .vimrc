@@ -15,6 +15,8 @@ Bundle 'chilicuil/vim-sprunge'
 Bundle 'itchyny/calendar.vim'
 Bundle 'jimenezrick/vimerl'
 Bundle 'Glench/Vim-Jinja2-Syntax'
+Bundle 'tpope/timl'
+Bundle 'sjl/tslime2.vim'
 
 colorscheme zenburn
 
