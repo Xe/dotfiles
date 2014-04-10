@@ -1,0 +1,127 @@
+# --------------- Direct Imap --------------- #
+
+set imap_user = "your-email@gmail.com"
+set imap_pass = "yourpassword"
+
+set smtp_url = "smtp://your-email@smtp.gmail.com:587/"
+set smtp_pass = "yourpassword"
+set from = "your-email@gmail.com"
+set realname = "Your Name"
+
+set folder = "imaps://imap.gmail.com:993"
+set spoolfile = "+INBOX"
+set postponed="+[Gmail]/Drafts"
+
+set header_cache=~/.mutt/cache/headers
+set message_cachedir=~/.mutt/cache/bodies
+set certificate_file=~/.mutt/certificates
+
+set move = no
+
+set mail_check = 120
+set imap_keepalive = 300
+unset imap_passive
+
+# sort/threading
+set sort     = threads
+set sort_aux = reverse-last-date-received
+set sort_re
+
+# look and feel
+set pager_index_lines = 8
+set pager_context     = 5
+set pager_stop
+set menu_scroll
+set smart_wrap
+set tilde
+unset markers
+
+# composing
+set fcc_attach
+unset mime_forward
+set forward_format = "Fwd: %s"
+set include
+set forward_quote
+
+ignore *                               # first, ignore all headers
+unignore from: to: cc: date: subject:  # then, show only these
+hdr_order from: to: cc: date: subject: # and in this order
+
+# ------------- Theme ------------- #
+
+# general-doesn't-fit stuff
+color normal     color188 color234
+color error      color115 color236
+color markers    color142 color238
+color tilde      color108 color234
+color status     color144 color237
+
+# index stuff
+color indicator  color108 color236
+color tree       color109 color234
+color index      color188 color234 ~A
+color index      color188 color234 ~N
+color index      color188 color234 ~O
+color index      color174 color234 ~F
+color index      color174 color234 ~D
+
+# header stuff
+color hdrdefault color223 color237
+color header     color223 color237 "^Subject"
+
+# gpg stuff
+color body       color188 color237 "^gpg: Good signature.*"
+color body       color115 color236 "^gpg: BAD signature.*"
+color body       color174 color237 "^gpg: Can't check signature.*"
+color body       color174 color237 "^-----BEGIN PGP SIGNED MESSAGE-----"
+color body       color174 color237 "^-----BEGIN PGP SIGNATURE-----"
+color body       color174 color237 "^-----END PGP SIGNED MESSAGE-----"
+color body       color174 color237 "^-----END PGP SIGNATURE-----"
+color body       color174 color237 "^Version: GnuPG.*"
+color body       color174 color237 "^Comment: .*"
+
+# url, email and web stuff
+color body       color174 color237 "(finger|ftp|http|https|news|telnet)://[^ >]*"
+color body       color174 color237 "<URL:[^ ]*>"
+color body       color174 color237 "www\\.[-.a-z0-9]+\\.[a-z][a-z][a-z]?([-_./~a-z0-9]+)?"
+color body       color174 color237 "mailto: *[^ ]+\(\\i?subject=[^ ]+\)?"
+color body       color174 color237 "[-a-z_0-9.%$]+@[-a-z_0-9.]+\\.[-a-z][-a-z]+"
+
+# misc body stuff
+color attachment color174 color237 #Add-ons to the message
+color signature  color223 color237
+
+# quote levels
+color quoted     color108 color237
+color quoted1    color116 color237
+color quoted2    color247 color237
+color quoted3    color108 color237
+color quoted4    color116 color237
+color quoted5    color247 color237
+color quoted6    color108 color237
+color quoted7    color116 color237
+color quoted8    color247 color237
+color quoted9    color108 color237
+
+# PGP #####################################################################
+set pgp_decode_command="gpg %?p?--passphrase-fd 0? --no-verbose --batch --output - %f"
+set pgp_verify_command="gpg --no-verbose --batch --output - --verify %s %f"
+set pgp_decrypt_command="gpg --passphrase-fd 0 --no-verbose --batch --output - %f"
+set pgp_sign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --detach-sign --textmode %?a?-u %a? %f"
+set pgp_clearsign_command="gpg --no-verbose --batch --output - --passphrase-fd 0 --armor --textmode --clearsign %?a?-u %a? %f"
+set pgp_encrypt_only_command="/usr/lib/mutt/pgpewrap gpg --batch --quiet --no-verbose --output - --encrypt --textmode --armor --always-trust --encrypt-to 0xYOURKEYN -- -r %r -- %f"
+set pgp_encrypt_sign_command="/usr/lib/mutt/pgpewrap gpg --passphrase-fd 0 --batch --quiet --no-verbose --textmode --output - --encrypt --sign %?a?-u %a? --armor --always-trust --encrypt-to 0xYOURKEYN -- -r %r -- %f"
+set pgp_import_command="pgpk -z -a %f"  # was "gpg --no-verbose --import -v %f"
+set pgp_export_command="pgpk -z -x %r"  # was "gpg --no-verbose --export --armor %r"
+set pgp_verify_key_command="gpg --no-verbose --batch --fingerprint --check-sigs %r"
+set pgp_list_pubring_command="gpg --no-verbose --batch --with-colons --list-keys %r"
+set pgp_list_secring_command="gpg --no-verbose --batch --with-colons --list-secret-keys %r"
+set pgp_autosign=yes
+set pgp_sign_as=0xYOURKEYN
+set pgp_timeout=1800
+set pgp_good_sign="`gettext -d gnupg -s 'Good signature from "' | tr -d '"'`"
+
+set query_command= "abook --mutt-query '%s'"
+macro index,pager A "<pipe-message>abook --add-email-quiet<return>" \
+             "add the sender address to abook"
+
