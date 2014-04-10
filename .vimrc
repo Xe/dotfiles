@@ -29,7 +29,9 @@ Bundle 'garbas/vim-snipmate'
 Bundle 'lyska/lolcode.vim'
 Bundle 'flazz/vim-colorschemes'
 
-colorscheme grb256
+set t_Co=256
+
+colorscheme zenburn
 
 syntax on
 filetype plugin indent on
