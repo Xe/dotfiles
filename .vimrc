@@ -46,14 +46,6 @@ set background=dark
 set autoread
 set mouse=a
 
-" Leader
-let mapleader = " "
-let g:mapleader = " "
-nmap <leader>w :w!<cr>
-
-" Highlight a line to read over later
-nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
-
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
@@ -108,8 +100,6 @@ function! AppendModeline()
     call append(line("$"), l:modeline)
 endfunction
 
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
-
 command WQ wq
 command Wq wq
 command W w
@@ -131,7 +121,6 @@ imap <F8> <C-O>:set paste<CR>
 imap <F9> <nop>
 set pastetoggle=<F9>
 map <F3> gg=G:w<cr>
-nmap <leader>sp gg=G:w<cr>
 
 " status line
 set ls=2
@@ -172,12 +161,6 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 
-nmap <leader>d :call DeleteTrailingWS()<cr>
-nmap <leader>rt :retab<cr>
-
-" Spellchecking
-map <leader>ss :setlocal spell!<cr>
-
 " Gist
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
@@ -187,8 +170,21 @@ let g:gist_post_private = 1
 
 " Airline
 let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+let g:airline_powerline_fonts = 0
 
+" Leader
+let mapleader = " "
+let g:mapleader = " "
+
+" Highlight a line to read over later
+nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
+nmap <leader>w :w!<cr>
+nmap <leader>d :call DeleteTrailingWS()<cr>
+nmap <leader>rt :retab<cr>
 nmap <leader>g :Gist<cr>
+nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+nmap <leader>sp gg=G:w<cr>
 
+" Spellchecking
+map <leader>ss :setlocal spell!<cr>
 
