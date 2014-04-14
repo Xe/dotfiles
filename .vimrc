@@ -2,6 +2,7 @@ set nocompatible
 set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
+<<<<<<< HEAD
 Plugin 'gmarik/vundle'
 Plugin 'bling/vim-airline'
 Plugin 'mattn/webapi-vim'
@@ -28,6 +29,34 @@ Plugin 'honza/vim-snippets'
 Plugin 'garbas/vim-snipmate'
 Plugin 'lyska/lolcode.vim'
 Plugin 'flazz/vim-colorschemes'
+=======
+Bundle 'gmarik/vundle'
+Bundle 'bling/vim-airline'
+Bundle 'mattn/webapi-vim'
+Bundle 'mattn/gist-vim'
+Bundle 'airblade/vim-gitgutter'
+Bundle 'kien/rainbow_parentheses.vim'
+Bundle 'tmhedberg/SimpylFold'
+Bundle 'nathanaelkane/vim-indent-guides'
+Bundle 'scrooloose/nerdtree'
+Bundle 'chilicuil/vim-sprunge'
+Bundle 'itchyny/calendar.vim'
+Bundle 'jimenezrick/vimerl'
+Bundle 'Glench/Vim-Jinja2-Syntax'
+Bundle 'tpope/timl'
+Bundle 'sjl/tslime2.vim'
+Bundle 'jceb/vim-orgmode'
+Bundle 'scrooloose/syntastic'
+Bundle 'kien/ctrlp.vim'
+Bundle 'Lokaltog/vim-easymotion'
+Bundle 'tpope/vim-fugitive'
+Bundle 'MarcWeber/vim-addon-mw-utils'
+Bundle 'tomtom/tlib_vim'
+Bundle 'honza/vim-snippets'
+Bundle 'garbas/vim-snipmate'
+Bundle 'lyska/lolcode.vim'
+Bundle 'flazz/vim-colorschemes'
+Bundle 'elixir-lang/vim-elixir'
 
 set t_Co=256
 
