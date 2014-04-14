@@ -67,6 +67,9 @@ autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 " Lolcode is special
 au Filetype lolcode setl et ts=4 sw=4
 
+" So is Elixir
+au Filetype elixir setl et ts=2 sw=2
+
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
 au Filetype mail let &colorcolumn="70,75"
