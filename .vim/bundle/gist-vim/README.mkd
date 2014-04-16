@@ -211,14 +211,22 @@ Now restart Vim and run `:BundleInstall`.
 
 ## Setup:
 
-This plugin uses GitHub API v3. Setting value is stored in `~/.gist-vim`.
-gist-vim have two ways to access APIs.
+This plugin supports both basic and two-factor authentication using GitHub
+API v3. The plugin stores its credentials in `~/.gist-vim`.
 
-First, you need to set your Github username in global git config:
+First, you need to set your GitHub username in git's global configuration:
 
-    $ git config --global github.user Username
+    $ git config --global github.user <username>
 
-Then, gist.vim will ask for your password to create an authorization when you
-first use it.  The password is not stored and only the OAuth access token will
-be kept for later use.  You can revoke the token at any time from the list of
-["Authorized applications" on GitHub's "Account Settings" page](https://github.com/settings/applications).
+Then gist-vim will ask for your password in order to create an access
+token. If you have two-factor authentication enabled, gist-vim will also
+prompt you to enter the two-factor key you receive.
+
+Whichever type of authentication you use, your GitHub password will not be
+stored, only a OAuth access token produced specifically for gist-vim. The
+token is stored in `~/.gist-vim`. If you stop using the plugin, you can
+easily remove this file. To revoke the associated  GitHub token, go to the
+list of ["Authorized applications" on GitHub's "Account Settings"
+page][uas].
+
+[uas]: https://github.com/settings/applications
