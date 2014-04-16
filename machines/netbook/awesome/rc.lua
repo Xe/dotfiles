@@ -72,7 +72,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "irc", "web", "skype", "other", "admin" }, s, layouts[1])
+    tags[s] = awful.tag({ "irc", "web", "admin", "skype", "email", "other" }, s, layouts[1])
 end
 -- }}}
 
@@ -368,6 +368,15 @@ client.add_signal("manage", function (c, startup)
         end
     end
 end)
+
+awful.util.spawn_with_shell("compton &")
+awful.util.spawn_with_shell("xfce4-power-manager &")
+awful.util.spawn_with_shell("synclient VertEdgeScroll=1 &")
+awful.util.spawn_with_shell("synclient TapButton=1 &")
+awful.util.spawn_with_shell("nitrogen --restore &")
+awful.util.spawn_with_shell("eval $(gnome-keyring-daemon -s --components=pkcs11,secrets,ssh,gpg) &")
+awful.util.spawn_with_shell("mpd &")
+awful.util.spawn_with_shell("xmodmap -e \"pointer = 1 2 3 5 4\" &")
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
