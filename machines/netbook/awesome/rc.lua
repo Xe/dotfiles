@@ -72,7 +72,7 @@ layouts =
 tags = {}
 for s = 1, screen.count() do
     -- Each screen has its own tag table.
-    tags[s] = awful.tag({ "irc", "web", "admin", "remote", "skype", "email", "other" }, s, layouts[1])
+    tags[s] = awful.tag({ "(ﾉ", "◕", "ヮ", "◕", ")ﾉ", "*:", "･ﾟ", "✧" }, s, layouts[1])
 end
 -- }}}
 
