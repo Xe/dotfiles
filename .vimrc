@@ -34,7 +34,7 @@ Plugin 'vivien/vim-addon-linux-coding-style'
 
 set t_Co=256
 
-colorscheme zenburn
+colorscheme solarized
 
 syntax on
 filetype plugin indent on
