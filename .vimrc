@@ -30,6 +30,7 @@ Plugin 'garbas/vim-snipmate'
 Plugin 'lyska/lolcode.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'elixir-lang/vim-elixir'
+Plugin 'vivien/vim-addon-linux-coding-style'
 
 set t_Co=256
 
