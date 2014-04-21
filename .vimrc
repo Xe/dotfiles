@@ -32,6 +32,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'vivien/vim-addon-linux-coding-style'
 Plugin 'wting/rust.vim'
+Plugin 'kien/rainbow_parentheses.vim'
 
 set t_Co=256
 
@@ -194,4 +195,24 @@ nmap <leader>sp gg=G:w<cr>
 
 " Spellchecking
 map <leader>ss :setlocal spell!<cr>
+
+" Rainbow Parens
+let g:rbpt_colorpairs = [
+    \ ['brown',       'RoyalBlue3'],
+    \ ['Darkblue',    'SeaGreen3'],
+    \ ['darkgray',    'DarkOrchid3'],
+    \ ['darkgreen',   'firebrick3'],
+    \ ['darkcyan',    'RoyalBlue3'],
+    \ ['darkred',     'SeaGreen3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['brown',       'firebrick3'],
+    \ ['gray',        'RoyalBlue3'],
+    \ ['Darkblue',    'firebrick3'],
+    \ ['darkmagenta', 'DarkOrchid3'],
+    \ ['darkgreen',   'RoyalBlue3'],
+    \ ['darkcyan',    'SeaGreen3'],
+    \ ['darkred',     'DarkOrchid3'],
+    \ ]
+
+let g:rbpt_max = 14
 
