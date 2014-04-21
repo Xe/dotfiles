@@ -31,6 +31,7 @@ Plugin 'lyska/lolcode.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'vivien/vim-addon-linux-coding-style'
+Plugin 'wting/rust.vim'
 
 set t_Co=256
 
