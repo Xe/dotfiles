@@ -34,6 +34,7 @@ Plugin 'vivien/vim-addon-linux-coding-style'
 Plugin 'wting/rust.vim'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tpope/vim-eunuch'
+Plugin 'jaxbot/github-issues.vim'
 
 set t_Co=256
 
