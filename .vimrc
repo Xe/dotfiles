@@ -33,6 +33,7 @@ Plugin 'elixir-lang/vim-elixir'
 Plugin 'vivien/vim-addon-linux-coding-style'
 Plugin 'wting/rust.vim'
 Plugin 'kien/rainbow_parentheses.vim'
+Plugin 'tpope/vim-eunuch'
 
 set t_Co=256
 
