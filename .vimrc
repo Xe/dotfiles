@@ -36,6 +36,7 @@ Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tpope/vim-eunuch'
 Plugin 'jaxbot/github-issues.vim'
 Plugin 'Valloric/YouCompleteMe'
+Plugin 'FredKSchott/CoVim'
 
 set t_Co=256
 
