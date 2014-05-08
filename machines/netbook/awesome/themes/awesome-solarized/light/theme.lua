@@ -31,7 +31,7 @@ theme.colors.green   = "#859900"
 -- }}}
 
 -- {{{ Styles
-theme.font      = "ubuntu 9"
+theme.font      = "Anonymous Pro for Powerline 8"
 
 -- {{{ Colors
 theme.fg_normal  = theme.colors.base02
