@@ -72,6 +72,9 @@ au Filetype lolcode setl et ts=4 sw=4
 " So is Elixir
 au Filetype elixir setl et ts=2 sw=2
 
+" Make Lua have ruby spacing for reading
+au Filetype lua setl et ts=2 sw=2
+
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
 au Filetype mail let &colorcolumn="70,75"
