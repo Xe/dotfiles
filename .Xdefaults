@@ -1,4 +1,4 @@
-xterm*customization: -color
+xterm*customization: -256color
 xterm*termName: xterm-256color
 xterm*VT100.geometry: 107x34
 xterm*faceName: GohuFont:pixelsize=12
@@ -6,7 +6,7 @@ xterm*bellIsUrgent: true
 xterm*visualBell: false
 xterm*borderWidth: 0
 xterm*borderLess: true
-xterm*scaleHeight: 0.999
+xterm*scaleHeight: 1
 xterm*metaSendsEscape: true
 
 xterm*background: #313131
