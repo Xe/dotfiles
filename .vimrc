@@ -31,6 +31,7 @@ Plugin 'jaxbot/github-issues.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/vimwiki'
 Plugin 'teranex/vimwiki-tasks'
+Plugin 'leafo/moonscript-vim'
 
 set t_Co=256
 
