@@ -4,7 +4,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#rc()
 
 Plugin 'gmarik/vundle'
-Plugin 'bling/vim-airline'
+"Plugin 'bling/vim-airline'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
 Plugin 'airblade/vim-gitgutter'
@@ -20,7 +20,7 @@ Plugin 'scrooloose/syntastic'
 Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'MarcWeber/vim-addon-mw-utils'
-Plugin 'lyska/lolcode.vim'
+Plugin 'Xe/lolcode.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'elixir-lang/vim-elixir'
 Plugin 'vivien/vim-addon-linux-coding-style'
@@ -30,12 +30,11 @@ Plugin 'tpope/vim-eunuch'
 Plugin 'jaxbot/github-issues.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/vimwiki'
-Plugin 'teranex/vimwiki-tasks'
 Plugin 'leafo/moonscript-vim'
 
 set t_Co=256
 
-colorscheme solarized
+colorscheme zenburn
 
 syntax on
 filetype plugin indent on

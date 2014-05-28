@@ -1,7 +1,7 @@
 xterm*customization: -256color
-xterm*termName: xterm-256color
-xterm*VT100.geometry: 107x34
-xterm*faceName: GohuFont:pixelsize=12
+xterm*termName: xterm-unicode-256color
+*.geometry: 107x34
+*faceName: GohuFont:pixelsize=12
 xterm*bellIsUrgent: true
 xterm*visualBell: false
 xterm*borderWidth: 0
@@ -9,7 +9,7 @@ xterm*borderLess: true
 xterm*scaleHeight: 1
 xterm*metaSendsEscape: true
 
-xterm*background: #313131
+!xterm*background: #313131
 
 !allow selecting email/url by double click
 xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
@@ -20,31 +20,58 @@ xterm*locale: true
 xterm.utf8: true
 xterm*utf8Title: true
 
-!colors:
-!!scheme: pnevma
-!!*foreground: #696969
-!!*background: #282626
-!*foreground: #6F6767
-*foreground: #C3AE93
-!*background: #3A3636
-!*background: #322628
-*background: #2B2B29
-*color0: #363636
-*color8: #424242
-*color1: #C37561
-*color9: #D19485
-*color2: #A0A57E
-*color10: #B6B99D
-*color3: #D1A375
-*color11: #DEBC9C
-*color4: #7985A3
-*color12: #98A1B9
-*color5: #AB716D
-*color13: #BE918E
-*color6: #98B9B1
-*color14: #CBE6CB
-*color7: #D0D0D0
-*color15: #E6E6E6
+#define S_yellow        #b58900
+#define S_orange        #cb4b16
+#define S_red           #dc322f
+#define S_magenta       #d33682
+#define S_violet        #6c71c4
+#define S_blue          #268bd2
+#define S_cyan          #2aa198
+#define S_green         #859900
+
+#define S_base03        #fdf6e3
+#define S_base02        #eee8d5
+#define S_base01        #93a1a1
+#define S_base00        #839496
+#define S_base0         #657b83
+#define S_base1         #586e75
+#define S_base2         #073642
+#define S_base3         #002b36
+
+*background:              S_base03
+*foreground:              S_base0
+*fading:                  40
+*fadeColor:               S_base03
+*cursorColor:             S_base1
+*pointerColorBackground:  S_base01
+*pointerColorForeground:  S_base1
+
+*color0:                  S_base02
+*color1:                  S_red
+*color2:                  S_green
+*color3:                  S_yellow
+*color4:                  S_blue
+*color5:                  S_magenta
+*color6:                  S_cyan
+*color7:                  S_base2
+*color9:                  S_orange
+*color8:                  S_base03
+*color10:                 S_base01
+*color11:                 S_base00
+*color12:                 S_base0
+*color13:                 S_violet
+*color14:                 S_base1
+*color15:                 S_base3
+
+urxvt.font:             xft: Monospace:autohint=true:antialias=true:size=10
+urxvt.tintColor:        white
+urxvt.pointerColor:     green
+urxvt.pointerColor2:    white
+
+URxvt.intensityStyles: false
+
+URxvt.cursorBlink: true
+URxvt.scrollBar: false
 
 ! font settings --------------------------------------------------------------
 
