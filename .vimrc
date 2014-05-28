@@ -1,9 +1,9 @@
 filetype off
 set nocompatible
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+set rtp+=~/.vim/bundle/Vundle.vim
+call vundle#begin()
 
-Plugin 'gmarik/vundle'
+Plugin 'gmarik/Vundle.vim'
 "Plugin 'bling/vim-airline'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
@@ -23,18 +23,18 @@ Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Xe/lolcode.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'elixir-lang/vim-elixir'
-Plugin 'vivien/vim-addon-linux-coding-style'
 Plugin 'wting/rust.vim'
-Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tpope/vim-eunuch'
 Plugin 'jaxbot/github-issues.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/vimwiki'
 Plugin 'leafo/moonscript-vim'
 
+call vundle#end()
+
 set t_Co=256
 
-colorscheme zenburn
+colorscheme solarized
 
 syntax on
 filetype plugin indent on
@@ -60,7 +60,6 @@ set ai
 au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set cindent
 au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set tabstop=8
 au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
-au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set colorcolumn=120
 set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
 " Other language specific hacks
