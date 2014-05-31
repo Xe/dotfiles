@@ -4,7 +4,7 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-"Plugin 'bling/vim-airline'
+Plugin 'bling/vim-airline'
 Plugin 'mattn/webapi-vim'
 Plugin 'mattn/gist-vim'
 Plugin 'airblade/vim-gitgutter'
@@ -17,7 +17,6 @@ Plugin 'itchyny/calendar.vim'
 Plugin 'jimenezrick/vimerl'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'scrooloose/syntastic'
-Plugin 'kien/ctrlp.vim'
 Plugin 'tpope/vim-fugitive'
 Plugin 'MarcWeber/vim-addon-mw-utils'
 Plugin 'Xe/lolcode.vim'
@@ -29,12 +28,14 @@ Plugin 'jaxbot/github-issues.vim'
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/vimwiki'
 Plugin 'leafo/moonscript-vim'
+Plugin 'Xe/vim-licenses'
+Plugin 'pksunkara/vim-dasm'
 
 call vundle#end()
 
 set t_Co=256
 
-colorscheme solarized
+colorscheme zenburn
 
 syntax on
 filetype plugin indent on
@@ -177,8 +178,8 @@ let g:gist_open_browser_after_post = 1
 let g:gist_post_private = 1
 
 " Airline
-let g:airline#extensions#tabline#enabled = 1
-let g:airline_powerline_fonts = 1
+"let g:airline#extensions#tabline#enabled = 1
+let g:airline_powerline_fonts = 0
 
 " Leader
 let mapleader = " "
@@ -220,4 +221,7 @@ let g:rbpt_colorpairs = [
     \ ]
 
 let g:rbpt_max = 14
+
+" License
+let g:licenses_authors_name = 'Sam Dodrill <shadow.h511@gmail.com>'
 
