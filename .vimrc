@@ -49,6 +49,8 @@ set number
 set background=dark
 set autoread
 set mouse=a
+set showcmd             " Show commands on the right as they're being typed
+set selection=exclusive " Don't include cursor in visual selections
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
