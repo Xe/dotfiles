@@ -1,78 +1,3 @@
-xterm*customization: -256color
-xterm*termName: xterm-unicode-256color
-*.geometry: 107x34
-*faceName: GohuFont:pixelsize=12
-xterm*bellIsUrgent: true
-xterm*visualBell: false
-xterm*borderWidth: 0
-xterm*borderLess: true
-xterm*scaleHeight: 1
-xterm*metaSendsEscape: true
-
-!xterm*background: #313131
-
-!allow selecting email/url by double click
-xterm*charClass: 33:48,37-38:48,45-47:48,64:48,58:48,126:48,61:48,63:48,43:48,35:48
-
-xterm.title: Terminal
-
-xterm*locale: true
-xterm.utf8: true
-xterm*utf8Title: true
-
-#define S_yellow        #b58900
-#define S_orange        #cb4b16
-#define S_red           #dc322f
-#define S_magenta       #d33682
-#define S_violet        #6c71c4
-#define S_blue          #268bd2
-#define S_cyan          #2aa198
-#define S_green         #859900
-
-#define S_base03        #fdf6e3
-#define S_base02        #eee8d5
-#define S_base01        #93a1a1
-#define S_base00        #839496
-#define S_base0         #657b83
-#define S_base1         #586e75
-#define S_base2         #073642
-#define S_base3         #002b36
-
-*background:              S_base03
-*foreground:              S_base0
-*fading:                  40
-*fadeColor:               S_base03
-*cursorColor:             S_base1
-*pointerColorBackground:  S_base01
-*pointerColorForeground:  S_base1
-
-*color0:                  S_base02
-*color1:                  S_red
-*color2:                  S_green
-*color3:                  S_yellow
-*color4:                  S_blue
-*color5:                  S_magenta
-*color6:                  S_cyan
-*color7:                  S_base2
-*color9:                  S_orange
-*color8:                  S_base03
-*color10:                 S_base01
-*color11:                 S_base00
-*color12:                 S_base0
-*color13:                 S_violet
-*color14:                 S_base1
-*color15:                 S_base3
-
-urxvt.font:             xft: Monospace:autohint=true:antialias=true:size=10
-urxvt.tintColor:        white
-urxvt.pointerColor:     green
-urxvt.pointerColor2:    white
-
-URxvt.intensityStyles: false
-
-URxvt.cursorBlink: true
-URxvt.scrollBar: false
-
 ! font settings --------------------------------------------------------------
 
 Xft.autohint: true
@@ -110,3 +35,65 @@ xscreensaver.Dialog.shadowThickness:    2
 xscreensaver.passwd.thermometer.foreground:  #101010
 xscreensaver.passwd.thermometer.background:  #2E2E2E
 xscreensaver.passwd.thermometer.width:       8
+
+tomization: -256color
+xterm*termName: xterm-unicode-256color
+*.geometry: 85x25
+*faceName: GohuFont:pixelsize=12
+xterm*bellIsUrgent: true
+xterm*visualBell: false
+xterm*borderWidth: 0
+xterm*borderLess: true
+xterm*scaleHeight: 1
+xterm*metaSendsEscape: true
+
+URxvt.scrollBar: False
+URxvt.scrollTtyOutput: False
+URxvt.scrollTtyKeypress: True
+URxvt.secondaryScroll: True
+URxvt.saveLines: 8000
+urxvt*font:xft:gohufont:size=8
+urxvt.internalBorder: 3
+
+URxvt.perl-ext-common: default,clipboard-osc
+
+*cursorBlink:      true
+*cursorOnTime:     500
+*cursorOffTime:    500
+
+*background: #1F1F22
+*foreground: #F3F3F3
+*cursorColor: #F3F3F3
+
+!black
+*color0:  #333333
+*color8:  #333333
+
+!red
+*color1:  #BF5C56
+*color9:  #BF5C56
+
+!green
+*color2:  #97B19C
+*color10: #97B19C
+
+!yellow
+*color3:  #D7BD8A
+*color11: #D7BD8A
+
+!blue
+*color4:  #545F72
+*color12: #545f72
+
+!magenta
+*color5:  #DD949A
+*color13: #DD949A
+
+!cyan
+*color6:  #BE926B
+*color14: #BE926B
+
+!white
+*color7:  #F4F4F2
+*color15: #F4F4F2
+
