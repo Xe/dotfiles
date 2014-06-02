@@ -1,0 +1,27 @@
+vt emulation
+------------
+
+* double-height support
+
+code & interface
+----------------
+
+* add a simple way to do multiplexing
+
+drawing
+-------
+* add diacritics support to xdraws()
+* make the font cache simpler
+
+bugs
+----
+
+* fix shift up/down (shift selection in emacs)
+* fix -e handling
+* remove DEC test sequence when appropriate
+
+misc
+----
+
+    $ grep -nE 'XXX|TODO' st.c
+
