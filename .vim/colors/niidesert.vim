@@ -319,6 +319,8 @@ if has('gui_running') || &t_Co == 88 || &t_Co == 256
     " }}}
 else
     " color terminal definitions
+    hi CursorLine    ctermbg=233   cterm=none
+    hi CursorColumn  ctermbg=235   cterm=none
     hi SpecialKey    ctermfg=darkgreen
     hi NonText       cterm=bold ctermfg=darkblue
     hi Directory     ctermfg=darkcyan
