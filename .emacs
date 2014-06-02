@@ -4,6 +4,12 @@
 
 (transient-mark-mode 1)
 
+(require 'package)
+(add-to-list 'package-archives
+	'("marmalade" . "http://marmalade-repo.org/packages/"))
+(add-to-list 'package-archives '("org" . "http://orgmode.org/elpa/") t)
+(package-initialize)
+
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
@@ -26,3 +32,6 @@
 
 ;; do it once at startup
 (th-org-update-agenda-file t)
+
+;; Solarized
+(load-theme 'solarized-dark t)
