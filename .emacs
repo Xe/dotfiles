@@ -4,9 +4,6 @@
 
 (transient-mark-mode 1)
 
-(add-to-list 'load-path "~/.emacs.d/evil") ; only without ELPA/el-get
-    (require 'evil)
-    (evil-mode 1)
 (require 'org)
 (define-key global-map "\C-cl" 'org-store-link)
 (define-key global-map "\C-ca" 'org-agenda)
