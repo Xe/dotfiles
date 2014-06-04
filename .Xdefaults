@@ -1,42 +1,4 @@
-! font settings --------------------------------------------------------------
-
-Xft.autohint: true
-Xft.antialias: true
-Xft.hinting: true
-Xft.hintstyle: hintslight
-!Xft.dpi: 96
-Xft.rgba: rgb
-Xft.lcdfilter: lcddefault
-
-! xscreensaver ---------------------------------------------------------------
-
-!font settings
-xscreensaver.Dialog.headingFont:        -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-xscreensaver.Dialog.bodyFont:           -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-xscreensaver.Dialog.labelFont:          -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-xscreensaver.Dialog.unameFont:          -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-xscreensaver.Dialog.buttonFont:         -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-xscreensaver.Dialog.dateFont:           -*-fixed-medium-r-*-*-12-*-*-*-*-*-*-*
-xscreensaver.passwd.passwdFont:         -*-fixed-medium-r-*-*-14-*-*-*-*-*-*-*
-!general dialog box (affects main hostname, username, password text)
-xscreensaver.Dialog.foreground:         #101010
-xscreensaver.Dialog.background:         #D8D8D8
-xscreensaver.Dialog.topShadowColor:     #D8D8D8
-xscreensaver.Dialog.bottomShadowColor:  #D8D8D8
-xscreensaver.Dialog.Button.foreground:  #101010
-xscreensaver.Dialog.Button.background:  #E5E5E5
-!username/password input box and date text colour
-xscreensaver.Dialog.text.foreground:    #101010
-xscreensaver.Dialog.text.background:    #E5E5E5
-xscreensaver.Dialog.internalBorderWidth:24
-xscreensaver.Dialog.borderWidth:        0
-xscreensaver.Dialog.shadowThickness:    2
-!timeout bar (background is actually determined by Dialog.text.background)
-xscreensaver.passwd.thermometer.foreground:  #101010
-xscreensaver.passwd.thermometer.background:  #2E2E2E
-xscreensaver.passwd.thermometer.width:       8
-
-tomization: -256color
+xterm*customization: -256color
 xterm*termName: xterm-unicode-256color
 *.geometry: 85x25
 *faceName: GohuFont:pixelsize=12
@@ -52,14 +14,29 @@ URxvt.scrollTtyOutput: False
 URxvt.scrollTtyKeypress: True
 URxvt.secondaryScroll: True
 URxvt.saveLines: 8000
-urxvt*font:xft:gohufont:size=8
-urxvt.internalBorder: 3
+urxvt*font:xft:gohufont:pixelsize=10:antialias=true
+urxvt.internalBorder: 0
 
-URxvt.perl-ext-common: default,clipboard-osc
+URxvt.iso14755: False
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+
+URxvt.perl-ext-common: default,clipboard
 
 *cursorBlink:      true
 *cursorOnTime:     500
 *cursorOffTime:    500
+
+URxvt.clipboard.copycmd:  xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
+URxvt.clipboard.autocopy: true
+
+!URxvt.foreground: #dcdccc
+!URxvt.background: #3f3f3f
+
+URxvt*colorUL: #c5f779
+URxvt*underlineColor: #c5f779
+
+!! Big Brother
 
 *background: #1F1F22
 *foreground: #F3F3F3
@@ -67,33 +44,33 @@ URxvt.perl-ext-common: default,clipboard-osc
 
 !black
 *color0:  #333333
-*color8:  #333333
+*color8:  #0C1212
 
 !red
 *color1:  #BF5C56
-*color9:  #BF5C56
+*color9:  #DF554E
 
 !green
 *color2:  #97B19C
-*color10: #97B19C
+*color10: #63D77A
 
 !yellow
 *color3:  #D7BD8A
-*color11: #D7BD8A
+*color11: #E1B357
 
 !blue
 *color4:  #545F72
-*color12: #545f72
+*color12: #2B4572
 
 !magenta
 *color5:  #DD949A
-*color13: #DD949A
+*color13: #D35DC7
 
 !cyan
-*color6:  #BE926B
-*color14: #BE926B
+*color6:  #6CC0B9
+*color14: #3EB7A3
 
 !white
 *color7:  #F4F4F2
-*color15: #F4F4F2
+*color15: #F3F3F3
 
