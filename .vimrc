@@ -30,27 +30,33 @@ Plugin 'vim-scripts/vimwiki'
 Plugin 'leafo/moonscript-vim'
 Plugin 'Xe/vim-licenses'
 Plugin 'pksunkara/vim-dasm'
+Plugin 'paranoida/vim-airlineish'
 
 call vundle#end()
 
 set t_Co=256
 
-colorscheme niiburn
+colorscheme twilight
 
 syntax on
 filetype plugin indent on
 
 set whichwrap=<,>,[,],b,
 set backspace=indent,eol,start
-set ruler
-set cursorline
 set cursorcolumn
+set cursorline
 set number
 set background=dark
 set autoread
 set mouse=a
 set showcmd             " Show commands on the right as they're being typed
 set selection=exclusive " Don't include cursor in visual selections
+
+hi CursorColumn term=none cterm=none ctermbg=234
+hi CursorLine term=none cterm=none ctermbg=236
+
+hi Folded term=none cterm=none ctermbg=232
+hi Comment term=bold cterm=bold ctermfg=green
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -148,7 +154,7 @@ endif
 
 " Color column definition
 let &colorcolumn="80"
-highlight ColorColumn ctermbg=52
+highlight ColorColumn ctermbg=58
 
 " resume at line
 autocmd BufReadPost *
@@ -182,6 +188,7 @@ let g:gist_post_private = 1
 " Airline
 "let g:airline#extensions#tabline#enabled = 1
 let g:airline_powerline_fonts = 0
+let g:airline_theme = 'airlineish'
 
 " Leader
 let mapleader = " "
@@ -206,20 +213,20 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
+    \ ['49',  '49'],
+    \ ['192', '19'],
+    \ ['190', '243'],
+    \ ['203', '22'],
+    \ ['170', '27'],
+    \ ['52',  '52'],
+    \ ['57',  '57'],
+    \ ['95',  '95'],
+    \ ['250', '250'],
+    \ ['17',  '17'],
+    \ ['208', '55'],
+    \ ['201', '23'],
+    \ ['25',  '25'],
+    \ ['94',  '94'],
     \ ]
 
 let g:rbpt_max = 14
