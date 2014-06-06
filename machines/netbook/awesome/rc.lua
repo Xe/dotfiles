@@ -38,7 +38,7 @@ end
 beautiful.init("/usr/share/awesome/themes/zenburn/theme.lua")
 
 -- This is used later as the default terminal and editor to run.
-terminal = "st"
+terminal = "urxvtc"
 editor = os.getenv("EDITOR") or "vim"
 editor_cmd = terminal .. "-e" .. editor
 
@@ -156,7 +156,7 @@ for s = 1, screen.count() do
                                           end, mytasklist.buttons)
 
     -- Create the wibox
-    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "19" })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = "18" })
     -- Add widgets to the wibox - order matters
     mywibox[s].widgets = {
         {
@@ -167,7 +167,7 @@ for s = 1, screen.count() do
         },
         mylayoutbox[s],
         mytextclock,
-        s == 1 and mysystray or nil,
+        mysystray,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
     }
@@ -360,6 +360,7 @@ client.add_signal("manage", function (c, startup)
     end
 end)
 
+awful.util.spawn_with_shell("urxvtd &")
 awful.util.spawn_with_shell("compton &")
 awful.util.spawn_with_shell("xfce4-power-manager &")
 awful.util.spawn_with_shell("xflux -z 98005 &")
