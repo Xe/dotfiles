@@ -30,6 +30,7 @@ Plugin 'vim-scripts/vimwiki'
 Plugin 'leafo/moonscript-vim'
 Plugin 'Xe/vim-licenses'
 Plugin 'pksunkara/vim-dasm'
+Plugin 'vim-scripts/fountain.vim'
 
 call vundle#end()
 
