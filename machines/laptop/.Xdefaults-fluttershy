@@ -1,0 +1,89 @@
+xterm*customization: -256color
+xterm*termName: xterm-unicode-256color
+*.geometry: 85x25
+*faceName: GohuFont:pixelsize=12
+xterm*bellIsUrgent: true
+xterm*visualBell: false
+xterm*borderWidth: 0
+xterm*borderLess: true
+xterm*scaleHeight: 1
+xterm*metaSendsEscape: true
+
+URxvt.scrollBar: False
+URxvt.scrollTtyOutput: False
+URxvt.scrollTtyKeypress: True
+URxvt.secondaryScroll: True
+URxvt.saveLines: 8000
+!URxvt.font: -*-terminus-medium-*-*-*-*-140-*-*-*-*-iso8859-1
+!URXvt.font: xft:Terminus:pixelsize=7
+urxvt*font:xft:gohufont:pixelsize=10:antialias=true
+urxvt.internalBorder: 0
+URxvt.urgentOnBell: true
+
+URxvt.iso14755: False
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+
+URxvt.perl-ext-common: default,selection-to-clipboard,matcher,tabbed
+URxvt.urlLauncher     : google-chrome
+URxvt.matcher.button  : 1
+
+*cursorBlink:      true
+*cursorOnTime:     500
+*cursorOffTime:    500
+
+URxvt.clipboard.copycmd:  xsel -ib
+URxvt.clipboard.pastecmd: xsel -ob
+URxvt.clipboard.autocopy: true
+
+URxvt.tabbed.tabbar-fg: 6
+URxvt.tabbed.tabbar-bg: 0
+URxvt.tabbed.tab-fg:    7
+URxvt.tabbed.tab-bg:    0
+URxvt.tabbed.new-button: false
+
+!URxvt.foreground: #dcdccc
+!URxvt.background: #3f3f3f
+
+URxvt.depth: 32
+
+URxvt*colorUL: #c5f779
+URxvt*underlineColor: #c5f779
+
+!! Big Brother
+
+*background: [90]#1F1F22
+*foreground: #F3F3F3
+*cursorColor: #F3F3F3
+
+!black
+*color8:  #333333
+*color0:  #0C1212
+
+!red
+*color1:  #BF5C56
+*color9:  #DF554E
+
+!green
+*color2:  #97B19C
+*color10: #63D77A
+
+!yellow
+*color3:  #D7BD8A
+*color11: #E1B357
+
+!blue
+*color4:  #545F72
+*color12: #2B4572
+
+!magenta
+*color5:  #DD949A
+*color13: #D35DC7
+
+!cyan
+*color6:  #6CC0B9
+*color14: #3EB7A3
+
+!white
+*color7:  #F4F4F2
+*color15: #F3F3F3
+
