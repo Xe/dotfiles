@@ -35,55 +35,52 @@ URxvt.clipboard.copycmd:  xsel -ib
 URxvt.clipboard.pastecmd: xsel -ob
 URxvt.clipboard.autocopy: true
 
-URxvt.tabbed.tabbar-fg: 6
+URxvt.tabbed.tabbar-fg: 2
 URxvt.tabbed.tabbar-bg: 0
-URxvt.tabbed.tab-fg:    7
+URxvt.tabbed.tab-fg:    11
 URxvt.tabbed.tab-bg:    0
 URxvt.tabbed.new-button: false
-
-!URxvt.foreground: #dcdccc
-!URxvt.background: #3f3f3f
 
 URxvt.depth: 32
 
 URxvt*colorUL: #c5f779
 URxvt*underlineColor: #c5f779
 
-!! Big Brother
+!! Game Boy
 
-*background: [90]#1F1F22
-*foreground: #F3F3F3
+*background: [90]#172706
+*foreground: #93b800
 *cursorColor: #F3F3F3
 
 !black
-*color8:  #333333
-*color0:  #0C1212
+*color0:  #021902
+*color8:  #0F380F
 
 !red
-*color1:  #BF5C56
-*color9:  #DF554E
+*color1:  #61221e
+*color9:  #b52727
 
 !green
-*color2:  #97B19C
-*color10: #63D77A
+*color10:  #427742
+*color2: #036230
 
 !yellow
-*color3:  #D7BD8A
-*color11: #E1B357
+*color3:  #6e870a
+*color11: #9BBC0F
 
 !blue
-*color4:  #545F72
-*color12: #2B4572
+*color4:  #313366
+*color12: #2b3bd9
 
 !magenta
-*color5:  #DD949A
-*color13: #D35DC7
+*color5:  #6d4b5b
+*color13: #a989a1
 
 !cyan
-*color6:  #6CC0B9
-*color14: #3EB7A3
+*color6:  #17777b
+*color14: #0f99bc
 
 !white
-*color7:  #F4F4F2
-*color15: #F3F3F3
+*color7:  #b9c391
+*color15: #e2ffb0
 
