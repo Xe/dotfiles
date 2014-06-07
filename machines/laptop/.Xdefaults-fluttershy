@@ -21,9 +21,9 @@ urxvt.internalBorder: 0
 URxvt.urgentOnBell: true
 
 URxvt.iso14755: False
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
+URxvt.keysym.C-S-v: perl:clipboard:paste
 
-URxvt.perl-ext-common: default,selection-to-clipboard,matcher,tabbed
+URxvt.perl-ext-common: default,clipboard,selection-to-clipboard,matcher,tabbed,selection-pastebin
 URxvt.urlLauncher     : google-chrome
 URxvt.matcher.button  : 1
 
@@ -40,6 +40,10 @@ URxvt.tabbed.tabbar-bg: 0
 URxvt.tabbed.tab-fg:    11
 URxvt.tabbed.tab-bg:    0
 URxvt.tabbed.new-button: false
+
+URxvt.keysym.C-M-e: perl:selection-pastebin:remote-pastebin
+URxvt.selection-pastebin.cmd: rsync -apP % ~/mount/mega/public/text/.
+URxvt.selection-pastebin.url: ~/mount/mega/public/text/%
 
 URxvt.depth: 32
 
