@@ -14,9 +14,6 @@ do
 	source $file
 done
 
-# Syntax highlighting like the fish shell
-source $HOME/code/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
-
 # My path
 export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
 

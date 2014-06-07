@@ -37,7 +37,7 @@ call vundle#end()
 
 set t_Co=256
 
-colorscheme twilight
+colorscheme desert
 
 syntax on
 filetype plugin indent on
