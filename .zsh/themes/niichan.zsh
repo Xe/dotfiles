@@ -18,7 +18,6 @@ fi
 
 PROMPT='$NAME$(collapse_pwd) $(git_prompt_info)
 %{$fg[cyan]%}❯ %{$reset_color%}'
-RPROMPT='[%?]'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[magenta]%}(git:%{$fg_bold[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
