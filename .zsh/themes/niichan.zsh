@@ -1,8 +1,26 @@
 # Based on the Robby Russel zsh theme, except better suited for my needs
 
-PROMPT='%m %{$fg_bold[magenta]%}%c$(git_prompt_info) %{$fg_bold[green]%}>%{$fg_bold[magenta]%}%{$fg_bold[magenta]%} % %{$reset_color%}'
+function collapse_pwd {
+    echo $(pwd | sed -e "s,^$HOME,~,")
+}
 
-ZSH_THEME_GIT_PROMPT_PREFIX=" (%{$fg_bold[green]%}"
+function if_machine {
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+    echo "$(hostname) "
+fi
+}
+
+NAME=""
+
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
+	NAME="$(hostname) "
+fi
+
+PROMPT='$NAME$(collapse_pwd) $(git_prompt_info)
+%{$fg[cyan]%}❯ %{$reset_color%}'
+RPROMPT='[%?]'
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[magenta]%}(git:%{$fg_bold[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[magenta]%}) %{$fg[yellow]%}X%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[magenta]%}) %{$fg[green]%}O%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[magenta]%}) %{$fg[yellow]%}✗%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[magenta]%}) %{$fg[green]%}✔%{$reset_color%}"
