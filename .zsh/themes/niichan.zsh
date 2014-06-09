@@ -16,7 +16,7 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	NAME="%m "
 fi
 
-PROMPT='$NAME$(collapse_pwd) $(git_prompt_info)
+PROMPT='$NAME%{$fg_bold[cyan]%}$(collapse_pwd)%{$reset_color%} $(git_prompt_info)
 %{$fg[cyan]%}❯%{$fg_bold[cyan]%}❯%{$fg_bold[green]%}❯ %{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[magenta]%}(git:%{$fg_bold[green]%}"
