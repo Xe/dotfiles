@@ -13,7 +13,7 @@ fi
 NAME=""
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-	NAME="$(hostname) "
+	NAME="%m "
 fi
 
 PROMPT='$NAME$(collapse_pwd) $(git_prompt_info)
