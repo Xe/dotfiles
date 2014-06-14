@@ -5,7 +5,7 @@
  *
  * font: see http://freedesktop.org/software/fontconfig/fontconfig-user.html
  */
-static char font[] = "GohuFont:pizelsize=10:antialias=false:autohint=false";
+static char font[] = "Monospace:size=10:antialias=false:autohint=false";
 static int borderpx = 0;
 static char shell[] = "/bin/sh";
 
@@ -18,7 +18,7 @@ float chscale = 1.0;
  *
  * More advanced example: " `'\"()[]{}"
  */
-static char worddelimiters[] = " ";
+static char worddelimiters[] = " `\"()[]{}";
 
 /* selection timeouts (in milliseconds) */
 static unsigned int doubleclicktimeout = 300;
