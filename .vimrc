@@ -32,6 +32,7 @@ Plugin 'Xe/vim-licenses'
 Plugin 'pksunkara/vim-dasm'
 Plugin 'vim-scripts/fountain.vim'
 Plugin 'paranoida/vim-airlineish'
+Plugin 'ekalinin/Dockerfile.vim'
 
 call vundle#end()
 
@@ -233,5 +234,5 @@ let g:rbpt_colorpairs = [
 let g:rbpt_max = 14
 
 " License
-let g:licenses_authors_name = 'Sam Dodrill <shadow.h511@gmail.com>'
+let g:licenses_authors_name = 'Sam Dodrill <xena@yolo-swag.com>'
 
