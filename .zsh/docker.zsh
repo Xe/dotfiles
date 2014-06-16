@@ -3,5 +3,5 @@ alias dockercleanimages="docker images -a -notrunc | grep none | awk '{print \$3
 alias dockerclean="dockercleancontainers && dockercleanimages"
 
 function anonubuntu {
-	docker run -it /bin/bash
+	docker run --rm -it ubuntu /bin/bash
 }
