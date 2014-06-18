@@ -5,7 +5,7 @@ function collapse_pwd {
 }
 
 function if_machine {
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [[ "$DOCKER" = "YES" ]]; then
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
     echo "$(hostname) "
 fi
 }
@@ -14,6 +14,11 @@ NAME=""
 
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 	NAME="%m "
+fi
+
+if [ -n "$DOCKER" ]
+then
+	NAME="docker:%m "
 fi
 
 PROMPT='$NAME%{$fg_bold[cyan]%}$(collapse_pwd)%{$reset_color%} $(git_prompt_info)
