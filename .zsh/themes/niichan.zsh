@@ -5,7 +5,7 @@ function collapse_pwd {
 }
 
 function if_machine {
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [ -n "$DOCKER" ]; then
+if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ] || [[ "$DOCKER" = "YES" ]]; then
     echo "$(hostname) "
 fi
 }
