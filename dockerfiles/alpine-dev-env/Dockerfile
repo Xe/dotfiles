@@ -1,4 +1,4 @@
-FROM xena/edge-testing
+FROM xena/alpine:edge-testing
 
 RUN apk add alpine-sdk cmake python python-dev
 
