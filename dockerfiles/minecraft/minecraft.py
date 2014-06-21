@@ -24,12 +24,12 @@
 
 import baker
 import docker
-import pprint
+import json
+import os
 import subprocess
 import time
 
 client = docker.Client()
-pp = pprint.PrettyPrinter()
 
 @baker.command
 def build():
@@ -143,14 +143,40 @@ def kill(prefix, purge=False):
         print "Data for %s removed" % prefix
 
 @baker.command
-def backup(prefix):
+def backup(prefix, mega=False):
     """
     Backup a minecraft server.
     """
 
-    subprocess.call(["bash", "scripts/backup.sh", "test"])
+    subprocess.call(["bash", "scripts/backup.sh", prefix])
+    name = "%s-%s.tgz" % (prefix, time.time())
+    os.rename("backup.tgz", name)
 
-    print "Backup for %s written." % prefix
+    print "Backup for %s written to %s." % (prefix, name)
+
+    if mega:
+        from mega import Mega
+
+        config = {}
+
+        with open(os.getenv("HOME") + "/.config/mineupload/conf.json", "r") as fin:
+            config = json.loads(fin.read())
+
+        username, password = config["u"], config["p"]
+
+        print "Logging into mega..."
+
+        mega = Mega({"verbose": True})
+        m = mega.login(username, password)
+
+        print "Uploading %s to mega..." % name
+
+        fpointer = m.upload(name)
+
+        print "URL: %s" % m.get_upload_link(fpointer)
+        print "Local copy removed"
+
+        os.remove(name)
 
 baker.run()
 

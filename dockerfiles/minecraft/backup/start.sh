@@ -1,4 +1,4 @@
 #!/bin/sh
 
-tar czf "/mnt/host/backup$(date)".tgz /minecraft/server/*
+tar czf "/mnt/host/backup".tgz /minecraft/server/*
 
