@@ -33,6 +33,7 @@ Plugin 'pksunkara/vim-dasm'
 Plugin 'vim-scripts/fountain.vim'
 Plugin 'paranoida/vim-airlineish'
 Plugin 'ekalinin/Dockerfile.vim'
+Plugin 'junegunn/goyo.vim'
 
 call vundle#end()
 
@@ -197,13 +198,14 @@ let mapleader = " "
 let g:mapleader = " "
 
 " Highlight a line to read over later
-nnoremap <silent> <Leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
+nnoremap <silent> <leader>l ml:execute 'match Search /\%'.line('.').'l/'<CR>
 nmap <leader>w :w!<cr>
 nmap <leader>d :call DeleteTrailingWS()<cr>
 nmap <leader>rt :retab<cr>
 nmap <leader>g :Gist<cr>
-nnoremap <silent> <Leader>ml :call AppendModeline()<CR>
+nnoremap <silent> <leader>ml :call AppendModeline()<CR>
 nmap <leader>sp gg=G:w<cr>
+nnoremap <leader>c :Goyo<CR>
 
 " Spellchecking
 map <leader>ss :setlocal spell!<cr>
@@ -235,4 +237,21 @@ let g:rbpt_max = 14
 
 " License
 let g:licenses_authors_name = 'Sam Dodrill <xena@yolo-swag.com>'
+
+" Goyo
+function! Goyo_before()
+  silent !tmux set status off
+  set noshowmode
+  set noshowcmd
+  " ...
+endfunction
+
+function! Goyo_after()
+  silent !tmux set status on
+  set showmode
+  set showcmd
+  " ...
+endfunction
+
+let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 
