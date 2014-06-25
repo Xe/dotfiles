@@ -1,0 +1,1 @@
+alias vi="busybox vi"
