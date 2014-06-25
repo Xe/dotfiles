@@ -34,6 +34,7 @@ Plugin 'vim-scripts/fountain.vim'
 Plugin 'paranoida/vim-airlineish'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'junegunn/goyo.vim'
+Plugin 'jnwhiteh/vim-golang'
 
 call vundle#end()
 
