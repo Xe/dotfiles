@@ -14,8 +14,10 @@ URxvt.scrollTtyOutput: False
 URxvt.scrollTtyKeypress: True
 URxvt.secondaryScroll: True
 URxvt.saveLines: 8000
-urxvt*font:xft:gohufont:pixelsize=10:antialias=true
+!urxvt*font:xft:gohufont:pixelsize=10:antialias=true
+URxvt.font: xft:Monospace:pixelsize=10:antialias=true:autohint=true
 urxvt.internalBorder: 0
+URxvt.letterspace: -10
 
 URxvt.iso14755: False
 URxvt.keysym.Shift-Control-V: perl:clipboard:paste
