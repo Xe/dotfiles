@@ -182,6 +182,9 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 
+" gofmt on save
+"autocmd BufWrite *.go :%!gofmt
+
 " Gist
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
@@ -207,6 +210,7 @@ nmap <leader>g :Gist<cr>
 nnoremap <silent> <leader>ml :call AppendModeline()<CR>
 nmap <leader>sp gg=G:w<cr>
 nnoremap <leader>c :Goyo<CR>
+nmap <leader>gf :%!gofmt<CR>
 
 " Spellchecking
 map <leader>ss :setlocal spell!<cr>
