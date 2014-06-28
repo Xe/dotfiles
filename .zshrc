@@ -19,5 +19,5 @@ export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 
 export EDITOR=vim
 
-eval "$(hub alias -s)"
+#eval "$(hub alias -s)"
 
