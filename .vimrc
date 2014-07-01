@@ -35,6 +35,9 @@ Plugin 'paranoida/vim-airlineish'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'jnwhiteh/vim-golang'
+Plugin 'Raimondi/delimitMate'
+Plugin 'nsf/gocode', {'rtp': 'vim/'}
+Plugin 'tpope/vim-surround'
 
 call vundle#end()
 
@@ -86,6 +89,9 @@ au Filetype elixir setl et ts=2 sw=2
 
 " Make Lua have ruby spacing for reading
 au Filetype lua setl et ts=2 sw=2
+
+" moonscript is cool too
+au Filetype moon setl et ts=2 sw=2
 
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
@@ -182,9 +188,6 @@ func! DeleteTrailingWS()
 endfunc
 autocmd BufWrite *.py :call DeleteTrailingWS()
 
-" gofmt on save
-"autocmd BufWrite *.go :%!gofmt
-
 " Gist
 let g:gist_clip_command = 'xclip -selection clipboard'
 let g:gist_show_privates = 1
@@ -259,4 +262,18 @@ function! Goyo_after()
 endfunction
 
 let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
+
+" Strip the newline from the end of a string
+function! Chomp(str)
+  return substitute(a:str, '\n$', '', '')
+endfunction
+
+" Find a file and pass it to cmd
+function! DmenuOpen(cmd)
+  let fname = Chomp(system("git ls-files | dmenu -i -l 20 -p " . a:cmd))
+  if empty(fname)
+    return
+  endif
+  execute a:cmd . " " . fname
+endfunction
 
