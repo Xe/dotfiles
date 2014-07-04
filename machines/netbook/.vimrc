@@ -4,12 +4,16 @@ set rtp+=~/.vim/bundle/Vundle.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
-Plugin 'mattn/webapi-vim'
-Plugin 'mattn/gist-vim'
+Plugin 'Shougo/unite.vim'
+Plugin 'tyru/open-browser.vim'
+Plugin 'lambdalisue/vim-gista'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'scrooloose/nerdtree'
+Plugin 'scrooloose/syntastic'
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/vimshell.vim'
 Plugin 'chilicuil/vim-sprunge'
 Plugin 'jimenezrick/vimerl'
 Plugin 'Glench/Vim-Jinja2-Syntax'
@@ -244,4 +248,7 @@ endfunction
 
 let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
 
+let g:gista#github_user = 'Xe'
 
+let g:vimshell_prompt_expr = 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
+let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
