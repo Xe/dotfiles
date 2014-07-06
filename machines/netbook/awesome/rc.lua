@@ -374,6 +374,7 @@ awful.util.spawn_with_shell("eval $(gnome-keyring-daemon -s --components=pkcs11,
 awful.util.spawn_with_shell("mpd &")
 awful.util.spawn_with_shell("xmodmap -e \"pointer = 1 2 3 5 4\" &")
 awful.util.spawn_with_shell("conky &")
+awful.util.spawn_with_shell("bash /home/xena/bin/startstuff.sh &")
 
 client.add_signal("focus", function(c) c.border_color = beautiful.border_focus end)
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
