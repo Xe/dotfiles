@@ -45,8 +45,6 @@ RUN bash setup.sh
 
 USER root
 
-RUN apt-get remove -qy cmake cmake-data dpkg-dev dtach dvtm python3 python3.4 python3.4-minimal
-
 EXPOSE 22
 
 CMD ["/sbin/my_init"]
