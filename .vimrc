@@ -8,7 +8,6 @@ Plugin 'bling/vim-airline'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/vimshell.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'kien/rainbow_parentheses.vim'
 Plugin 'tmhedberg/SimpylFold'
 Plugin 'chilicuil/vim-sprunge'
 Plugin 'Glench/Vim-Jinja2-Syntax'
@@ -26,12 +25,14 @@ Plugin 'junegunn/goyo.vim'
 Plugin 'jnwhiteh/vim-golang'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'tpope/vim-surround'
+Plugin 'morhetz/gruvbox'
 
 call vundle#end()
 
 set t_Co=256
 
-colorscheme desert
+"colorscheme desert
+colorscheme gruvbox
 
 syntax on
 filetype plugin indent on
@@ -47,11 +48,11 @@ set mouse=a
 set showcmd             " Show commands on the right as they're being typed
 set selection=exclusive " Don't include cursor in visual selections
 
-hi CursorColumn term=none cterm=none ctermbg=234
-hi CursorLine term=none cterm=none ctermbg=236
+"hi CursorColumn term=none cterm=none ctermbg=234
+"hi CursorLine term=none cterm=none ctermbg=236
 
-hi Folded term=none cterm=none ctermbg=232
-hi Comment term=bold cterm=bold ctermfg=green
+"hi Folded term=none cterm=none ctermbg=232
+"hi Comment term=bold cterm=bold ctermfg=green
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -205,31 +206,6 @@ nmap <leader>gf :%!gofmt<CR>
 
 " Spellchecking
 map <leader>ss :setlocal spell!<cr>
-
-" Rainbow Parens
-au VimEnter * RainbowParenthesesToggle
-au Syntax * RainbowParenthesesLoadRound
-au Syntax * RainbowParenthesesLoadSquare
-au Syntax * RainbowParenthesesLoadBraces
-
-let g:rbpt_colorpairs = [
-    \ ['49',  '49'],
-    \ ['192', '19'],
-    \ ['190', '243'],
-    \ ['203', '22'],
-    \ ['170', '27'],
-    \ ['52',  '52'],
-    \ ['57',  '57'],
-    \ ['95',  '95'],
-    \ ['250', '250'],
-    \ ['17',  '17'],
-    \ ['208', '55'],
-    \ ['201', '23'],
-    \ ['25',  '25'],
-    \ ['94',  '94'],
-    \ ]
-
-let g:rbpt_max = 14
 
 " License
 let g:licenses_authors_name = 'Sam Dodrill <xena@yolo-swag.com>'
