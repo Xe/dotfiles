@@ -1,3 +1,5 @@
+#!/bin/bash -x
+
 # Install oh my zsh
 wget --no-check-certificate https://github.com/robbyrussell/oh-my-zsh/raw/master/tools/install.sh -O - | bash
 
@@ -20,7 +22,11 @@ setlink .gitconfig
 # Setup vundle
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-vim +PluginInstall +qall
+head -n 31 ~/.vimrc >> ~/.vimrc-temp
+
+vim -u ~/.vimrc-temp +PluginInstall +qall
+
+rm ~/.vimrc-temp
 
 (cd ~/.vim/bundle/YouCompleteMe; ./install.sh --clang-completer)
 (cd ~/.vim/bundle/vimproc.vim; make)
