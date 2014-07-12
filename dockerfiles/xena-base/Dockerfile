@@ -43,6 +43,8 @@ RUN git clone https://github.com/Xe/dotfiles code/dotfiles
 ADD setup.sh /home/xena/
 RUN bash setup.sh
 
+RUN go get -u github.com/nsf/gocode
+
 USER root
 
 EXPOSE 22
