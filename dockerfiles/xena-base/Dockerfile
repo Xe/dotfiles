@@ -1,32 +1,53 @@
-FROM ubuntu:trusty
+FROM phusion/baseimage
 
 USER root
 
 # Package installs
 RUN apt-get update
-RUN apt-get upgrade -y
-RUN apt-get install -y zsh git python wget
-RUN apt-get install -y build-essential python-dev libssl-dev
-RUN apt-get install -y vim tmux dtach dvtm
-RUN apt-get install -y sudo
+RUN apt-get upgrade -qy
+RUN apt-get install -qy zsh git python wget
+RUN apt-get install -qy build-essential libssl-dev
+RUN apt-get install -qy vim tmux dtach dvtm
+RUN apt-get install -qy sudo
+RUN apt-get install -qy golang cmake
+RUN apt-get install -qy python-dev
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Make user account
 RUN useradd --create-home xena
 RUN echo 'root:screencast' | chpasswd
 RUN echo 'xena:user' | chpasswd
-USER xena
+
 ENV HOME /home/xena
 ENV DOCKER YES
+ENV LANGUAGE en_US
+ENV LC_ALL en_US.UTF-8
 ENV LANG en_us.utf-8
 ENV LC_CTYPE en_US.UTF-8
+
+# SSH
+RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
+
+USER xena
+
 WORKDIR /home/xena
 
 # SSH configuration
-ADD http://github.com/Xe.keys .ssh/authorized_keys
+ADD http://github.com/Xe.keys /home/xena/.ssh/authorized_keys
 
 # Dotfiles
 RUN mkdir code
 RUN git clone https://github.com/Xe/dotfiles code/dotfiles
 
-CMD ["/bin/zsh"]
+ADD setup.sh /home/xena/
+RUN bash setup.sh
+
+USER root
+
+RUN apt-get remove -qy cmake cmake-data dpkg-dev dtach dvtm python3 python3.4 python3.4-minimal
+
+EXPOSE 22
+
+CMD ["/sbin/my_init"]
 
