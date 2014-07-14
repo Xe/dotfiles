@@ -46,7 +46,6 @@ set background=dark
 set autoread
 set mouse=a
 set showcmd             " Show commands on the right as they're being typed
-set selection=exclusive " Don't include cursor in visual selections
 
 "hi CursorColumn term=none cterm=none ctermbg=234
 "hi CursorLine term=none cterm=none ctermbg=236
@@ -81,6 +80,9 @@ au Filetype lua setl et ts=2 sw=2
 
 " moonscript is cool too
 au Filetype moon setl et ts=2 sw=2
+
+" Go!
+au Filetype go setl ts=4 sw=4
 
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
