@@ -26,6 +26,7 @@ Plugin 'jnwhiteh/vim-golang'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'tpope/vim-surround'
 Plugin 'morhetz/gruvbox'
+Plugin 'vim-ruby/vim-ruby'
 
 call vundle#end()
 
