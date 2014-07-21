@@ -25,6 +25,7 @@ ENV LANGUAGE en_US
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_us.utf-8
 ENV LC_CTYPE en_US.UTF-8
+ENV GOPATH /home/xena/go
 
 # SSH
 RUN /etc/my_init.d/00_regen_ssh_host_keys.sh
@@ -46,6 +47,8 @@ RUN bash setup.sh
 RUN go get -u github.com/nsf/gocode
 
 USER root
+
+RUN chsh xena -s /bin/zsh
 
 EXPOSE 22
 
