@@ -1,0 +1,73 @@
+#cloud-config
+
+hostname: flitter
+
+coreos:
+  etcd:
+    # generate a new token for each unique cluster from https://discovery.etcd.io/new
+    #discovery: https://discovery.etcd.io/c7a58e4df4623e4f9166e88ada333e11
+    # multi-region and multi-cloud deployments need to use $public_ipv4
+    addr: $private_ipv4:4001
+    peer-addr: $private_ipv4:7001
+  fleet:
+    metadata: compute
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: docker-tcp.socket
+      command: start
+      content: |
+        [Unit]
+        Description=Docker Socket for Remote API
+
+        [Socket]
+        ListenStream=4243
+        Service=docker.service
+        BindIPv6Only=both
+
+        [Install]
+        WantedBy=sockets.target
+    - name: format-ephemeral.service
+      command: start
+      content: |
+        [Unit]
+        Description=Formats the ephemeral drive
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_coredocker
+        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_coredocker
+    - name: var-lib-docker.mount
+      command: start
+      content: |
+        [Unit]
+        Description=Mount ephemeral to /var/lib/docker
+        Requires=format-ephemeral.service
+        Before=docker.service
+        [Mount]
+        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_coredocker
+        Where=/var/lib/docker
+        Type=btrfs
+    - name: get-xena-base-devel.service
+      command: start
+      content: |
+        [Unit]
+        Description=Pull base devel image
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/docker pull xena/base-devel
+
+  update:
+    reboot-strategy: reboot
+    group: "alpha"
+
+users:
+  - name: xena
+    gecos: Xena Cadenza
+    groups:
+     - sudo
+     - docker
+    coreos-ssh-import-github: Xe
