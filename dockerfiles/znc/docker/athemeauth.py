@@ -43,14 +43,6 @@ class athemeauth(znc.Module):
         try:
             atheme.login(username, password)
 
-            privs = atheme.privs()
-
-            if "general:bncconnection" in privs:
-                pass
-            else:
-                auth.GetSocket().Write(":bnc.yolo-swag.com NOTICE * :*** Username %s does not have permissions.\r\n" % username)
-                return znc.CONTINUE
-
         except Fault:
             return znc.CONTINUE
 
@@ -90,7 +82,7 @@ class athemeauth(znc.Module):
             #They are going to want a network to talk on.
             user.AddNetwork("ShadowNET", s)
             network = user.FindNetwork("ShadowNET")
-            network.AddServer("irc.yolo-swag.com +6697")
+            network.AddServer("cyka.yolo-swag.com +6697")
             network.AddChan("#lobby", True)
             network.AddChan("#bnc", True)
             network.JoinChans()
