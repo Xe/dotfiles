@@ -29,36 +29,6 @@ coreos:
 
         [Install]
         WantedBy=sockets.target
-    - name: format-ephemeral.service
-      command: start
-      content: |
-        [Unit]
-        Description=Formats the ephemeral drive
-        [Service]
-        Type=oneshot
-        RemainAfterExit=yes
-        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_coredocker
-        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_coredocker
-    - name: var-lib-docker.mount
-      command: start
-      content: |
-        [Unit]
-        Description=Mount ephemeral to /var/lib/docker
-        Requires=format-ephemeral.service
-        Before=docker.service
-        [Mount]
-        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_coredocker
-        Where=/var/lib/docker
-        Type=btrfs
-    - name: get-xena-base-devel.service
-      command: start
-      content: |
-        [Unit]
-        Description=Pull base devel image
-
-        [Service]
-        Type=oneshot
-        ExecStart=/usr/bin/docker pull xena/base-devel
 
   update:
     reboot-strategy: reboot
