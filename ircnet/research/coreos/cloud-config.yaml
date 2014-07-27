@@ -31,17 +31,8 @@ coreos:
       command: restart
       content: |
         [Socket]
-        ListenStream=2222
+        ListenStream=22
         Accept=yes
-    - name: add-nse-alias.service
-      command: start
-      content: |
-        [Unit]
-        Description=Make an alias in the system
-
-        [Service]
-        Type=oneshot
-        ExecStart=/bin/bash -c 'echo function nse() { sudo nsenter --pid --uts --mount --ipc --net --target $(docker inspect --format="{{ .State.Pid }}" $1) } >> /etc/profile.d/nse-alias.sh'
 
 write_files:
   - path: /etc/ssh/sshd_config
@@ -55,6 +46,12 @@ write_files:
       PermitRootLogin no
       PasswordAuthentication no
       ChallengeResponseAuthentication no
+  - path: /etc/profile.d/ns-alias.sh
+    permissions: 644
+    content: |
+      function nse() {
+        sudo nsenter --pid --uts --mount --ipc --net --target $(docker inspect --format="{{ .State.Pid }}" $1)
+      }
 
 update:
   reboot-strategy: off
