@@ -1,0 +1,29 @@
+#cloud-config
+
+hostname: znc
+
+coreos:
+  units:
+    - name: bouncer.service
+      command: start
+      content: |
+        [Unit]
+        Description=ShadowNET BNC!
+        Requires=docker.service
+        Restart=always
+
+        [Service]
+        ExecStartPre=/usr/bin/docker pull xena/network-znc
+        ExecStart=/usr/bin/docker run -it -p 6667:6667 -p 6697:6697 -p 80:8080 --name bouncer xena/network-znc
+
+  update:
+    reboot-strategy: off
+    group: "alpha"
+
+users:
+  - name: xena
+    gecos: Xena Cadenza
+    groups:
+     - sudo
+     - docker
+    coreos-ssh-import-github: Xe
