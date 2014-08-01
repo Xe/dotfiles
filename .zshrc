@@ -1,7 +1,7 @@
 #Oh-my-zsh cruft
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="robbyrussell"
-DISABLE_AUTO_TITLE="false"
+DISABLE_AUTO_TITLE="true"
 plugins=(git python github git-extras virtualenv virtualenv-wrapper pip)
 
 # Load sourcefiles
