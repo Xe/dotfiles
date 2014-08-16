@@ -1,9 +1,11 @@
 function dokku {
 	if [ "$1" = "create" ]
 	then
-		if git remote add dokku dokku@dokku.xeserv.us:${PWD##*/}
+		appname=$(echo "print(elfs.GenName())" | lua -l elfs)
+		if git remote add dokku dokku@dokku.xeserv.us:$appname
 		then
 			echo "-----> Dokku remote added at xeserv.us"
+			echo "-----> Application name is $appname"
 		else
 			echo "!      Dokku remote not added! Do you already have a dokku remote?"
 			return
