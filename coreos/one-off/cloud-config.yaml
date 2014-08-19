@@ -1,7 +1,5 @@
 #cloud-config
 
-hostname: flitter
-
 coreos:
   etcd:
     # generate a new token for each unique cluster from https://discovery.etcd.io/new
@@ -29,6 +27,28 @@ coreos:
 
         [Install]
         WantedBy=sockets.target
+
+    - name: format-ephemeral.service
+      command: start
+      content: |
+        [Unit]
+        Description=Formats the ephemeral drive
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+    - name: var-lib-docker.mount
+      command: start
+      content: |
+        [Unit]
+        Description=Mount ephemeral to /var/lib/docker
+        Requires=format-ephemeral.service
+        Before=docker.service
+        [Mount]
+        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+        Where=/var/lib/docker
+        Type=btrfs
 
   update:
     reboot-strategy: reboot
