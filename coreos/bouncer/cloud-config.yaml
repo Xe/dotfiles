@@ -1,7 +1,5 @@
 #cloud-config
 
-hostname: znc
-
 coreos:
   units:
     - name: bouncer.service
@@ -15,6 +13,44 @@ coreos:
         [Service]
         ExecStartPre=/usr/bin/docker pull xena/network-znc
         ExecStart=/usr/bin/docker run -it -p 6667:6667 -p 6697:6697 -p 80:8080 --name bouncer xena/network-znc
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: docker-tcp.socket
+      command: start
+      content: |
+        [Unit]
+        Description=Docker Socket for Remote API
+
+        [Socket]
+        ListenStream=4243
+        Service=docker.service
+        BindIPv6Only=both
+
+        [Install]
+        WantedBy=sockets.target
+    - name: format-ephemeral.service
+      command: start
+      content: |
+        [Unit]
+        Description=Formats the ephemeral drive
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+    - name: var-lib-docker.mount
+      command: start
+      content: |
+        [Unit]
+        Description=Mount ephemeral to /var/lib/docker
+        Requires=format-ephemeral.service
+        Before=docker.service
+        [Mount]
+        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+        Where=/var/lib/docker
+        Type=btrfs
 
   update:
     reboot-strategy: off
