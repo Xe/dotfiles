@@ -22,11 +22,11 @@ Plugin 'vim-scripts/fountain.vim'
 Plugin 'paranoida/vim-airlineish'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'junegunn/goyo.vim'
-Plugin 'jnwhiteh/vim-golang'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'tpope/vim-surround'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-ruby/vim-ruby'
+Plugin 'fatih/vim-go'
 
 call vundle#end()
 
@@ -67,6 +67,26 @@ au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*
 au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
 set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
+command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
+function! s:RunShellCommand(cmdline)
+  echo a:cmdline
+  let expanded_cmdline = a:cmdline
+  for part in split(a:cmdline, ' ')
+     if part[0] =~ '\v[%#<]'
+        let expanded_part = fnameescape(expand(part))
+        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
+     endif
+  endfor
+  botright new
+  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
+  call setline(1, 'You entered:    ' . a:cmdline)
+  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
+  call setline(3,substitute(getline(2),'.','=','g'))
+  execute '$read !'. expanded_cmdline
+  setlocal nomodifiable
+  1
+endfunction
+
 " Other language specific hacks
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 
@@ -81,6 +101,7 @@ au Filetype lua setl et ts=2 sw=2
 
 " moonscript is cool too
 au Filetype moon setl et ts=2 sw=2
+au BufWrite moon call s:RunShellCommand('moonc -l')
 
 " Go!
 au Filetype go setl ts=4 sw=4
@@ -251,4 +272,3 @@ endfunction
 let g:vimshell_prompt_expr =
 	\ 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
 let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
-
