@@ -36,8 +36,8 @@ coreos:
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
-        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
+        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
     - name: var-lib-docker.mount
       command: start
       content: |
@@ -46,7 +46,7 @@ coreos:
         Requires=format-ephemeral.service
         Before=docker.service
         [Mount]
-        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
+        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_docker
         Where=/var/lib/docker
         Type=btrfs
 
@@ -60,16 +60,7 @@ coreos:
         RemainAfterExit=yes
         ExecStart=/bin/sh -c 'curl -O http://download.panamax.io/installer/pmx-installer-latest.zip && unzip pmx-installer-latest.zip -d /var/panamax'
         ExecStart=/bin/sh -c 'cd /var/panamax && ./coreos install --stable'
-        ExecStartPost=/bin/sh -c 'echo "Panamax installed and listening on port 3000"'
 
   update:
     reboot-strategy: reboot
     group: "alpha"
-
-users:
-  - name: xena
-    gecos: Xena Cadenza
-    groups:
-     - sudo
-     - docker
-    coreos-ssh-import-github: Xe

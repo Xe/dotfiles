@@ -12,6 +12,7 @@ gcutil addinstance --zone="us-central1-a" \
 	--persistent_boot_disk="true" \
 	--auto_delete_boot_disk="true" \
 	--metadata_from_file=user-data:cloud-config.yaml \
-	--tags devel \
+	--authorized_ssh_keys=core:~/.ssh/google_compute_engine.pub \
+	--tags panamax \
 	--service_account_scopes="https://www.googleapis.com/auth/devstorage.read_only" \
-	--disk="$1-docker,deviceName=xena-vm,mode=READ_WRITE" $1
+	--disk="$1-docker,deviceName=docker,mode=READ_WRITE" $1
