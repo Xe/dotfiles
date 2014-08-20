@@ -29,6 +29,10 @@ Run `./provision.sh` with the first argument as the hostname of the machine.
 The script will automatically provision a 50GB data drive for docker containers 
 as well as the machine Panamax will run on.
 
+```console
+$ ./provision.sh caml
+```
+
 In testing the install of Panamax takes about 15 minutes. If you want you can 
 monitor this install by ssh'ing into the machine as soon as you can and then 
 running `journalctl -u install-panamax.service -f`.
