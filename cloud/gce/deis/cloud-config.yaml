@@ -1,0 +1,117 @@
+#cloud-config
+
+coreos:
+  etcd:
+    addr: $private_ipv4:4001
+    peer-addr: $private_ipv4:7001
+  fleet:
+    metadata: compute
+  units:
+    - name: etcd.service
+      command: start
+    - name: fleet.service
+      command: start
+    - name: docker-tcp.socket
+      command: start
+      content: |
+        [Unit]
+        Description=Docker Socket for Remote API
+
+        [Socket]
+        ListenStream=4243
+        Service=docker.service
+        BindIPv6Only=both
+
+        [Install]
+        WantedBy=sockets.target
+
+    - name: format-ephemeral.service
+      command: start
+      content: |
+        [Unit]
+        Description=Formats the ephemeral drive
+        [Service]
+        Type=oneshot
+        RemainAfterExit=yes
+        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
+        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
+    - name: var-lib-docker.mount
+      command: start
+      content: |
+        [Unit]
+        Description=Mount ephemeral to /var/lib/docker
+        Requires=format-ephemeral.service
+        Before=docker.service
+        [Mount]
+        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_docker
+        Where=/var/lib/docker
+        Type=btrfs
+
+    - name: stop-update-engine.service
+      command: start
+      content: |
+        [Unit]
+        Description=stop update-engine
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/systemctl stop update-engine.service
+        ExecStartPost=/usr/bin/systemctl mask update-engine.service
+    - name: pull-deis.service
+      command: start
+      content: |
+        [Unit]
+        Description=Pulls Deis components from Docker Hub
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/docker pull deis/builder:latest
+        ExecStart=/usr/bin/docker pull deis/cache:latest
+        ExecStart=/usr/bin/docker pull deis/database:latest
+        ExecStart=/usr/bin/docker pull deis/controller:latest
+        ExecStart=/usr/bin/docker pull deis/logger:latest
+        ExecStart=/usr/bin/docker pull deis/registry:latest
+        ExecStart=/usr/bin/docker pull deis/router:latest
+
+write_files:
+  - path: /etc/deis-release
+    content: |
+      DEIS_RELEASE=latest
+  - path: /etc/motd
+    content: " \e[31m* *    \e[34m*   \e[32m*****    \e[39mddddd   eeeeeee iiiiiii   ssss\n\e[31m*   *  \e[34m* *  \e[32m*   *     \e[39md   d   e    e    i     s    s\n \e[31m* *  \e[34m***** \e[32m*****     \e[39md    d  e         i    s\n\e[32m*****  \e[31m* *    \e[34m*       \e[39md     d e         i     s\n\e[32m*   * \e[31m*   *  \e[34m* *      \e[39md     d eee       i      sss\n\e[32m*****  \e[31m* *  \e[34m*****     \e[39md     d e         i         s\n  \e[34m*   \e[32m*****  \e[31m* *      \e[39md    d  e         i          s\n \e[34m* *  \e[32m*   * \e[31m*   *     \e[39md   d   e    e    i    s    s\n\e[34m***** \e[32m*****  \e[31m* *     \e[39mddddd   eeeeeee iiiiiii  ssss\n\n\e[39mWelcome to Deis\t\t\tPowered by Core\e[38;5;45mO\e[38;5;206mS\e[39m\n"
+  - path: /etc/profile.d/nse-function.sh
+    permissions: '0755'
+    content: |
+      function nse() {
+        sudo nsenter --pid --uts --mount --ipc --net --target $(docker inspect --format="{{ .State.Pid }}" $1)
+      }
+  - path: /run/deis/bin/get_image
+    permissions: '0755'
+    content: |
+      #!/bin/bash
+      # usage: get_image <component_path>
+      IMAGE=`etcdctl get $1/image 2>/dev/null`
+
+      # if no image was set in etcd, we use the default plus the release string
+      if [ $? -ne 0 ]; then
+        RELEASE=`etcdctl get /deis/release 2>/dev/null`
+
+        # if no release was set in etcd, use the default provisioned with the server
+        if [ $? -ne 0 ]; then
+          source /etc/deis-release
+          RELEASE=$DEIS_RELEASE
+        fi
+
+        IMAGE=$1:$RELEASE
+      fi
+
+      # remove leading slash
+      echo ${IMAGE#/}
+
+users:
+  - name: xena
+    gecos: Xena Cadenza
+    groups:
+     - sudo
+     - docker
+    coreos-ssh-import-github: Xe
