@@ -22,9 +22,9 @@ then
 fi
 
 PROMPT='$NAME%{$fg_bold[cyan]%}$(collapse_pwd)%{$reset_color%} $(git_prompt_info)
-%{$fg[cyan]%}❯%{$fg_bold[cyan]%}❯%{$fg_bold[green]%}❯ %{$reset_color%}'
+%{$fg[cyan]%}-%{$fg_bold[cyan]%}-%{$fg_bold[green]%}> %{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[magenta]%}(git:%{$fg_bold[green]%}"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[magenta]%}) %{$fg[yellow]%}✗%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[magenta]%}) %{$fg[green]%}✔%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[magenta]%}) %{$fg[yellow]%}X%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[magenta]%}) %{$fg[green]%}O%{$reset_color%}"
