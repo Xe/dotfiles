@@ -56,8 +56,16 @@ coreos:
         Type=oneshot
         RemainAfterExit=yes
         ExecStart=/bin/sh -c 'curl -O http://download.panamax.io/installer/pmx-installer-latest.zip && unzip pmx-installer-latest.zip -d /var/panamax'
-        ExecStart=/bin/sh -c 'cd /var/panamax && ./coreos install --stable'
+        ExecStart=/bin/sh -c 'cd /var/panamax && ./coreos install --dev'
 
   update:
     reboot-strategy: reboot
     group: "alpha"
+
+users:
+- name: xena
+  gecos: Xena Cadenza
+  groups:
+  - sudo
+  - docker
+  coreos-ssh-import-github: Xe
