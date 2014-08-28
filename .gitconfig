@@ -1,8 +1,11 @@
 [user]
-    name = Sam Dodrill
-    email = xena@yolo-swag.com
+	name = Sam Dodrill
+	email = xena@yolo-swag.com
 [push]
-    default = tracking
+	default = tracking
 
 [github]
-    user = Xe
+	user = Xe
+
+[core]
+	compression = 0

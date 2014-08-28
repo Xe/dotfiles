@@ -27,6 +27,9 @@ Plugin 'tpope/vim-surround'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'fatih/vim-go'
+Plugin 'kana/vim-metarw'
+Plugin 'mattn/vim-metarw-etcd'
+Plugin 'mohitleo9/vim-fidget'
 
 call vundle#end()
 
