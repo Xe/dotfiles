@@ -30,6 +30,7 @@ Plugin 'fatih/vim-go'
 Plugin 'kana/vim-metarw'
 Plugin 'mattn/vim-metarw-etcd'
 Plugin 'mohitleo9/vim-fidget'
+Plugin 'Lyude/vim-systemd-syntax'
 
 call vundle#end()
 
