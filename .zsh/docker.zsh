@@ -9,3 +9,7 @@ function anonubuntu {
 function godevel {
 	docker run --rm -it -v /home/xena/go:/home/xena/go xena/base-devel /bin/zsh
 }
+
+if [ "$(uname)" = "Darwin" ]; then
+	export DOCKER_HOST=tcp://192.168.59.103:2375
+fi
