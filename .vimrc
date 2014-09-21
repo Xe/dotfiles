@@ -8,7 +8,7 @@ Plugin 'bling/vim-airline'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/vimshell.vim'
 Plugin 'airblade/vim-gitgutter'
-Plugin 'tmhedberg/SimpylFold'
+"Plugin 'tmhedberg/SimpylFold'
 Plugin 'chilicuil/vim-sprunge'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'scrooloose/syntastic'
@@ -31,6 +31,7 @@ Plugin 'kana/vim-metarw'
 Plugin 'mattn/vim-metarw-etcd'
 Plugin 'mohitleo9/vim-fidget'
 Plugin 'Lyude/vim-systemd-syntax'
+Plugin 'Xe/vim-markdownfmt'
 
 call vundle#end()
 

@@ -8,6 +8,8 @@ plugins=(git python github git-extras virtualenv virtualenv-wrapper pip)
 source $ZSH/oh-my-zsh.sh
 source $HOME/.profile
 
+export DOKKU_CONTROLLER='dokku.xeserv.us'
+
 # Load extended ZSH aliases and completions
 for file in ~/.zsh/*
 do
@@ -24,5 +26,3 @@ export EDITOR=vim
 
 ### Added by the Heroku Toolbelt
 export PATH="/usr/local/heroku/bin:$PATH"
-
-export DOKKU_CONTROLLER='dokku.xeserv.us'

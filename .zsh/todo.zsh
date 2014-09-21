@@ -1,1 +1,1 @@
-alias clear='clear; todo list'
+alias clear='clear; todo list -n'

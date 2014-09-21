@@ -59,13 +59,6 @@ coreos:
         ExecStart=/usr/bin/systemctl stop update-engine.service
         ExecStartPost=/usr/bin/systemctl mask update-engine.service
 
-    - name: sshd.socket
-      command: restart
-      content: |
-        [Socket]
-        ListenStream=2222
-        Accept=yes
-
 users:
   - name: xena
     gecos: Xena Cadenza
