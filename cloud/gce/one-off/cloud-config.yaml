@@ -16,11 +16,12 @@ coreos:
       content: |
         [Unit]
         Description=Formats the ephemeral drive
+        ConditionPathExists=!/etc/gce-formatted
         [Service]
         Type=oneshot
         RemainAfterExit=yes
-        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
         ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
+        ExecStart=/bin/touch /etc/gce-formatted
 
     - name: var-lib-docker.mount
       command: start
@@ -33,17 +34,6 @@ coreos:
         What=/dev/disk/by-id/scsi-0Google_PersistentDisk_docker
         Where=/var/lib/docker
         Type=btrfs
-
-    - name: stop-update-engine.service
-      command: start
-      content: |
-        [Unit]
-        Description=stop update-engine
-
-        [Service]
-        Type=oneshot
-        ExecStart=/usr/bin/systemctl stop update-engine.service
-        ExecStartPost=/usr/bin/systemctl mask update-engine.service
 
     - name: docker-tcp.socket
       command: start
