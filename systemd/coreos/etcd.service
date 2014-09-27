@@ -1,0 +1,13 @@
+[Unit]
+Description=etcd
+
+[Service]
+PermissionsStartOnly=true
+Environment=ETCD_DATA_DIR=/var/lib/etcd
+Environment=ETCD_NAME=%m
+ExecStart=/usr/bin/etcd 
+Restart=always
+RestartSec=10s
+
+[Install]
+WantedBy=multi-user.target

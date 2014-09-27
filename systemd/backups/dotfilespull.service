@@ -1,0 +1,7 @@
+[Unit]
+Description=Update dotfiles
+
+[Service]
+Nice=19
+User=xena
+ExecStart=/usr/bin/sh -c 'cd /home/xena/code/dotfiles; git pull'

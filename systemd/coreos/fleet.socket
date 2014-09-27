@@ -1,0 +1,5 @@
+[Socket]
+ListenStream=/var/run/fleet.sock
+
+[Install]
+WantedBy=multi-user.target
