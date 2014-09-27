@@ -3,4 +3,4 @@ Description=Clean orphaned containers and images
 
 [Service]
 Type=simple
-ExecStart=/usr/bin/cleanup-docker
+ExecStart=-/usr/local/bin/cleanup-docker
