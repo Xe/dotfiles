@@ -5,12 +5,14 @@ coreos:
     addr: $private_ipv4:4001
     peer-addr: $private_ipv4:7001
   fleet:
-    metadata: compute
+    metadata: kind=computeengine
   units:
     - name: etcd.service
       command: start
+
     - name: fleet.service
       command: start
+
     - name: docker-tcp.socket
       command: start
       content: |
@@ -35,6 +37,7 @@ coreos:
         RemainAfterExit=yes
         ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
         ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_docker
+
     - name: var-lib-docker.mount
       command: start
       content: |
@@ -57,21 +60,15 @@ coreos:
         Type=oneshot
         ExecStart=/usr/bin/systemctl stop update-engine.service
         ExecStartPost=/usr/bin/systemctl mask update-engine.service
-    - name: pull-deis.service
+    - name: install-deisctl.service
       command: start
       content: |
         [Unit]
-        Description=Pulls Deis components from Docker Hub
+        Description=Install deisctl utility
 
         [Service]
         Type=oneshot
-        ExecStart=/usr/bin/docker pull deis/builder:latest
-        ExecStart=/usr/bin/docker pull deis/cache:latest
-        ExecStart=/usr/bin/docker pull deis/database:latest
-        ExecStart=/usr/bin/docker pull deis/controller:latest
-        ExecStart=/usr/bin/docker pull deis/logger:latest
-        ExecStart=/usr/bin/docker pull deis/registry:latest
-        ExecStart=/usr/bin/docker pull deis/router:latest
+        ExecStart=/usr/bin/sh -c 'curl -sSL http://deis.io/deisctl/install.sh | sudo sh'
 
 write_files:
   - path: /etc/deis-release
