@@ -18,11 +18,12 @@ setlink .vim
 setlink .vimrc
 setlink .cheat
 setlink .gitconfig
+setlink .tmux.conf
 
 # Setup vundle
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 
-head -n 31 ~/.vimrc >> ~/.vimrc-temp
+head -n 40 ~/.vimrc >> ~/.vimrc-temp
 
 vim -u ~/.vimrc-temp +PluginInstall +qall
 
@@ -34,4 +35,8 @@ rm ~/.vimrc-temp
 # Golang stuff
 (mkdir -p ~/go/{pkg,bin,src})
 
+go get github.com/mattn/todo
+
 echo "Set up!"
+
+rm $0
