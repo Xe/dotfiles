@@ -1,4 +1,4 @@
-FROM deis/init
+FROM xena/dev-vm
 
 RUN apt-get update && apt-get upgrade -y && \
     apt-get install --assume-yes liblua5.1-dev lua5.1 luajit luarocks \
