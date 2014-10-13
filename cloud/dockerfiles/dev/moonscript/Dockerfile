@@ -6,5 +6,3 @@ RUN apt-get update && apt-get upgrade -y && \
 
 RUN luarocks install --server=http://rocks.moonscript.org moonrocks
 RUN moonrocks install moonscript
-
-ENTRYPOINT /sbin/my_init
