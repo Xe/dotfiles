@@ -5,10 +5,7 @@ USER root
 # Package installs
 RUN apt-get update && \
     apt-get upgrade -qy && \
-    apt-get install -qy zsh git python wget build-essential libssl-dev vim tmux dtach dvtm cmake python-dev
-
-# Go
-RUN curl -sSL https://golang.org/dl/go1.3.3.src.tar.gz | tar -v -C /usr/local -xz
+    apt-get install -qy zsh git python wget build-essential libssl-dev vim tmux dtach dvtm cmake python-dev golang mercurial
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -36,6 +33,8 @@ RUN git clone https://github.com/Xe/dotfiles code/dotfiles
 
 ADD setup.sh /home/xena/
 RUN bash setup.sh
+
+RUN vim +GoInstallBinaries +qall
 
 USER root
 
