@@ -8,7 +8,7 @@ coreos:
     addr: $private_ipv4:4001
     peer-addr: $private_ipv4:7001
   fleet:
-    metadata: compute
+    metadata: kind=qemu
   units:
     - name: etcd.service
       command: start
@@ -28,31 +28,11 @@ coreos:
         [Install]
         WantedBy=sockets.target
 
-    - name: format-ephemeral.service
-      command: start
-      content: |
-        [Unit]
-        Description=Formats the ephemeral drive
-        [Service]
-        Type=oneshot
-        RemainAfterExit=yes
-        ExecStart=/usr/sbin/wipefs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
-        ExecStart=/usr/sbin/mkfs.btrfs -f /dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
-    - name: var-lib-docker.mount
-      command: start
-      content: |
-        [Unit]
-        Description=Mount ephemeral to /var/lib/docker
-        Requires=format-ephemeral.service
-        Before=docker.service
-        [Mount]
-        What=/dev/disk/by-id/scsi-0Google_PersistentDisk_xena-vm
-        Where=/var/lib/docker
-        Type=btrfs
-
   update:
     reboot-strategy: reboot
     group: "alpha"
+
+hostname: one-off
 
 users:
   - name: xena
