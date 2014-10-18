@@ -1,4 +1,4 @@
-FROM xena/dev-vm
+FROM xena/base
 
 ADD . /var/setup/xena/rust
 
