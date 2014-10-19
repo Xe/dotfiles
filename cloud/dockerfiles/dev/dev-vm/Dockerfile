@@ -23,6 +23,10 @@ ENV LC_CTYPE en_US.UTF-8
 ENV GOPATH /home/xena/go
 ENV PATH /usr/local/go/bin:$PATH
 
+# To use Docker please pass the docker socket as a bind mount
+RUN wget https://get.docker.com/builds/Linux/x86_64/docker-latest -O /usr/local/bin/docker && \
+    chmod 555 /usr/local/bin/docker
+
 USER xena
 
 WORKDIR /home/xena
