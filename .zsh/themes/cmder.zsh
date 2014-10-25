@@ -22,7 +22,7 @@ then
 fi
 
 PROMPT='$NAME%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} $(git_prompt_info)
-%{$fg_bold[green]%}λ %{$reset_color%}'
+%{$fg_bold[gray]%}λ %{$reset_color%}'
 
 ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[red]%}("
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
