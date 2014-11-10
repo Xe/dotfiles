@@ -32,6 +32,8 @@ rm ~/.vimrc-temp
 (cd ~/.vim/bundle/YouCompleteMe; ./install.sh --clang-completer)
 (cd ~/.vim/bundle/vimproc.vim; make)
 
+vim +GoInstallBinaries
+
 # Golang stuff
 (mkdir -p ~/go/{pkg,bin,src})
 

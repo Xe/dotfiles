@@ -5,7 +5,7 @@ USER root
 # Package installs
 RUN apt-get update && \
     apt-get upgrade -qy && \
-    apt-get install -qy zsh git python wget build-essential libssl-dev vim tmux dtach dvtm cmake python-dev golang mercurial
+    apt-get install -qy zsh git python wget build-essential libssl-dev vim tmux dtach dvtm cmake python-dev golang mercurial bzr
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
