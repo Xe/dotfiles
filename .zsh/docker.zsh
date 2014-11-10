@@ -12,4 +12,5 @@ function godevel {
 
 if [ "$(uname)" = "Darwin" ]; then
 	export DOCKER_HOST=tcp://192.168.59.103:2375
+	alias vim='DYLD_FORCE_FLAT_NAMESPACE=1 DYLD_INSERT_LIBRARIES=/usr/local/Cellar/python/2.7.8_2/Frameworks/Python.framework/Versions/2.7/lib/libpython2.7.dylib vim'
 fi
