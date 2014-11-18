@@ -1,0 +1,28 @@
+'global':
+  'editor':
+    'showIndentGuide': true
+    'tabLength': 4
+    'softWrap': true
+    'fontSize': 14
+    'invisibles': {}
+  'core':
+    'themes': [
+      'solarized-dark-ui'
+      'solarized-dark-syntax'
+    ]
+  'exception-reporting':
+    'userId': '9707386d-c669-5c84-e156-55617f95c243'
+  'welcome':
+    'showOnStartup': false
+  'metrics':
+    'userId': '8ac4818a8ffae78dd864b45c172e3d964b72b032'
+  'minimap': {}
+'.erb.html.text':
+  'editor':
+    'tabLength': 2
+'.c.source ++ *':
+  'editor': {}
+'.c.source':
+  'editor': {}
+'.ruby.source':
+  'editor': {}
