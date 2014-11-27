@@ -109,6 +109,9 @@ au Filetype lua setl et ts=2 sw=2
 au Filetype moon setl et ts=2 sw=2
 au BufWrite moon call s:RunShellCommand('moonc -l')
 
+" Coffeescript is hipster goodness
+au Filetype coffee setl et ts=2 sw=2
+
 " Go!
 au Filetype go setl ts=4 sw=4
 
