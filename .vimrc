@@ -33,6 +33,7 @@ Plugin 'mohitleo9/vim-fidget'
 Plugin 'Lyude/vim-systemd-syntax'
 Plugin 'yosssi/vim-gcss'
 Plugin 'kchmck/vim-coffee-script'
+Plugin 'digitaltoad/vim-jade'
 
 call vundle#end()
 
