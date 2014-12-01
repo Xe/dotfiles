@@ -6,8 +6,6 @@ call vundle#begin(path)
 
 Plugin 'gmarik/Vundle.vim'
 Plugin 'bling/vim-airline'
-Plugin 'Shougo/vimproc.vim'
-Plugin 'Shougo/vimshell.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'chilicuil/vim-sprunge'
 Plugin 'Glench/Vim-Jinja2-Syntax'
@@ -24,14 +22,13 @@ Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'junegunn/goyo.vim'
 Plugin 'nsf/gocode', {'rtp': 'vim/'}
 Plugin 'tpope/vim-surround'
-Plugin 'morhetz/gruvbox'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'fatih/vim-go'
-Plugin 'kana/vim-metarw'
-Plugin 'mattn/vim-metarw-etcd'
 Plugin 'mohitleo9/vim-fidget'
 Plugin 'Lyude/vim-systemd-syntax'
 Plugin 'yosssi/vim-gcss'
+Plugin 'kchmck/vim-coffee-script'
+Plugin 'digitaltoad/vim-jade'
 
 call vundle#end()
 
@@ -47,19 +44,11 @@ filetype plugin indent on
 
 set whichwrap=<,>,[,],b,
 set backspace=indent,eol,start
-"set cursorcolumn
-"set cursorline
 set number
 set background=dark
 set autoread
 set mouse=a
 set showcmd             " Show commands on the right as they're being typed
-
-"hi CursorColumn term=none cterm=none ctermbg=234
-"hi CursorLine term=none cterm=none ctermbg=236
-
-"hi Folded term=none cterm=none ctermbg=232
-"hi Comment term=bold cterm=bold ctermfg=green
 
 " Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -116,26 +105,12 @@ au Filetype go setl ts=4 sw=4
 " Yaml
 au Filetype yaml setl et ts=2 sw=2
 
-" Email should wrap at 75 characters to allow for replies on an 80 character
-" terminal
-au Filetype mail let &colorcolumn="70,75"
-au Filetype mail set spell
-au Filetype mail setlocal textwidth=75
-au Filetype mail set expandtab
-
-" APKBUILD files have spacing like python
-au BufRead APKBUILD setl noexpandtab softtabstop=0 tabstop=4 shiftwidth=4 nosmarttab
+" Coffeescript is hipster goodness
+au Filetype coffee setl et ts=2 sw=2
 
 " Make tabs visible
 set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
-
-" Default settings
-"set tabstop=4
-"set softtabstop=4
-"set shiftwidth=4
-"set nowrap
-"set smarttab
 
 set encoding=utf-8
 
@@ -263,22 +238,3 @@ function! Goyo_after()
 endfunction
 
 let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
-
-" Strip the newline from the end of a string
-function! Chomp(str)
-  return substitute(a:str, '\n$', '', '')
-endfunction
-
-" Find a file and pass it to cmd
-function! DmenuOpen(cmd)
-  let fname = Chomp(system("git ls-files | dmenu -i -l 20 -p " . a:cmd))
-  if empty(fname)
-    return
-  endif
-  execute a:cmd . " " . fname
-endfunction
-
-" Use current directory as vimshell prompt.
-let g:vimshell_prompt_expr =
-	\ 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
-let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
