@@ -25,11 +25,11 @@ RUN luarocks install moonrocks && \
     moonrocks install lapis-console && \
     moonrocks install yaml
 
-ADD prepare.moon /opt/prepare.moon
+ADD prepare.moon /app/prepare.moon
 ADD lapis /etc/service/lapis/run
 ENTRYPOINT /sbin/my_init
 
 ONBUILD ADD app.yaml /app/
-ONBUILD RUN moon /opt/prepare.moon /app/app.yaml
-ONBUILD ADD . /app
-ONBUILD RUN moonc /app
+ONBUILD RUN moon /app/prepare.moon /app/app.yaml
+ONBUILD ADD . /app/src
+ONBUILD RUN moonc /app/src

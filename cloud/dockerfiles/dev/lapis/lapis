@@ -1,6 +1,6 @@
 #!/bin/bash
 
-cd /app
+cd /app/src
 
 export LAPIS_OPENRESTY=/app/openresty/nginx/sbin/nginx
 
