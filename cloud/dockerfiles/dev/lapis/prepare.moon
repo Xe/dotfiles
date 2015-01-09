@@ -15,5 +15,10 @@ fin = io.open manifest_path, "r"
 app = yaml.load fin\read "*a"
 fin\close!
 
+print "installing dependencies for #{app.name}..."
+
 for _, dep in pairs app.dependencies
-  print read_cmd "moonrocks install #{dep}"
+  print "installing dependency #{dep}"
+  read_cmd "moonrocks install #{dep}"
+
+print "done!"
