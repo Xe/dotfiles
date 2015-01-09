@@ -22,13 +22,14 @@ RUN apt-get -qqy install luarocks
 RUN luarocks install moonrocks && \
     moonrocks install --server=http://rocks.moonscript.org/manifests/leafo lapis $LAPIS_VERSION && \
     moonrocks install moonscript && \
-    moonrocks install lapis-console
+    moonrocks install lapis-console && \
+    moonrocks install yaml
 
 ADD prepare.moon /opt/prepare.moon
 ADD lapis /etc/service/lapis/run
 ENTRYPOINT /sbin/my_init
 
-ONBUILD ADD app.rockspec /app/
-ONBUILD RUN moon /opt/prepare.moon /app/app.rockspec
+ONBUILD ADD app.yaml /app/
+ONBUILD RUN moon /opt/prepare.moon /app/app.yaml
 ONBUILD ADD . /app
 ONBUILD RUN moonc /app
