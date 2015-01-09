@@ -4,4 +4,4 @@ cd /app
 
 export LAPIS_OPENRESTY=/app/openresty/nginx/sbin/nginx
 
-lapis server production
+lapis server docker
