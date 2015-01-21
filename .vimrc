@@ -34,6 +34,7 @@ Plugin 'Lyude/vim-systemd-syntax'
 Plugin 'yosssi/vim-gcss'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
+Plugin 'nbouscal/vim-stylish-haskell'
 
 call vundle#end()
 
