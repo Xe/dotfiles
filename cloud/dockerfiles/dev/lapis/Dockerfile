@@ -1,4 +1,4 @@
-FROM deis/init
+FROM flitter/init
 MAINTAINER Xena <xena@yolo-swag.com>
 
 RUN apt-get update && \
@@ -6,9 +6,9 @@ RUN apt-get update && \
 
 # build/install OpenResty
 ENV SRC_DIR /opt
-ENV OPENRESTY_VERSION 1.7.2.1
+ENV OPENRESTY_VERSION 1.7.7.1
 ENV OPENRESTY_PREFIX /app/openresty
-ENV LAPIS_VERSION 1.0.2
+ENV LAPIS_VERSION 1.0.6
 
 RUN cd $SRC_DIR && curl -LO http://openresty.org/download/ngx_openresty-$OPENRESTY_VERSION.tar.gz \
     && tar xzf ngx_openresty-$OPENRESTY_VERSION.tar.gz && cd ngx_openresty-$OPENRESTY_VERSION \
@@ -22,7 +22,14 @@ RUN apt-get -qqy install luarocks
 RUN luarocks install moonrocks && \
     moonrocks install --server=http://rocks.moonscript.org/manifests/leafo lapis $LAPIS_VERSION && \
     moonrocks install moonscript && \
-    moonrocks install lapis-console
+    moonrocks install lapis-console && \
+    moonrocks install yaml
 
+ADD prepare.moon /app/prepare.moon
 ADD lapis /etc/service/lapis/run
 ENTRYPOINT /sbin/my_init
+
+ONBUILD ADD app.yaml /app/
+ONBUILD RUN moon /app/prepare.moon /app/app.yaml
+ONBUILD ADD . /app/src
+ONBUILD RUN moonc /app/src
