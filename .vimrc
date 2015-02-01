@@ -8,7 +8,6 @@ Plugin 'bling/vim-airline'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/vimshell.vim'
 Plugin 'airblade/vim-gitgutter'
-"Plugin 'tmhedberg/SimpylFold'
 "Plugin 'chilicuil/vim-sprunge'
 Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'scrooloose/syntastic'
@@ -34,6 +33,9 @@ Plugin 'Lyude/vim-systemd-syntax'
 Plugin 'yosssi/vim-gcss'
 Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
+Plugin 'eagletmt/neco-ghc'
+Plugin 'dag/vim2hs'
+Plugin 'eagletmt/ghcmod-vim'
 
 call vundle#end()
 
@@ -118,6 +120,9 @@ au Filetype go setl ts=4 sw=4
 
 " Yaml
 au Filetype yaml setl et ts=2 sw=2
+
+" Haskell
+au Filetype haskell setlocal omnifunc=necoghc#omnifunc
 
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
@@ -285,3 +290,5 @@ endfunction
 let g:vimshell_prompt_expr =
 	\ 'escape(fnamemodify(getcwd(), ":~").">", "\\[]()?! ")." "'
 let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
+
+let g:ycm_semantic_triggers = {'haskell' : ['.']}
