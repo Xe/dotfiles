@@ -1,0 +1,9 @@
+[Unit]
+Description=Sync filesystem on shutdown
+
+[Service]
+Type=oneshot
+ExecStart=sync
+
+[Install]
+WantedBy=halt.target
