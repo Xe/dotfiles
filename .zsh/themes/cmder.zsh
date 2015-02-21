@@ -10,15 +10,13 @@ if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
 fi
 }
 
-NAME=""
-
-if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-	NAME="%m "
-fi
+NAME="%n@"
 
 if [ -n "$DOCKER" ]
 then
-	NAME="docker:%m "
+	NAME="$NAME""docker:%m "
+else
+	NAME="$NAME""%m "
 fi
 
 PROMPT='$NAME%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} $(git_prompt_info)
