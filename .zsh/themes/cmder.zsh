@@ -1,12 +1,10 @@
-# Based on the Robby Russel zsh theme, except better suited for my needs
-
 function collapse_pwd {
-    echo $(pwd | sed -e "s,^$HOME,~,")
+	echo $(pwd | sed -e "s,^$HOME,~,")
 }
 
 function if_machine {
 if [ -n "$SSH_CLIENT" ] || [ -n "$SSH_TTY" ]; then
-    echo "$(hostname) "
+	echo "$(hostname) "
 fi
 }
 
@@ -19,12 +17,16 @@ else
 	NAME="$NAME""%m "
 fi
 
+function ret_status {
+	echo "%(?:%{$fg[green]%}➜ :%{$fg[red]%}➜ %s)"
+}
+
 PROMPT='$NAME%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}
-%{$fg_bold[gray]%}λ %{$reset_color%}'
+%{$fg_bold[gray]%}$(ret_status) %{$reset_color%}'
 
-RPROMPT='$(git_prompt_info)'
+RPROMPT='$(git_prompt_info)'" [%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[red]%}branch:"
-ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%} %{$fg[red]%}unstaged changes%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[red]%} %{$fg[green]%}all is clear%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_PREFIX=""
+ZSH_THEME_GIT_PROMPT_SUFFIX=" "
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%} ✗%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN=""
