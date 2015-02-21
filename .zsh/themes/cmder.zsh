@@ -19,10 +19,12 @@ else
 	NAME="$NAME""%m "
 fi
 
-PROMPT='$NAME%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%} $(git_prompt_info)
+PROMPT='$NAME%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}
 %{$fg_bold[gray]%}λ %{$reset_color%}'
 
-ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[red]%}("
+RPROMPT='$(git_prompt_info)'
+
+ZSH_THEME_GIT_PROMPT_PREFIX="%{$fg_bold[red]%}branch:"
 ZSH_THEME_GIT_PROMPT_SUFFIX="%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%}) %{$fg[red]%}X%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[red]%}) %{$fg[white]%}O%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%} %{$fg[red]%}unstaged changes%{$reset_color%}"
+ZSH_THEME_GIT_PROMPT_CLEAN="%{$fg_bold[red]%} %{$fg[green]%}all is clear%{$reset_color%}"
