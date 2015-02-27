@@ -123,6 +123,7 @@ au Filetype yaml setl et ts=2 sw=2
 
 " Haskell
 au Filetype haskell setlocal omnifunc=necoghc#omnifunc
+au Filetype haskell setl et ts=2 sw=2
 
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
