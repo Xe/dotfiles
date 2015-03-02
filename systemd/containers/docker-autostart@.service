@@ -4,7 +4,7 @@ Description=Container %i autostart
 [Service]
 Type=oneshot
 RemainAfterExit=true
-ExecStart=/bin/sh -c 'docker start %i'
+ExecStart=/usr/bin/docker start %i
 
 [Install]
 WantedBy=default.target
