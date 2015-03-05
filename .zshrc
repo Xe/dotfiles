@@ -21,3 +21,16 @@ export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/
 
 export EDITOR=vim
 
+platform='unknown'
+unamestr=`uname`
+if [[ "$unamestr" == 'Linux' ]]; then
+   platform='linux'
+elif [[ "$unamestr" == 'FreeBSD' ]]; then
+   platform='freebsd'
+elif [[ "$unamestr" == 'Bitrig' ]]; then
+   platform='bitrig'
+fi
+
+if [[ $platform == 'bitrig' ]]; then
+   unalias ls
+fi
