@@ -1,8 +1,0 @@
-# Appending
-a - drops vim into append mode
-i - enters append mode without character skip
-
-# File management
-:w - writes (saves) file
-:q - quits
-;q! - quits without saving changes

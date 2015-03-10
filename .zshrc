@@ -1,36 +1,62 @@
-#Oh-my-zsh cruft
-ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="robbyrussell"
-DISABLE_AUTO_TITLE="true"
-plugins=(git python github git-extras virtualenv virtualenv-wrapper pip)
+# Save the location of the current completion dump file.
+if [ -z "$ZSH_COMPDUMP" ]; then
+	ZSH_COMPDUMP="${ZDOTDIR:-${HOME}}/.zcompdump-${SHORT_HOST}-${ZSH_VERSION}"
+fi
+
+# Load and run compinit
+autoload -U compinit
+compinit -i -d "${ZSH_COMPDUMP}"
+
+# Use history
+SAVEHIST=15000
+HISTFILE=~/.zsh_history
 
 # Load sourcefiles
-source $ZSH/oh-my-zsh.sh
 source $HOME/.profile
 
-export DOKKU_CONTROLLER='dokku.xeserv.us'
-
-# Load extended ZSH aliases and completions
-for file in ~/.zsh/*
-do
-	source $file
-done
-
-# My path
-export PATH=$PATH:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/home/xena/bin/
-
-export EDITOR=vim
-
+# Detect what platform this is for other scripts
 platform='unknown'
 unamestr=`uname`
 if [[ "$unamestr" == 'Linux' ]]; then
-   platform='linux'
-elif [[ "$unamestr" == 'FreeBSD' ]]; then
-   platform='freebsd'
+	platform='linux'
 elif [[ "$unamestr" == 'Bitrig' ]]; then
-   platform='bitrig'
+	platform='bitrig'
+elif [[ "$unamestr" == 'Darwin' ]]; then
+	PLatform='osx'
 fi
 
-if [[ $platform == 'bitrig' ]]; then
-   unalias ls
+# Detect what kind of proc we have
+proc=`uname -p`
+
+# My path
+export PATH=/usr/local/sbin:/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin:/home/xena/bin/
+
+# Vim is love, vim is life
+export EDITOR=vim
+
+NAME="%n@"
+
+if [ -n "$DOCKER" ]
+then
+	NAME="$NAME""docker:%m "
+else
+	NAME="$NAME""%m "
 fi
+
+if [[ platform != "linux" ]]
+then
+	NAME="$NAME""($platform) "
+fi
+
+function __ret_status {
+	echo "%(?:%{$fg[green]%}➜ :%{$fg[red]%}➜ %s)"
+}
+
+PROMPT='$NAME%{$fg_bold[green]%}${PWD/#$HOME/~}%{$reset_color%}
+%{$fg_bold[gray]%}$(__ret_status) %{$reset_color%}'
+
+# Load extended ZSH aliases and completions
+for file in ~/.zsh/*.zsh
+do
+	source $file
+done

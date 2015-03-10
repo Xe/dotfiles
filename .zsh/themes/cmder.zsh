@@ -17,16 +17,15 @@ else
 	NAME="$NAME""%m "
 fi
 
+if [[ platform != "linux" ]]
+then
+	NAME="$NAME""($platform) "
+fi
+
 function ret_status {
 	echo "%(?:%{$fg[green]%}➜ :%{$fg[red]%}➜ %s)"
 }
 
-PROMPT='$NAME%{$fg_bold[green]%}$(collapse_pwd)%{$reset_color%}
+PROMPT='$NAME%{$fg_bold[green]%}${PWD/#$HOME/~}%{$reset_color%}
 %{$fg_bold[gray]%}$(ret_status) %{$reset_color%}'
-
-RPROMPT='$(git_prompt_info)'" [%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
-
-ZSH_THEME_GIT_PROMPT_PREFIX=""
-ZSH_THEME_GIT_PROMPT_SUFFIX=" "
-ZSH_THEME_GIT_PROMPT_DIRTY="%{$fg_bold[red]%} ✗%{$reset_color%}"
-ZSH_THEME_GIT_PROMPT_CLEAN=""
+RPROMPT="[%{$fg_no_bold[yellow]%}%?%{$reset_color%}]"
