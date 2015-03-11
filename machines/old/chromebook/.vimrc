@@ -229,7 +229,7 @@ let g:rbpt_colorpairs = [
 let g:rbpt_max = 14
 
 " License
-let g:licenses_authors_name = 'Sam Dodrill <xena@yolo-swag.com>'
+let g:licenses_authors_name = 'Christine Dodrill <xena@yolo-swag.com>'
 
 " Goyo
 function! Goyo_before()

@@ -220,7 +220,7 @@ nmap <leader>gf :%!gofmt<CR>
 map <leader>ss :setlocal spell!<cr>
 
 " License
-let g:licenses_authors_name = 'Sam Dodrill <xena@yolo-swag.com>'
+let g:licenses_authors_name = 'Christine Dodrill <xena@yolo-swag.com>'
 
 " Goyo
 function! Goyo_before()
