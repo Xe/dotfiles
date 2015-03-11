@@ -10,6 +10,12 @@ compinit -i -d "${ZSH_COMPDUMP}"
 # Use history
 SAVEHIST=15000
 HISTFILE=~/.zsh_history
+setopt sharehistory
+setopt extendedhistory
+
+# Superglobs!
+setopt extendedglob
+unsetopt caseglob
 
 # Load sourcefiles
 source $HOME/.profile
@@ -24,6 +30,9 @@ elif [[ "$unamestr" == 'Bitrig' ]]; then
 elif [[ "$unamestr" == 'Darwin' ]]; then
 	PLatform='osx'
 fi
+
+# report long running command CPU usage
+REPORTTIME=60
 
 # Detect what kind of proc we have
 proc=`uname -p`
