@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>One-Click IRC Network with Panamax - exported from Medium</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 20px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 18px;
+      }
+      </style></head><body><article>
+<header>
+<h1>One-Click IRC Network with Panamax</h1>
+</header>
+<section data-field="subtitle">
+Panamax is an exciting new technology by the smart people at CenturyLink Labs. What really excites me about Panamax is how it allows for a…
+</section>
+<section data-field="body">
+<section name="ca24" class=" section--first section--last"><div class="section-divider layoutSingleColumn"><hr class="section-divider"></div><div class="section-content"><div class="section-inner layoutSingleColumn"><h3 name="f808" id="f808" class="graf--h3 graf--first">One-Click IRC Network with Panamax</h3><p name="b2c4" id="b2c4" class="graf--p">Panamax is an exciting new technology by the smart people at CenturyLink Labs. What really excites me about Panamax is how it allows for a more purely Docker-native workflow than existing products such as Deis or Flynn. However, this project’s youthfulness does mean it is lacking in other key areas, but for the purposes of this example they can largely be ignored.</p><p name="a010" id="a010" class="graf--p">In my <a target="_blank" href="https://github.com/Xe/dotfiles/tree/master/cloud/gce/panamax" data-href="https://github.com/Xe/dotfiles/tree/master/cloud/gce/panamax" class="markup--anchor markup--p-anchor" rel="nofollow">dotfiles repo</a> I have a nice tutorial set up on using Panamax in Google Compute Engine. The provision script was the result of running into annoying undocumented systemd behavior, but is simple enough that I would suggest using it.</p><p name="14e8" id="14e8" class="graf--p">I created a simple proof of concept that Panamax is compatible with a Docker-native workflow by creating a simple, single click IRC test network using Panamax. This is purely ephemeral and should not be used in any serious or production network, but it does show that Panamax can do things that Flynn and Deis can’t.</p><figure name="268c" id="268c" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 551px;"><div class="aspect-ratio-fill" style="padding-bottom: 78.7%;"></div><img class="graf-image" data-image-id="1*sXcVQVk2xNTWPgJ-397mUA.png" data-width="1034" data-height="814" data-action="zoom" data-action-value="1*sXcVQVk2xNTWPgJ-397mUA.png" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*sXcVQVk2xNTWPgJ-397mUA.png"></div><figcaption class="imageCaption">Panamax running my IRC network template on Luj.</figcaption></figure><p name="5cb1" id="5cb1" class="graf--p">After setting this up, a useful first step is to connect to it with any standard IRC client. In my example here I am going to use <a target="_blank" href="http://irssi.org" data-href="http://irssi.org" class="markup--anchor markup--p-anchor" rel="nofollow">Irssi</a>.</p><figure name="c9e9" id="c9e9" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 444px;"><div class="aspect-ratio-fill" style="padding-bottom: 63.4%;"></div><img class="graf-image" data-image-id="1*uSvgKQp5JZ86eejcOXjoqg.png" data-width="819" data-height="519" data-action="zoom" data-action-value="1*uSvgKQp5JZ86eejcOXjoqg.png" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*uSvgKQp5JZ86eejcOXjoqg.png"></div><figcaption class="imageCaption">The MOTD and services advertisment</figcaption></figure><p name="349a" id="349a" class="graf--p">This test network in a box uses <a target="_blank" href="https://github.com/Elemental-IRCd/elemental-ircd" data-href="https://github.com/Elemental-IRCd/elemental-ircd" class="markup--anchor markup--p-anchor" rel="nofollow">Elemental-IRCd</a>, <a target="_blank" href="http://atheme.org" data-href="http://atheme.org" class="markup--anchor markup--p-anchor" rel="nofollow">Atheme</a> services and <a target="_blank" href="http://github.com/atheme/iris" data-href="http://github.com/atheme/iris" class="markup--anchor markup--p-anchor" rel="nofollow">Iris</a> to set up a bare minimum for a usable chat network. Elemental-IRCd is a daemon I have put a lot of work into over the last year and Atheme is probably the best choice in terms of services pacakges for an IRC network of any scale (Freenode runs Atheme).</p><figure name="3715" id="3715" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 554px;"><div class="aspect-ratio-fill" style="padding-bottom: 79.2%;"></div><img class="graf-image" data-image-id="1*Yh8Cyzn2hfm0IYCBbBwpQw.png" data-width="1038" data-height="822" data-action="zoom" data-action-value="1*Yh8Cyzn2hfm0IYCBbBwpQw.png" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*Yh8Cyzn2hfm0IYCBbBwpQw.png"></div></figure><p name="e406" id="e406" class="graf--p">This overall does not look as exciting as it is. IRC based services traditionally have been difficult to use on Docker-centric PaaS entries. If I wanted to do something like this on Deis or Flynn I might be better off scrapping the entire ircd and writing something in Go. Panamax allows Atheme and ircd to be used in an easy fashion, even if things have to be pre-seeded due to the overall immaturity of the platform.</p><p name="e295" id="e295" class="graf--p">I’m excited for Panamax and the things it could bring with it. It’s new of course but it is incredibly functional for such an early preview release and their Ruby code is very easy to read through and maintain.</p><p name="3646" id="3646" class="graf--p graf--last">Without Panamax setting up a test network like this would have taken someone 5 hours of looking up dependencies, reading horribly written documentation and slogging through forum posts to get something set up. Panamax makes it one click.</p></div></div></section>
+</section>
+<footer><p>Exported from <a href="https://medium.com">Medium</a> on February 1, 2015.</p><p><a href="https://medium.com/p/caf48be24712">View the original</a></p></footer></article>
+
+</body></html>

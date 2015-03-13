@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Instant Development Environments in Docker - exported from Medium</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 20px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 18px;
+      }
+      </style></head><body><article>
+<header>
+<h1>Instant Development Environments in Docker</h1>
+</header>
+<section data-field="subtitle">
+I have been using a few shell scripts for turbocharging development using Docker and today I have released the first version of a simple…
+</section>
+<section data-field="body">
+<section name="c1e4" class=" section--middleCenter section-image--aspectRatioViewport is-imageBackgrounded is-backgrounded is-darkBackgrounded section--first"><div class="section-background" data-scroll="aspect-ratio-viewport"contenteditable="false" data-image-id="1*87_UX30O0gFBE-GE9hKg4w.jpeg" data-width="2740" data-height="1827"><div class="section-backgroundImage"style="background-image: url(https://d262ilb51hltx0.cloudfront.net/max/1600/1*87_UX30O0gFBE-GE9hKg4w.jpeg);"></div><br></div><div class="section-doubleWidthTable u-table u-ignoreBlock"><div class="u-tableCell u-verticalAlignTop u-ignoreBlock"><div class="section-aspectRatioViewportBottomSpacer u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 33.3394%;"></div></div><div class="section-doubleWidthTable u-table u-ignoreBlock"><div class="section-contentCell u-tableCell u-ignoreBlock"><div class="section-content"><div class="section-inner layoutSingleColumn"><h3 name="bbcc" id="bbcc" class="graf--h3 graf--first graf--last">Instant Development Environments in Docker</h3></div></div></div><div class="u-tableCell u-verticalAlignTop u-ignoreBlock"><div class="section-aspectRatioViewportPlaceholder u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 66.6788%;"></div></div><div class="section-aspectRatioViewportBottomPlaceholder u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 33.3394%;"></div></div></div></div></div><div class="u-tableCell u-ignoreBlock"><div class="section-aspectRatioViewportCropPlaceholder u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 66.6788%;"></div></div></div></div><div class="section-captionContent u-ignoreBlock"></div></section><section name="c39b" class=" section--last"><div class="section-divider layoutSingleColumn"><hr class="section-divider"></div><div class="section-content"><div class="section-inner layoutSingleColumn"><p name="6b90" id="6b90" class="graf--p graf--first">I have been using a few shell scripts for turbocharging development using Docker and today I have released the first version of a simple tool I call “<a target="_blank" href="https://github.com/Xe/dev" data-href="https://github.com/Xe/dev" class="markup--anchor markup--p-anchor" rel="nofollow">dev</a>”. Usage is very very simple.</p><pre name="1b7a" id="1b7a" class="graf--pre">$ dev up<br>Starting up container for spike<br>spike-dev (43c5c1) running!<br>To use this container please attach to it with:<br>  $ docker attach spike-dev<br>$ docker attach spike-dev<br>docker:dev:spike ~<br>--&gt;</pre><p name="61f8" id="61f8" class="graf--p">I have made a simple <a target="_blank" href="https://asciinema.org/a/13158" data-href="https://asciinema.org/a/13158" class="markup--anchor markup--p-anchor" rel="nofollow">asciinema recording</a> describing the process of setting up and tearing down these containers. The development environments have the code you are working on mounted to ~/dev in the container.</p><figure name="8683" id="8683" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 385px; max-height: 180px;"><div class="aspect-ratio-fill" style="padding-bottom: 46.800000000000004%;"></div><img class="graf-image" data-image-id="1*HdsnwyfT_vOS-gAGPvZSOQ.png" data-width="385" data-height="180" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*HdsnwyfT_vOS-gAGPvZSOQ.png"></div></figure><p name="3ea0" id="3ea0" class="graf--p">The containers are defined by a simple manifest file in yaml:</p><pre name="2ac7" id="2ac7" class="graf--pre">base:     xena/base<br>repopath: github.com/Xe/test<br>golang:   false<br>ssh:      true<br>user:     xena<br>projname: test</pre><p name="47f2" id="47f2" class="graf--p">Right now dev is a very immature tool and currently Works For Me ™. If you have any issues with it or questions about it, please open an issue on its <a target="_blank" href="https://github.com/Xe/dev/issues/new" data-href="https://github.com/Xe/dev/issues/new" class="markup--anchor markup--p-anchor" rel="nofollow">GitHub issue tracker</a>.</p><p name="40e9" id="40e9" class="graf--p graf--last">Thanks for taking a look at it and please let me know if it works for you too!</p></div></div></section>
+</section>
+<footer><p>Exported from <a href="https://medium.com">Medium</a> on February 1, 2015.</p><p><a href="https://medium.com/p/1821c4725dc">View the original</a></p></footer></article>
+
+</body></html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Dependency Hell - exported from Medium</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 20px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 18px;
+      }
+      </style></head><body><article>
+<header>
+<h1>Dependency Hell</h1>
+</header>
+<section data-field="subtitle">
+A lot of the problem that I have run into when doing development with nearly any stack I have used is dependency management. This…
+</section>
+<section data-field="body">
+<section name="36b3" class=" section--middleCenter section-image--aspectRatioViewport is-imageBackgrounded is-backgrounded is-darkBackgrounded section--first"><div class="section-background" data-scroll="aspect-ratio-viewport"contenteditable="false" data-image-id="1*iDwB8zd_a73zWGq1XGDPvg.png" data-width="1366" data-height="768"><div class="section-backgroundImage"style="background-image: url(https://d262ilb51hltx0.cloudfront.net/max/1600/1*iDwB8zd_a73zWGq1XGDPvg.png);"></div><br></div><div class="section-doubleWidthTable u-table u-ignoreBlock"><div class="u-tableCell u-verticalAlignTop u-ignoreBlock"><div class="section-aspectRatioViewportBottomSpacer u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 28.1113%;"></div></div><div class="section-doubleWidthTable u-table u-ignoreBlock"><div class="section-contentCell u-tableCell u-ignoreBlock"><div class="section-content"><div class="section-inner layoutSingleColumn"><p name="2d81" id="2d81" class="graf--p graf--empty graf--first graf--last"><br></p></div></div></div><div class="u-tableCell u-verticalAlignTop u-ignoreBlock"><div class="section-aspectRatioViewportPlaceholder u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 56.2225%;"></div></div><div class="section-aspectRatioViewportBottomPlaceholder u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 28.1113%;"></div></div></div></div></div><div class="u-tableCell u-ignoreBlock"><div class="section-aspectRatioViewportCropPlaceholder u-ignoreBlock"><div class="u-ignoreBlock" style="padding-bottom: 56.2225%;"></div></div></div></div><div class="section-captionContent u-ignoreBlock"></div></section><section name="ccac" class=" section--last"><div class="section-divider layoutSingleColumn"><hr class="section-divider"></div><div class="section-content"><div class="section-inner layoutSingleColumn"><h3 name="2ad8" id="2ad8" class="graf--h3 graf--first">Dependency Hell</h3><p name="4fb7" id="4fb7" class="graf--p">A lot of the problem that I have run into when doing development with nearly any stack I have used is dependency management. This relatively simple-looking problem just becomes such an evil, evil thing to tackle. There are several schools of thought to this. The first is that dependencies need to be frozen the second you ever see them and are only upgraded once in a blue moon when upstream introduces a feature you need or has a CVE released. The second is to have competent maintainers upstream that follow things like semantic versioning.</p><h3 name="a364" id="a364" class="graf--h3">Ruby</h3><p name="175c" id="175c" class="graf--p">Let’s take a look at how the Ruby community solves this problem.</p><p name="1cd9" id="1cd9" class="graf--p">One job I had made us need to install <strong class="markup--strong markup--p-strong">five </strong>versions of the Ruby interpreter in order to be compatible with all the different projects they wrote. To manage the five versions of the Ruby interpreter, they suggested using a widely known tool called <a target="_blank" href="https://github.com/sstephenson/rbenv" data-href="https://github.com/sstephenson/rbenv" class="markup--anchor markup--p-anchor" rel="nofollow">rbenv</a>.</p><figure name="33ff" id="33ff" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 564px; max-height: 355px;"><div class="aspect-ratio-fill" style="padding-bottom: 62.9%;"></div><img class="graf-image" data-image-id="1*X7PdatDf1DD_Pi7VOlv6YA.png" data-width="564" data-height="355" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*X7PdatDf1DD_Pi7VOlv6YA.png"></div><figcaption class="imageCaption">I got 99 problems but several different entire versions of a programming language and its standard library is one.</figcaption></figure><p name="f42c" id="f42c" class="graf--p">This isn’t actually the full list of rubies that job required. I have decided not to reveal that out of interest of privacy as well as the fact that even Gentoo did not ship a version of gcc old enough to build the oldest ruby.</p><p name="bb86" id="bb86" class="graf--p">After all this, of course, all the dependencies are locked using the gem tool and another helper called bundler. It’s just a mess.</p><p name="9de9" id="9de9" class="graf--p">There are also language design features of ruby that really do not help with this all that just make simple things like “will this code run or not” be determined at runtime. To be fair, Python is the same way, as is nearly every other scripting language. In the case of Lua this is <em class="markup--em markup--p-em">beyond vital </em>because of the fact that Lua is designed to be embedded into pretty much anything, with arbitrary globals being set willy-nilly. Consequently this is why you can’t make an autocomplete for lua without executing the code in its preferred environment (unless you really just guess based on the requires and other files present in the directory).</p><h3 name="9423" id="9423" class="graf--h3">Python</h3><p name="7d26" id="7d26" class="graf--p">The Python community has largely copied the ruby pattern for this, but they advocate creating local, project-specific prefixes with all of the packages/eggs you installed and a list of them instead of compiling an entire Python interpreter per project. With the Python 2-&gt;3 change a lot of things did break. This is okay. There was a major version bump. Of course compiled modules would need to be redone after a change like that. I think the way that Python handles Unicode in version 3 is ideal and should be an example for other languages.</p><p name="1db2" id="1db2" class="graf--p">Virtualenv and pip is not as bad as using bundler and gem for Ruby. Virtualenv very clearly makes changes to your environment variables that are easy to compare and inspect. This is in contrast to the ruby tools that encourage global modifications of your shell and supercede the packaged versions of the language interpreter.</p><p name="9f53" id="9f53" class="graf--p">The sad part is that I see <a target="_blank" href="https://github.com/tools/godep" data-href="https://github.com/tools/godep" class="markup--anchor markup--p-anchor" rel="nofollow">this pattern of senseless locking of versions continuing elsewhere</a> instead of proper maintenance of libraries and projects.</p><h3 name="87b2" id="87b2" class="graf--h3">Insanity</h3><p name="e58b" id="e58b" class="graf--p">To make matters worse, people suggest you actually embed all the source code for every dependency inside the repository. Meaning your commit graphs and code line counts are skewed based on the contents of your upstream packages instead of just the code you wrote. Admittedly, locking dependencies like this does mean that fantastic language level tools such as <a target="_blank" href="https://golang.org/cmd/go/#hdr-Download_and_install_packages_and_dependencies" data-href="https://golang.org/cmd/go/#hdr-Download_and_install_packages_and_dependencies" class="markup--anchor markup--p-anchor" rel="nofollow">go get</a> work again, but overall it is just not worth the pain of having to manually merge in patches from upstream (but if you do think it is worth the pain contact me, I’m open for contract work) making sure to change the file paths to match your changes.</p><h3 name="e8b8" id="e8b8" class="graf--h3">The Solution</h3><p name="7098" id="7098" class="graf--p">I believe the solution to all this and something that needs to be a wider community effort for users of all programming languages is the use of a technique called <a target="_blank" href="http://semver.org/" data-href="http://semver.org/" class="markup--anchor markup--p-anchor" rel="nofollow">semantic versioning</a>. In some lanaguages like Go where the <a target="_blank" href="https://golang.org/doc/code.html#PackagePaths" data-href="https://golang.org/doc/code.html#PackagePaths" class="markup--anchor markup--p-anchor" rel="nofollow">import paths are based on repository paths</a>, this may mean that a new major version has a different repository. This is okay. Backward compatability is good. After you make a stable (1.0 or whathaveyou) release, nothing should be ever taken away or changed in the public API. If there needs to be a change in how something in the public API works, you must keep backwards compatabilty. As soon as you take away or modify something in the public API, you have just made a significant enough change worthy of a major release.</p><p name="eb8c" id="eb8c" class="graf--p">We need to make semver a de-facto standard in the community instead of freezing things and making security patches hard to distribute.</p><p name="9354" id="9354" class="graf--p">Also, use the standard library more. It’s there for a reason. It doesn’t change much so the maintainers are assumed to be sane if you trust the stability of the language.</p><p name="cf1d" id="cf1d" class="graf--p graf--last">This is just my $0.02.</p></div></div></section>
+</section>
+<footer><p>Exported from <a href="https://medium.com">Medium</a> on February 1, 2015.</p><p><a href="https://medium.com/p/a8bfb5b0d001">View the original</a></p></footer></article>
+
+</body></html>

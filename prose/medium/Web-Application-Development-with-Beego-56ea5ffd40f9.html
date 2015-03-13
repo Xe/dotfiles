@@ -1,0 +1,62 @@
+<!DOCTYPE html><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8"><title>Web Application Development with Beego - exported from Medium</title><style>
+      * {
+        font-family: Georgia, Cambria, "Times New Roman", Times, serif;
+      }
+      html, body {
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        font-size: 50px;
+        margin-bottom: 17px;
+        color: #333;
+      }
+      h2 {
+        font-size: 24px;
+        line-height: 1.6;
+        margin: 30px 0 0 0;
+        margin-bottom: 18px;
+        margin-top: 33px;
+        color: #333;
+      }
+      h3 {
+        font-size: 20px;
+        margin: 10px 0 20px 0;
+        color: #333;
+      }
+      header {
+        width: 640px;
+        margin: auto;
+      }
+      section {
+        width: 640px;
+        margin: auto;
+      }
+      section p {
+        margin-bottom: 27px;
+        font-size: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      section img {
+        max-width: 640px;
+      }
+      footer {
+        padding: 0 20px;
+        margin: 50px 0;
+        text-align: center;
+        font-size: 18px;
+      }
+      </style></head><body><article>
+<header>
+<h1>Web Application Development with Beego</h1>
+</header>
+<section data-field="subtitle">
+Beego is a fantastic web application framework from the Go China community. It currently powers some of the biggest websites in China, and…
+</section>
+<section data-field="body">
+<section name="49e0" class=" section--first section--last"><div class="section-divider layoutSingleColumn"><hr class="section-divider"></div><div class="section-content"><div class="section-inner layoutSingleColumn"><h2 name="f4cf" id="f4cf" class="graf--h2 graf--first">Web Application Development with Beego</h2><p name="8768" id="8768" class="graf--p">Beego is a fantastic web application framework from the Go China community. It currently powers some of the biggest websites in China, and thus the world.</p><p name="b4f1" id="b4f1" class="graf--p">Let’s get started. For now I am going to assume you are running OSX or Linux. Getting Beego set up on Windows with the sqlite driver is nontrivial at best due to Windows being terrible.</p><h3 name="589c" id="589c" class="graf--h3">Installing Beego</h3><p name="115e" id="115e" class="graf--p">The Beego developers have made a tool called bee for easier managing of Beego projects. To install it, run:</p><p name="4400" id="4400" class="graf--p">go get github.com/beego/bee<br>go get github.com/astaxie/beego</p><p name="0980" id="0980" class="graf--p">The `bee` tool will be present in $GOPATH/bin. Please make sure this folder is in your $PATH or things will not work.</p><h3 name="e6d2" id="e6d2" class="graf--h3">Creating a Project</h3><p name="b637" id="b637" class="graf--p">Navigate to a directory in your $GOPATH and run the command `bee new quickstart`:</p><figure name="bdc7" id="bdc7" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 602px; max-height: 488px;"><div class="aspect-ratio-fill" style="padding-bottom: 81.10000000000001%;"></div><img class="graf-image" data-image-id="1*ATTbb_23WVmxgoFweXSXQg.png" data-width="602" data-height="488" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*ATTbb_23WVmxgoFweXSXQg.png"></div></figure><p name="3cc4" id="3cc4" class="graf--p">The `bee` tool created all the scaffolding we needed for our example program. Change into that directory and run `bee run`. Your application will be served on port 8080.</p><figure name="fdf0" id="fdf0" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 700px; max-height: 559px;"><div class="aspect-ratio-fill" style="padding-bottom: 79.9%;"></div><img class="graf-image" data-image-id="1*DG8Tl71KXYdiddV1x6m0GQ.png" data-width="1107" data-height="884" data-action="zoom" data-action-value="1*DG8Tl71KXYdiddV1x6m0GQ.png" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*DG8Tl71KXYdiddV1x6m0GQ.png"></div></figure><p name="d938" id="d938" class="graf--p">Now let’s take a look at the parts of Beego that are in use. Beego is a typical MVC style framework so there are 3 basic places you may need to edit code:</p><p name="9e76" id="9e76" class="graf--p">The Models are Beego’s powerful database-backed models (we’ll get into those in a little bit), the Views are normal Go <a href="/r/?url=http%3A%2F%2Fgodoc.org%2Fhtml%2Ftemplate" data-href="/r/?url=http%3A%2F%2Fgodoc.org%2Fhtml%2Ftemplate" class="markup--anchor markup--p-anchor">html/template</a>s, and the Controllers are the Go code that controls the Views based on the Models.</p><figure name="e163" id="e163" class="graf--figure postField--insetLeftImage"><div class="aspectRatioPlaceholder is-locked" style="max-width: 350px; max-height: 173px;"><div class="aspect-ratio-fill" style="padding-bottom: 49.4%;"></div><img class="graf-image" data-image-id="1*EZ1qIqeXNW_NfKuLbudogA.png" data-width="417" data-height="206" data-action="zoom" data-action-value="1*EZ1qIqeXNW_NfKuLbudogA.png" src="https://d262ilb51hltx0.cloudfront.net/max/600/1*EZ1qIqeXNW_NfKuLbudogA.png"></div></figure><p name="4d04" id="4d04" class="graf--p">New Beego projects use Beego’s default HTTP router, which is similar to Sinatra or Tornado. The default router is very simple. It will only route `/` to the MainController that was generated for you:</p><figure name="b213" id="b213" class="graf--figure"><div class="aspectRatioPlaceholder is-locked" style="max-width: 385px; max-height: 278px;"><div class="aspect-ratio-fill" style="padding-bottom: 72.2%;"></div><img class="graf-image" data-image-id="1*t_oEyk6kSa1Y940m2fnwmg.png" data-width="385" data-height="278" src="https://d262ilb51hltx0.cloudfront.net/max/800/1*t_oEyk6kSa1Y940m2fnwmg.png"></div></figure><p name="f4d7" id="f4d7" class="graf--p graf--last">The main file will shadow-include the router package which will seed the Beego router with your paths and site content. The MainController will embed beego.Controller so it acquires all instance methods that a Beego controller needs. Beego’s controllers offer many methods that could be used based on different HTTP verbs, but this simple example only overrides the GET verb to serve the site. The data that will be passed to the template is a map[string]interface{} as c.Data. The last line tells Beego what template to render for the page, in this case “index.tpl”. If you don’t set the template it will default to “controller/method_name.tpl” where method_name is the method that was called on the controller. In this example it would be “maincontroller/get.tpl”</p></div></div></section>
+</section>
+<footer><p>Exported from <a href="https://medium.com">Medium</a> on February 1, 2015.</p><p><a href="https://medium.com/p/56ea5ffd40f9">View the original</a></p></footer></article>
+
+</body></html>
