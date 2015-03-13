@@ -28,7 +28,7 @@ if [[ "$unamestr" == 'Linux' ]]; then
 elif [[ "$unamestr" == 'Bitrig' ]]; then
 	platform='bitrig'
 elif [[ "$unamestr" == 'Darwin' ]]; then
-	PLatform='osx'
+	platform='osx'
 fi
 
 # report long running command CPU usage
