@@ -2,18 +2,19 @@
 
 coreos:
   etcd:
-    # generate a new token for each unique cluster from https://discovery.etcd.io/new
-    #discovery: https://discovery.etcd.io/c7a58e4df4623e4f9166e88ada333e11
-    # multi-region and multi-cloud deployments need to use $public_ipv4
     addr: $private_ipv4:4001
     peer-addr: $private_ipv4:7001
+
   fleet:
-    metadata: kind=qemu
+    metadata: kind=solo
+
   units:
     - name: etcd.service
       command: start
+
     - name: fleet.service
       command: start
+
     - name: docker-tcp.socket
       command: start
       content: |
@@ -28,15 +29,61 @@ coreos:
         [Install]
         WantedBy=sockets.target
 
+    - name: stop-update-engine.service
+      command: start
+      content: |
+        [Unit]
+        Description=stop update-engine
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/systemctl stop update-engine.service
+        ExecStartPost=/usr/bin/systemctl mask update-engine.service
+
+    - name: dotfiles.service
+      command: start
+      content: |
+        [Unit]
+        Description=Pull my dotfiles
+        Requires=docker.service
+
+        [Service]
+        Type=oneshot
+        ExecStart=/usr/bin/docker pull xena/dotfiles
+        RemainAfterExit=true
+
+    - name: ntpdate.service
+      command: start
+
+    - name: timedate-ntp-synchronization.service
+      command: start
+      content: |
+        [Unit]
+        Description=Synchronize system clock
+        After=ntpdate.service
+
+        [Service]
+        ExecStart=/usr/bin/timedatectl set-timezone UTC
+        ExecStart=/usr/bin/timedatectl set-ntp true
+        ExecStart=/sbin/hwclock --systohc --utc
+        RemainAfterExit=yes
+        Type=oneshot
+
   update:
-    reboot-strategy: reboot
+    reboot-strategy: off
     group: "alpha"
 
-hostname: one-off
+write_files:
+  - path: /etc/systemd/system/fleet.socket.d/30-ListenStream.conf
+    content: |
+      [Socket]
+      ListenStream=127.0.0.1:49153
+
+hostname: solo
 
 users:
   - name: xena
-    gecos: Xena Cadenza
+    gecos: Christine Dodrill
     groups:
      - sudo
      - docker
