@@ -1,0 +1,11 @@
+[Unit]
+Description=OlegDB Key/Value Store
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/olegdb -config /home/xena/.local/var/olegdb/olegdb.conf &
+RemainAfterExit=yes
+Restart=always
+
+[Install]
+WantedBy=default.target
