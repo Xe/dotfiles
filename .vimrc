@@ -8,8 +8,6 @@ Plugin 'bling/vim-airline'
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/vimshell.vim'
 Plugin 'airblade/vim-gitgutter'
-"Plugin 'chilicuil/vim-sprunge'
-Plugin 'Glench/Vim-Jinja2-Syntax'
 Plugin 'scrooloose/syntastic'
 Plugin 'tpope/vim-fugitive'
 Plugin 'Xe/lolcode.vim'
@@ -36,6 +34,7 @@ Plugin 'digitaltoad/vim-jade'
 Plugin 'eagletmt/neco-ghc'
 Plugin 'dag/vim2hs'
 Plugin 'eagletmt/ghcmod-vim'
+Plugin 'rust-lang/rust.vim'
 
 call vundle#end()
 
@@ -293,3 +292,5 @@ let g:vimshell_prompt_expr =
 let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
 
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
+
+let g:go_fmt_command = "goimports"
