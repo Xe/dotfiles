@@ -35,6 +35,7 @@ Plugin 'eagletmt/neco-ghc'
 Plugin 'dag/vim2hs'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'rust-lang/rust.vim'
+Plugin 'ddollar/golang-template.vim'
 
 call vundle#end()
 

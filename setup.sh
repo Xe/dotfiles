@@ -1,11 +1,11 @@
-#!/bin/bash -xe
+#!/bin/bash -x
 
 # Sanity check / setup
 cd /home/xena
-mkdir code
+mkdir code ||:
 
 # Clone dotiles
-git clone https://github.com/Xe/dotfiles code/dotfiles
+git clone https://github.com/Xe/dotfiles code/dotfiles ||:
 
 # setlink sets a symlink to my dotfiles repo for the correct file.
 function setlink
@@ -28,7 +28,7 @@ export PATH=/usr/local/go/bin:$PATH
 (mkdir -p ~/go/{pkg,bin,src})
 go get github.com/mattn/todo
 go get github.com/motemen/ghq
-go get github.com/Xe/tools/...
+go get github.com/Xe/tools/... ||:
 
 # Setup vundle
 git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
