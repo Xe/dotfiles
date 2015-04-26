@@ -13,6 +13,9 @@ HISTFILE=~/.zsh_history
 setopt sharehistory
 setopt extendedhistory
 
+[[ -n "${key[Up]}"      ]] && bindkey  "${key[Up]}"      history-beginning-search-backward
+[[ -n "${key[Down]}"    ]] && bindkey  "${key[Down]}"    history-beginning-search-forward
+
 # Superglobs!
 setopt extendedglob
 unsetopt caseglob
