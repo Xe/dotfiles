@@ -15,7 +15,6 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'vim-scripts/vimwiki'
 Plugin 'leafo/moonscript-vim'
 Plugin 'Xe/vim-licenses'
-Plugin 'vim-scripts/fountain.vim'
 Plugin 'paranoida/vim-airlineish'
 Plugin 'ekalinin/Dockerfile.vim'
 Plugin 'junegunn/goyo.vim'
@@ -36,6 +35,7 @@ Plugin 'dag/vim2hs'
 Plugin 'eagletmt/ghcmod-vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'ddollar/golang-template.vim'
+Plugin 'zah/nimrod.vim'
 
 call vundle#end()
 
@@ -134,6 +134,9 @@ au Filetype mail set expandtab
 
 " APKBUILD files have spacing like python
 au BufRead APKBUILD setl noexpandtab softtabstop=0 tabstop=4 shiftwidth=4 nosmarttab
+
+" fuck you I do what I want
+au BufRead,BufNewFile *.tmpl set filetype=gotmplhtml
 
 " Make tabs visible
 set list
