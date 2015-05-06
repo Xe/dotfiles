@@ -108,6 +108,9 @@ au Filetype elixir setl et ts=2 sw=2
 " Make Lua have ruby spacing for reading
 au Filetype lua setl et ts=2 sw=2
 
+" Oh nim
+au Filetype nim setl et ts=2 sw=2
+
 " moonscript is cool too
 au Filetype moon setl et ts=2 sw=2
 au BufWrite moon call s:RunShellCommand('moonc -l')
