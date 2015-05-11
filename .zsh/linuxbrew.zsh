@@ -1,3 +1,3 @@
-export PATH="$HOME/.linuxbrew/bin:$PATH"
-export MANPATH="$HOME/.linuxbrew/share/man:$MANPATH"
-export INFOPATH="$HOME/.linuxbrew/share/info:$INFOPATH"
+export PATH="$PATH:$HOME/.linuxbrew/bin"
+export MANPATH="$MANPATH:$HOME/.linuxbrew/share/man"
+export INFOPATH="$INFOPATH:$HOME/.linuxbrew/share/info"
