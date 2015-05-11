@@ -36,6 +36,7 @@ Plugin 'eagletmt/ghcmod-vim'
 Plugin 'rust-lang/rust.vim'
 Plugin 'ddollar/golang-template.vim'
 Plugin 'zah/nimrod.vim'
+Plugin 'chakrit/upstart.vim'
 
 call vundle#end()
 
