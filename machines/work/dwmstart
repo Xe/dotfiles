@@ -1,0 +1,10 @@
+#!/bin/bash
+
+xcompmgr &
+~/go/bin/status -d &
+
+nitrogen --restore &
+gnome-settings-daemon &
+xautolock -time 10 -locker slock &
+
+exec dwm

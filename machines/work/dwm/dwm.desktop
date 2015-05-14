@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=dwm
+Comment=This session logs you into dwm
+Exec=/home/xena/bin/dwmstart
+TryExec=/home/xena/bin/dwmstart
+Icon=
+Type=Application
+DesktopNames=dwm
