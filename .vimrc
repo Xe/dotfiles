@@ -109,6 +109,9 @@ au Filetype elixir setl et ts=2 sw=2
 " Make Lua have ruby spacing for reading
 au Filetype lua setl et ts=2 sw=2
 
+" Erlang!
+au Filetype erlang setl et ts=4 sw=4
+
 " Oh nim
 au Filetype nim setl et ts=2 sw=2
 
