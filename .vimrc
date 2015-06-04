@@ -23,8 +23,6 @@ Plugin 'tpope/vim-surround'
 Plugin 'morhetz/gruvbox'
 Plugin 'vim-ruby/vim-ruby'
 Plugin 'fatih/vim-go'
-Plugin 'kana/vim-metarw'
-Plugin 'mattn/vim-metarw-etcd'
 Plugin 'mohitleo9/vim-fidget'
 Plugin 'Lyude/vim-systemd-syntax'
 Plugin 'yosssi/vim-gcss'
@@ -37,6 +35,7 @@ Plugin 'rust-lang/rust.vim'
 Plugin 'ddollar/golang-template.vim'
 Plugin 'pgdouyon/nimrod.vim'
 Plugin 'chakrit/upstart.vim'
+Plugin 'embear/vim-localvimrc'
 
 call vundle#end()
 
