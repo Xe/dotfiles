@@ -76,26 +76,6 @@ au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*
 au BufRead,BufNewFile *.c,*.cpp,*.cxx,*.hpp,*.c++,*.hh,*.hxx,*.ipp,*.moc,*.tcc,*.inl set shiftwidth=8
 set cinoptions=>s,e0,n0,f0,{0,}0,^0,=s,ps,t0,c3,+s,(2s,us,)20,*30,gs,hs
 
-command! -complete=shellcmd -nargs=+ Shell call s:RunShellCommand(<q-args>)
-function! s:RunShellCommand(cmdline)
-  echo a:cmdline
-  let expanded_cmdline = a:cmdline
-  for part in split(a:cmdline, ' ')
-     if part[0] =~ '\v[%#<]'
-        let expanded_part = fnameescape(expand(part))
-        let expanded_cmdline = substitute(expanded_cmdline, part, expanded_part, '')
-     endif
-  endfor
-  botright new
-  setlocal buftype=nofile bufhidden=wipe nobuflisted noswapfile nowrap
-  call setline(1, 'You entered:    ' . a:cmdline)
-  call setline(2, 'Expanded Form:  ' .expanded_cmdline)
-  call setline(3,substitute(getline(2),'.','=','g'))
-  execute '$read !'. expanded_cmdline
-  setlocal nomodifiable
-  1
-endfunction
-
 " Other language specific hacks
 autocmd Filetype python setlocal expandtab tabstop=4 shiftwidth=4
 
@@ -149,11 +129,11 @@ set list
 set listchars=tab:>-,trail:~,extends:>,precedes:<
 
 " Default settings
-"set tabstop=4
-"set softtabstop=4
-"set shiftwidth=4
-"set nowrap
-"set smarttab
+set tabstop=2
+set softtabstop=2
+set shiftwidth=2
+set nowrap
+set smarttab
 
 set encoding=utf-8
 
@@ -193,15 +173,6 @@ map <F3> gg=G:w<cr>
 " status line
 set ls=2
 set statusline=%F%m%r%h%w\ >\ FORMAT=%{&ff}\ >\ TYPE=%Y\ >\ BUF=\#%n\ <\ POS=%04l,%04v\ <\ %p%%\ <\ LEN=%L
-
-" Lvimrc
-" if .lvimrc exists in parent directory of loaded file, load it as config
-if filereadable('../.lvimrc')
-    source ../.lvimrc
-endif
-if filereadable('./.lvimrc')
-    source ./.lvimrc
-endif
 
 " Color column definition
 "let &colorcolumn="80"
@@ -281,20 +252,6 @@ function! Goyo_after()
 endfunction
 
 let g:goyo_callbacks = [function('Goyo_before'), function('Goyo_after')]
-
-" Strip the newline from the end of a string
-function! Chomp(str)
-  return substitute(a:str, '\n$', '', '')
-endfunction
-
-" Find a file and pass it to cmd
-function! DmenuOpen(cmd)
-  let fname = Chomp(system("git ls-files | dmenu -i -l 20 -p " . a:cmd))
-  if empty(fname)
-    return
-  endif
-  execute a:cmd . " " . fname
-endfunction
 
 " Use current directory as vimshell prompt.
 let g:vimshell_prompt_expr =
