@@ -261,3 +261,7 @@ let g:vimshell_prompt_pattern = '^\%(\f\|\\.\)\+> '
 let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 let g:go_fmt_command = "goimports"
+
+let g:localvimrc_whitelist = '/home/xena/(go/src/(git.xeserv.us/.*|github.com/Xe/.*)|.ghq/(github.com/Xe/.*|git.xeserv.us/.*))'
+let g:localvimrc_sandbox = 0
+let g:localvimrc_persistent = 2
