@@ -1,5 +1,0 @@
-alias volantis="ssh niichan@volantis"
-alias cloudchaser="ssh sam@cloudchaser"
-alias sparkle="ssh sparkle"
-alias genesect="ssh genesect"
-alias rainbowdash="ssh 192.168.1.228"
