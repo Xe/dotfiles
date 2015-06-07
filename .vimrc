@@ -35,6 +35,7 @@ Plugin 'pgdouyon/nimrod.vim'
 Plugin 'chakrit/upstart.vim'
 Plugin 'embear/vim-localvimrc'
 Plugin 'dpwright/vim-tup'
+Plugin 'mattn/go-errcheck-vim'
 
 call vundle#end()
 
@@ -131,9 +132,6 @@ set listchars=tab:>-,trail:~,extends:>,precedes:<
 set tabstop=2
 set softtabstop=2
 set shiftwidth=2
-set nowrap
-set smarttab
-
 set encoding=utf-8
 
 " Append modeline after last line in buffer.
