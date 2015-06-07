@@ -9,10 +9,8 @@ Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/vimshell.vim'
 Plugin 'airblade/vim-gitgutter'
 Plugin 'scrooloose/syntastic'
-Plugin 'tpope/vim-fugitive'
 Plugin 'Xe/lolcode.vim'
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'vim-scripts/vimwiki'
 Plugin 'leafo/moonscript-vim'
 Plugin 'Xe/vim-licenses'
 Plugin 'paranoida/vim-airlineish'
@@ -36,6 +34,7 @@ Plugin 'ddollar/golang-template.vim'
 Plugin 'pgdouyon/nimrod.vim'
 Plugin 'chakrit/upstart.vim'
 Plugin 'embear/vim-localvimrc'
+Plugin 'dpwright/vim-tup'
 
 call vundle#end()
 

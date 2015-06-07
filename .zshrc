@@ -41,7 +41,7 @@ REPORTTIME=60
 proc=`uname -p`
 
 # My path
-export PATH=/usr/local/sbin:/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin:/home/xena/bin/
+export PATH=/usr/local/sbin:/usr/local/bin:/bin:/sbin:/usr/sbin:/usr/bin:/home/xena/bin:/home/xena/.linuxbrew/bin
 
 # Vim is love, vim is life
 export EDITOR=vim
