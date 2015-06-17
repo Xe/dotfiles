@@ -31,6 +31,8 @@ RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.4.2.linux-am
 ADD setup.sh /opt/xena-install/setup.sh
 RUN setuser xena bash /opt/xena-install/setup.sh
 
+RUN echo "docker:x:1101:xena" >> /etc/group
+
 EXPOSE 22
 
 CMD ["/sbin/my_init", "setuser", "xena", "/bin/zsh"]
