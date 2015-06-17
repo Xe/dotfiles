@@ -4,18 +4,19 @@
 <dict>
     <key>Label</key>
     <string>within.automount.fucking.storage</string>
+    <key>Program</key>
+    <string>/bin/sh</string>
     <key>ProgramArguments</key>
     <array>
-        <string>/bin/sh</string>
         <string>-c</string>
-        <string>mkdir /Volumes/Archive && mount_ntfs -o rw,auto,nobrowse /dev/disk1s1 /Volumes/Archive</string>
+        <string>/bin/mkdir /Volumes/Archive</string>
     </array>
     <key>KeepAlive</key>
     <false/>
     <key>UserName</key>
     <string>root</string>
     <key>GroupName</key>
-    <string>root</string>
+    <string>wheel</string>
     <key>RunAtLoad</key>
     <true/>
 </dict>

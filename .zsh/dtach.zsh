@@ -1,7 +1,7 @@
 alias wm="dtach -A /tmp/dvtm -r winch dvtm"
 
 function session {
-	dtach -A /tmp/$1.dvtm -r winch /usr/local/bin/dvtm
+	dtach -A /tmp/$1.dvtm -r winch dvtm
 }
 
 function detach {
