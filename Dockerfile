@@ -38,7 +38,7 @@ RUN luarocks install moonscript
 
 RUN apt-add-repository 'deb http://ppa.launchpad.net/anatol/tup/ubuntu precise main' &&\
     apt-get update &&\
-    apt-get install -y tup
+    apt-get install -y --force-yes tup
 
 EXPOSE 22
 
