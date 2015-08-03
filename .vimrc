@@ -29,13 +29,17 @@ Plugin 'kchmck/vim-coffee-script'
 Plugin 'digitaltoad/vim-jade'
 Plugin 'eagletmt/neco-ghc'
 Plugin 'dag/vim2hs'
-Plugin 'ddollar/golang-template.vim'
+Plugin 'eagletmt/ghcmod-vim'
+Plugin 'rust-lang/rust.vim'
+Plugin 'yosssi/vim-ace'
 Plugin 'pgdouyon/nimrod.vim'
 Plugin 'chakrit/upstart.vim'
 Plugin 'embear/vim-localvimrc'
 Plugin 'dpwright/vim-tup'
 Plugin 'mattn/go-errcheck-vim'
 Plugin 'm2mdas/phpcomplete-extended'
+Plugin 'luochen1990/rainbow'
+Plugin 'nbouscal/vim-stylish-haskell'
 
 call vundle#end()
 
@@ -102,14 +106,14 @@ au BufWrite moon call s:RunShellCommand('moonc -l')
 au Filetype coffee setl et ts=2 sw=2
 
 " Go!
-au Filetype go setl ts=4 sw=4
+au Filetype go setl noet ts=4 sw=4
 
 " Yaml
 au Filetype yaml setl et ts=2 sw=2
 
 " Haskell
 au Filetype haskell setlocal omnifunc=necoghc#omnifunc
-au Filetype haskell setl et ts=2 sw=2
+au Filetype haskell setl et ts=4 sw=4
 
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
@@ -262,3 +266,29 @@ let g:go_fmt_command = "goimports"
 let g:localvimrc_whitelist = '/home/xena/(go/src/(git.xeserv.us/.*|github.com/Xe/.*)|.ghq/(github.com/Xe/.*|git.xeserv.us/.*))'
 let g:localvimrc_sandbox = 0
 let g:localvimrc_persistent = 2
+
+" https://www.youtube.com/watch?v=iTfcCfCB90E
+let g:rainbow_conf = {
+    \   'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick'],
+    \   'ctermfgs': ['lightblue', 'brown', 'darkblue', 'darkgray', 'darkgreen', 'darkred', 'darkmagenta', 'darkred'],
+    \   'operators': '_,_',
+    \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+    \   'separately': {
+    \       '*': {},
+    \       'tex': {
+    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+    \       },
+    \       'lisp': {
+    \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+    \       },
+    \       'vim': {
+    \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+    \       },
+    \       'html': {
+    \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+    \       },
+    \       'css': 0,
+    \   }
+    \}
+
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
