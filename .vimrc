@@ -39,6 +39,7 @@ Plugin 'dpwright/vim-tup'
 Plugin 'mattn/go-errcheck-vim'
 Plugin 'm2mdas/phpcomplete-extended'
 Plugin 'luochen1990/rainbow'
+Plugin 'vimwiki/vimwiki'
 
 call vundle#end()
 
@@ -291,3 +292,5 @@ let g:rainbow_conf = {
     \}
 
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
+let g:vimwiki_list = [{'path': '~/life/vimwiki/'}]
