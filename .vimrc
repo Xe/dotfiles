@@ -40,6 +40,9 @@ Plugin 'mattn/go-errcheck-vim'
 Plugin 'm2mdas/phpcomplete-extended'
 Plugin 'luochen1990/rainbow'
 Plugin 'vimwiki/vimwiki'
+Plugin 'exu/pgsql.vim'
+Plugin 'gilgigilgil/anderson.vim'
+Plugin 'flazz/vim-colorschemes'
 
 call vundle#end()
 
@@ -294,3 +297,13 @@ let g:rainbow_conf = {
 let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 
 let g:vimwiki_list = [{'path': '~/life/vimwiki/'}]
+
+function RangerExplorer()
+    exec "silent !ranger --choosefile=/tmp/vim_ranger_current_file " . expand("%:p:h")
+    if filereadable('/tmp/vim_ranger_current_file')
+        exec 'edit ' . system('cat /tmp/vim_ranger_current_file')
+        call system('rm /tmp/vim_ranger_current_file')
+    endif
+    redraw!
+endfun
+map <Leader>x :call RangerExplorer()<CR>
