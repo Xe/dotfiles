@@ -17,27 +17,16 @@
      ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
      ;; <M-m f e R> (Emacs style) to install them.
      ;; ----------------------------------------------------------------
-     auto-completion
-     better-defaults
-     emacs-lisp
-     git
-     markdown
-     org
+     auto-completion better-defaults emacs-lisp
+     emoji git github markdown org
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
-     syntax-checking
-     version-control
-     haskell
-     lua
-     go
-     extra-langs
-     dockerfile
-     tmux
-     themes-megapack
-     colors
-     ruby
-   )
+     syntax-checking version-control haskell
+     lua go extra-langs dockerfile tmux
+     themes-megapack colors ruby erc nim
+     python rust shell-scripts perspectives
+     erlang elixir)
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages then consider to create a layer, you can also put the
@@ -76,6 +65,7 @@ before layers configuration."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(material
+                         material-light
                          solarized-dark
                          solarized-light
                          spacemacs-light
@@ -87,8 +77,8 @@ before layers configuration."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font. `powerline-scale' allows to quickly tweak the mode-line
    ;; size to make separators look not too crappy.
-   dotspacemacs-default-font '("Monoid"
-                               :size 16
+   dotspacemacs-default-font '("Fantasque Sans Mono"
+                               :size 15
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -167,6 +157,7 @@ before layers configuration."
   (add-to-list 'exec-path "~/.cabal/bin/")
   (add-to-list 'exec-path "~/bin/")
   (add-to-list 'exec-path "~/go/bin/")
+  (setq org-log-done t)
   )
 
 (defun dotspacemacs/config ()
@@ -174,7 +165,27 @@ before layers configuration."
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   (add-hook 'prog-mode-hook #'linum-mode)
+  (setq erc-rename-buffers t)
 )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(ahs-case-fold-search nil)
+ '(ahs-default-range (quote ahs-range-whole-buffer))
+ '(ahs-idle-interval 0.25)
+ '(ahs-idle-timer 0 t)
+ '(ahs-inhibit-face-list nil)
+ '(ring-bell-function (quote ignore) t)
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(default ((((class color) (min-colors 89)) (:foreground "#ffffff" :background "#263238"))))
+ '(company-tooltip-common ((t (:inherit company-tooltip :weight bold :underline nil))))
+ '(company-tooltip-common-selection ((t (:inherit company-tooltip-selection :weight bold :underline nil)))))
