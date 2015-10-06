@@ -1,1 +1,1 @@
-alias emacs='emacsclient -t -c -a $(which emacs)'
+alias edit='emacsclient -t -c'
