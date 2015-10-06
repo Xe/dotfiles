@@ -13,8 +13,8 @@ HISTFILE=~/.zsh_history
 setopt sharehistory
 setopt extendedhistory
 
-[[ -n "${key[Up]}"      ]] && bindkey  "${key[Up]}"      history-beginning-search-backward
-[[ -n "${key[Down]}"    ]] && bindkey  "${key[Down]}"    history-beginning-search-forward
+bindkey '\e[1;5A' history-beginning-search-backward
+bindkey '\e[1;5B' history-beginning-search-forward
 
 # Superglobs!
 setopt extendedglob
@@ -74,3 +74,8 @@ do
 done
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+# The next line updates PATH for the Google Cloud SDK.
+source '/home/xena/google-cloud-sdk/path.zsh.inc'
+
+# The next line enables shell command completion for gcloud.
+source '/home/xena/google-cloud-sdk/completion.zsh.inc'

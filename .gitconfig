@@ -13,3 +13,6 @@
 	clean = git media clean %f
 	smudge = git media smudge %f
 	required = true
+[alias]
+	accept-ours = "!f() { git checkout --ours -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
+	accept-theirs = "!f() { git checkout --theirs -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"

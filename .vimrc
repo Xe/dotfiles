@@ -1,6 +1,7 @@
 filetype off
 set nocompatible
 set rtp+=~/.vim/bundle/Vundle.vim
+set rtp+=~/.vim/bundle/hoon.vim
 call vundle#begin()
 
 Plugin 'gmarik/Vundle.vim'
@@ -43,6 +44,8 @@ Plugin 'vimwiki/vimwiki'
 Plugin 'exu/pgsql.vim'
 Plugin 'gilgigilgil/anderson.vim'
 Plugin 'flazz/vim-colorschemes'
+Plugin 'xolox/vim-misc'
+Plugin 'xolox/vim-lua-ftplugin'
 
 call vundle#end()
 
@@ -117,6 +120,9 @@ au Filetype yaml setl et ts=2 sw=2
 " Haskell
 au Filetype haskell setlocal omnifunc=necoghc#omnifunc
 au Filetype haskell setl et ts=4 sw=4
+
+" Cabal
+au Filetype cabal setl et ts=2 sw=2
 
 " Email should wrap at 75 characters to allow for replies on an 80 character
 " terminal
