@@ -24,3 +24,6 @@
 ;; (for new terminals via emacsclient).
 (my-terminal-config)
 (add-hook 'after-make-frame-functions 'my-terminal-config)
+
+;; Go stuff
+(setq gofmt-command "goimports")
