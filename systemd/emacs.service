@@ -6,6 +6,7 @@ Type=forking
 ExecStart=/usr/bin/emacs --daemon
 ExecStop=/usr/bin/emacsclient --eval "(kill-emacs)"
 Restart=always
+EnvironmentFile=/home/xena/code/dotfiles/.emacs.env
 
 [Install]
 WantedBy=default.target
