@@ -2,17 +2,18 @@
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default
-   dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs")
-   dotspacemacs-configuration-layers
-   '(auto-completion better-defaults
-     (git :variables
+    dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs")
+    dotspacemacs-configuration-layers
+    '(auto-completion better-defaults
+      (git :variables
           git-gutter-use-fringe t)
-     markdown org syntax-checking go haskell
-     erlang nim extra-langs themes-megapack colors
-     ruby lua eirc dockerfile puppet yaml javascript
-     python rust shell-scripts github perspectives
-     cb-crontab xe-base xe-hoon xe-weechat xe-sr-speedbar
-     xe-restclient xe-highlight-indent-guides)
+      markdown org syntax-checking go haskell
+      erlang nim extra-langs themes-megapack colors
+      ruby lua eirc dockerfile puppet yaml javascript
+      python rust shell-scripts github perspectives
+      cb-crontab xe-base xe-hoon xe-weechat xe-sr-speedbar
+      xe-restclient xe-highlight-indent-guides
+      xe-git-gutter)
    dotspacemacs-excluded-packages '()
    dotspacemacs-delete-orphan-packages t))
 
@@ -26,18 +27,19 @@ before layers configuration."
    dotspacemacs-startup-banner nil
    dotspacemacs-always-show-changelog nil
    dotspacemacs-startup-lists '(recents projects)
-   dotspacemacs-themes '(material
+   dotspacemacs-themes '(molokai
+                         material
                          zenburn
                          solarized-light
                          solarized-dark
                          leuven)
 
    dotspacemacs-colorize-cursor-according-to-state t
-   dotspacemacs-default-font '("Monoid"
-                               :size 10
+   dotspacemacs-default-font '("Fantasque Sans Mono"
+                               :size 15
                                :weight normal
                                :width normal
-                               :powerline-scale 1.1)
+                               :powerline-scale 1.0)
 
    dotspacemacs-leader-key "SPC"
    dotspacemacs-emacs-leader-key "M-m"
