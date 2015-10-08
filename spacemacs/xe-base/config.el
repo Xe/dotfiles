@@ -25,5 +25,43 @@
 (my-terminal-config)
 (add-hook 'after-make-frame-functions 'my-terminal-config)
 
-;; Go stuff
-(setq gofmt-command "goimports")
+(defun my-go-mode-hook () "Use goimports instead of go-fmt"
+  (setq gofmt-command "goimports")
+  (add-hook 'before-save-hook 'gofmt-before-save)
+  (if (not (string-match "go" compile-command))
+      (set (make-local-variable 'compile-command)
+           "go build -v && go test -v && go vet")))
+
+(add-hook 'go-mode-hook 'my-go-mode-hook)
+
+;; Experimental gb support for Emacs
+;; This updates the GOPATH inside buffers that work on files located inside
+;; of gb projects. For now this only works on Unix systems.
+; Cribbed from https://github.com/zerok/emacs-golang-gb
+
+;;; Code:
+(defun zerok/setup-gb-gopath ()
+  (interactive)
+  (make-local-variable 'process-environment)
+  (let ((srcPath (_zerok/get-gb-src-folder buffer-file-name)))
+    (when srcPath
+      (let* ((projectPath (string-remove-suffix "/" (file-name-directory srcPath)))
+             (vendorPath (string-remove-suffix "/" (concat projectPath "/vendor")))
+             (gopath (concat vendorPath ":" projectPath)))
+        (message "Updating GOPATH to %s" gopath)
+        (setenv "GOPATH" gopath)))))
+
+(add-hook 'go-mode-hook 'zerok/setup-gb-gopath)
+
+(defun _zerok/get-gb-src-folder (path)
+  (let ((parent (directory-file-name (file-name-directory path)))
+        (basename (file-name-nondirectory path)))
+    (cond ((equal "src" basename)
+           (string-remove-suffix "/" path))
+          ((equal "/" parent)
+           nil)
+          (t
+           (_zerok/get-gb-src-folder parent)))))
+
+; Disable the highlighting for the current line
+(global-hl-line-mode -1)
