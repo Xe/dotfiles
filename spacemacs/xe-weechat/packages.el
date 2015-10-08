@@ -6,7 +6,7 @@
 (defun xe-weechat/init-weechat ()
   (use-package weechat)
   (use-package weechat-tracking)
-  (use-package weechat-notifications)
+  ;(use-package weechat-notifications)
   (use-package weechat-modules)
   (setq weechat-color-list '(unspecified "black" "dim gray" "dark red" "red"
                                          "dark green" "green" "brown"

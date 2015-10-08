@@ -6,5 +6,6 @@
                                            :repo "DarthFennec/highlight-indent-guides"))))
 
 (defun xe-highlight-indent-guides/init-highlight-indent-guides ()
-  (use-package highlight-indent-guides))
+  (use-package highlight-indent-guides)
+  (add-hook 'prog-mode-hook 'highlight-indent-guides-mode))
 
