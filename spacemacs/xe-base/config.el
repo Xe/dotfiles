@@ -65,3 +65,6 @@
 
 ; Disable the highlighting for the current line
 (global-hl-line-mode -1)
+
+; I use .zsh for z shell scripts
+(add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
