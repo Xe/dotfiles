@@ -68,3 +68,35 @@
 
 ; I use .zsh for z shell scripts
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
+
+;; ---------------------------------------------------------------------------
+;; HELM COMPANY
+;; to be used for 'fuzzy matching'
+;; make sure that helm-company is in additional packages as such:
+;; dotspacemacs-additional-packages '(
+;;                                    helm-company
+;;                                    )
+;;
+;; This is code that I got from tuhdo on Gitter:
+(with-eval-after-load 'helm-company
+(setq helm-source-company
+        (helm-build-in-buffer-source "Company"
+        :data (lambda ()
+                (helm-company-init)
+                (helm-attr 'company-candidates))
+        :fuzzy-match t
+        :keymap helm-company-map
+        :persistent-action 'helm-company-show-doc-buffer
+        :persistent-help "Show document (If available)"
+        :action helm-company-actions)
+        ))
+
+;; now running M-x and helm-company will open a buffer that one can find
+;; auto-completion options with. For example, in .spacemacs running
+;; helm-company and then entering 'lmanyap' will give the option of
+;; 'helm-company-map' as it fuzzy searches
+
+;; Key Binding
+;; I figured I'm going to be running this while typing so just used an
+;; insert mode map of Ctrl+o
+(define-key evil-insert-state-map (kbd "C-o") 'helm-company)

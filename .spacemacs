@@ -6,16 +6,19 @@
     dotspacemacs-configuration-layers
     '(auto-completion better-defaults
       (git :variables
-          git-gutter-use-fringe t)
+           git-gutter-use-fringe t)
+      (colors :variables
+              colors-enable-rainbow-identifiers t)
       markdown org syntax-checking go haskell
-      erlang nim extra-langs themes-megapack colors
+      erlang nim extra-langs themes-megapack
       ruby lua eirc dockerfile puppet yaml javascript
       python rust shell-scripts github perspectives
       cb-crontab xe-base xe-hoon xe-weechat xe-sr-speedbar
       xe-restclient xe-highlight-indent-guides
-      xe-git-gutter)
-   dotspacemacs-excluded-packages '()
-   dotspacemacs-delete-orphan-packages t))
+      xe-git-gutter xe-rainbow-delimiters)
+    dotspacemacs-excluded-packages '()
+    dotspacemacs-delete-orphan-packages t
+    dotspacemacs-additional-packages '(helm-company)))
 
 (defun dotspacemacs/init ()
   "Initialization function.
@@ -71,4 +74,5 @@ before layers configuration."
  This function is called at the very end of Spacemacs initialization after
 layers configuration."
   ;;; All core config is done in the xe-base layer
+  (global-company-mode)
 )
