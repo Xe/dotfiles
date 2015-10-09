@@ -69,10 +69,6 @@ before layers configuration."
   (add-to-list 'exec-path "~/bin/")
 )
 
-(defun dotspacemacs/config ()
-  "Configuration function.
- This function is called at the very end of Spacemacs initialization after
-layers configuration."
-  ;;; All core config is done in the xe-base layer
-  (global-company-mode)
-)
+(defun dotspacemacs/user-config ()
+  "Configuration function. All core config that can go elsewhere should go in the xe-base layer."
+  (global-company-mode))
