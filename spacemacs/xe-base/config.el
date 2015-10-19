@@ -9,7 +9,7 @@
 
 (setq linum-format 'linum-format-func)
 (setq initial-buffer-choice (lambda () (get-buffer spacemacs-buffer-name)))
-(setq server-kill-new-buffers nil)
+;(setq server-kill-new-buffers nil)
 
 (defun my-terminal-config (&optional frame)
 "Establish settings for the current terminal."
@@ -79,7 +79,7 @@
 ;;
 ;; This is code that I got from tuhdo on Gitter:
 (with-eval-after-load 'helm-company
-(setq helm-source-company
+  (setq helm-source-company
         (helm-build-in-buffer-source "Company"
         :data (lambda ()
                 (helm-company-init)
