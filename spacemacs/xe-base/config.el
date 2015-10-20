@@ -100,3 +100,7 @@
 ;; I figured I'm going to be running this while typing so just used an
 ;; insert mode map of Ctrl+o
 (define-key evil-insert-state-map (kbd "C-o") 'helm-company)
+
+;;; cribbed from https://github.com/TheWizardTower/dotfiles/blob/master/emacs.d/site-start.d/90_golang.el#L21
+;;; Fix for https://github.com/syl20bnr/spacemacs/issues/2495.
+(setq flycheck-check-syntax-automatically '(new-line save))
