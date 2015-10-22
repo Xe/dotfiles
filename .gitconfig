@@ -2,6 +2,7 @@
 	name = Christine Dodrill
 	email = xena@yolo-swag.com
 	signingkey = 0x81181111
+
 [push]
 	default = tracking
 
@@ -10,10 +11,13 @@
 
 [core]
 	compression = 0
+
 [filter "media"]
 	clean = git media clean %f
 	smudge = git media smudge %f
 	required = true
+
 [alias]
 	accept-ours = "!f() { git checkout --ours -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
 	accept-theirs = "!f() { git checkout --theirs -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
+	fossilize = "!f() { git fast-export --all | fossil import -i --git $1; }; f"
