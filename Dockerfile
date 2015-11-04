@@ -41,7 +41,6 @@ RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.5.linux-amd6
 
 # Set up vim
 ADD setup.sh /opt/xena/setup.sh
-ADD ./vimplugins.lua /opt/xena/vimplugins.lua
 RUN chmod 777 /opt/xena/setup.sh &&\
     su xena "/opt/xena/setup.sh"
 
