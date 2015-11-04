@@ -7,8 +7,7 @@
     '(auto-completion better-defaults
       (git :variables
            git-gutter-use-fringe t)
-      (colors :variables
-              colors-enable-rainbow-identifiers t)
+      (colors)
       markdown org syntax-checking go haskell
       erlang nim extra-langs themes-megapack
       ruby lua eirc dockerfile puppet yaml javascript
