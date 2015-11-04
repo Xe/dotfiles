@@ -21,3 +21,4 @@
 	accept-ours = "!f() { git checkout --ours -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
 	accept-theirs = "!f() { git checkout --theirs -- \"${@:-.}\"; git add -u \"${@:-.}\"; }; f"
 	fossilize = "!f() { git fast-export --all | fossil import -i --git $1; }; f"
+	yolo = "!f() { git push && git push dokku master } f"
