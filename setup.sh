@@ -16,31 +16,28 @@ function setlink
 # set links
 setlink .zshrc
 setlink .zsh
-setlink .vim
-setlink .vimrc
 setlink .gitconfig
 setlink .tmux.conf
+setlink .spacemacs
 
 export GOPATH=/home/xena/go
 export PATH=/usr/local/go/bin:$PATH
 
 # Golang stuff
 (mkdir -p ~/go/{pkg,bin,src})
-go get github.com/mattn/todo
-go get github.com/motemen/ghq
-go get github.com/Xe/tools/... ||:
+go get -u -v github.com/mattn/todo
+go get -u -v github.com/motemen/ghq
+go get -u -v github.com/Xe/tools/license/...
+go get -u -v github.com/nsf/gocode
+go get -u -v github.com/rogpeppe/godef
+go get -u -v golang.org/x/tools/cmd/oracle
 
-# Setup vundle
-git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+# Spacemacs
+git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d/
 
-# Set up vim plugins
-head -n 40 ~/.vimrc >> ~/.vimrc-temp
-vim -u ~/.vimrc-temp +PluginInstall +qall
-rm ~/.vimrc-temp
-
-# Binary extensions for vim
-(cd ~/.vim/bundle/YouCompleteMe; ./install.sh --clang-completer)
-(cd ~/.vim/bundle/vimproc.vim; make)
-vim +GoInstallBinaries +qall
+emacs --daemon
+# Just in case
+sleep 2
+/usr/bin/emacsclient --eval "(kill-emacs)"
 
 echo "Set up!"

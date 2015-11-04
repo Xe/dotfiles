@@ -1,11 +1,27 @@
-FROM flitter/init
-MAINTAINER Xena <xena@yolo-swag.com>
+FROM fedora:22
 
-# Package installs, make my account
-RUN apt-get update && \
-    apt-get upgrade -qy && \
-    apt-get install -qy zsh git python wget build-essential libssl-dev vim tmux dtach dvtm cmake python-dev mercurial liblua5.1-dev lua5.1 luajit luarocks && \
-    apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* && \
+RUN dnf -y groupinstall "Development Tools" &&\
+    dnf -y install \
+      tar \
+      zsh \
+      git \
+      python \
+      wget \
+      openssl-devel \
+      vim-enhanced \
+      emacs \
+      tmux \
+      dtach \
+      cmake \
+      python-devel \
+      mercurial \
+      lua \
+      luarocks \
+      gcc-c++ \
+      xz \
+      clang-devel \
+      file \
+      net-tools &&\
     useradd --create-home xena && \
     echo 'root:screencast' | chpasswd && \
     echo 'xena:user' | chpasswd && \
@@ -19,28 +35,31 @@ ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LC_CTYPE en_US.UTF-8
 
+# Golang compilers
+RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.5.linux-amd64.tar.gz && \
+    tar xf go1.5.linux-amd64.tar.gz && rm go1.5.linux-amd64.tar.gz
+
+# Set up vim
+ADD setup.sh /opt/xena/setup.sh
+ADD ./vimplugins.lua /opt/xena/vimplugins.lua
+RUN chmod 777 /opt/xena/setup.sh &&\
+    su xena "/opt/xena/setup.sh"
+
 # To use Docker please pass the docker socket as a bind mount
-# Some of my servers still use docker 1.3.0
-RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.3.0 -O /usr/local/bin/docker && \
+# Some of my servers still use docker 1.6.0
+RUN wget https://get.docker.com/builds/Linux/x86_64/docker-1.6.0 -O /usr/local/bin/docker && \
     chmod 555 /usr/local/bin/docker
 
-# Golang compilers
-RUN cd /usr/local && wget https://storage.googleapis.com/golang/go1.4.2.linux-amd64.tar.gz && \
-    tar xf go1.4.2.linux-amd64.tar.gz && rm go1.4.2.linux-amd64.tar.gz
+# Not needed?
+RUN dnf -y install dnf-plugins-core &&\
+    yes | dnf copr enable xena/moonscript &&\
+    dnf -y install lua-moonscript &&\
+    yes | dnf copr enable avsej/nim &&\
+    dnf -y install nim
 
-ADD setup.sh /opt/xena-install/setup.sh
-RUN setuser xena bash /opt/xena-install/setup.sh
-
-RUN echo "docker:x:1101:xena" >> /etc/group &&\
-    echo "xena ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
-
-RUN luarocks install moonscript
-
-RUN apt-add-repository 'deb http://ppa.launchpad.net/anatol/tup/ubuntu precise main' &&\
-    apt-get update &&\
-    apt-get install -y --force-yes tup fuse
-
-EXPOSE 22
-
-CMD ["/sbin/my_init", "setuser", "xena", "/bin/zsh"]
-
+# Add Tini
+ENV TINI_VERSION v0.5.0
+ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static /tini
+RUN chmod +x /tini
+ENTRYPOINT ["/tini", "--"]
+ENV INITSYSTEM tini
