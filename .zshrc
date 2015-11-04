@@ -21,7 +21,7 @@ setopt extendedglob
 unsetopt caseglob
 
 # Load sourcefiles
-source $HOME/.profile
+[ -f ~/.profile ] && source $HOME/.profile
 
 # Detect what platform this is for other scripts
 platform='unknown'
@@ -75,7 +75,7 @@ done
 
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 # The next line updates PATH for the Google Cloud SDK.
-source '/home/xena/google-cloud-sdk/path.zsh.inc'
+[ -d ~/google-cloud-sdk/ ] && source '/home/xena/google-cloud-sdk/path.zsh.inc'
 
 # The next line enables shell command completion for gcloud.
-source '/home/xena/google-cloud-sdk/completion.zsh.inc'
+[ -d ~/google-cloud-sdk/] && source '/home/xena/google-cloud-sdk/completion.zsh.inc'
