@@ -46,6 +46,7 @@ Plugin 'gilgigilgil/anderson.vim'
 Plugin 'flazz/vim-colorschemes'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-lua-ftplugin'
+Plugin 'rubik/vim-dg'
 
 call vundle#end()
 
