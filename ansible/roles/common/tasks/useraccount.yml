@@ -1,0 +1,9 @@
+---
+
+- name: create xena user account
+  user:
+    name: xena
+    comment: Christine Dodrill
+    groups: docker
+    shell: /bin/zsh
+    state: present

@@ -1,12 +1,5 @@
 #!/bin/bash -x
 
-# Sanity check / setup
-cd /home/xena
-mkdir code ||:
-
-# Clone dotiles
-git clone https://github.com/Xe/dotfiles code/dotfiles ||:
-
 # setlink sets a symlink to my dotfiles repo for the correct file.
 function setlink
 {

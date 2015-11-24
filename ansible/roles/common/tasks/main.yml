@@ -1,0 +1,5 @@
+---
+# Include the other stuff
+- include: packages.yml
+- include: docker.yml
+- include: golang.yml

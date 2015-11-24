@@ -1,0 +1,5 @@
+---
+# install golang
+
+- name: install golang compilers
+  script: ./scripts/common/install_go.sh creates=/usr/local/go/bin/go

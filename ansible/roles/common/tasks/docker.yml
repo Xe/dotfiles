@@ -1,0 +1,7 @@
+---
+# Docker
+
+- name: install docker
+  shell: "curl -sSL https://get.docker.com/ | sh"
+  notify:
+    - enable docker

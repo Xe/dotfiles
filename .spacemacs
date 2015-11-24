@@ -13,7 +13,7 @@
       ruby lua eirc dockerfile puppet yaml javascript
       python rust shell-scripts github perspectives
       cb-crontab xe-base xe-hoon xe-weechat xe-sr-speedbar
-      xe-restclient xe-highlight-indent-guides
+      xe-restclient xe-highlight-indent-guides ansible
       xe-git-gutter xe-rainbow-delimiters c-c++)
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t

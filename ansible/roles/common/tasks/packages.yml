@@ -1,0 +1,53 @@
+---
+# Base dnf packages
+
+- name: run updates
+  dnf: name=* state=latest
+
+- name: install packages
+  dnf: name={{ item }} state=present
+  with_items:
+    - htop
+    - flex
+    - bison
+    - openssl-devel
+    - "@Development-Tools"
+    - git
+    - kernel-devel
+    - git
+    - nc
+    - irssi
+    - mtr
+    - emacs
+    - gcc
+    - gcc-c++
+    - gmp-devel
+    - openssl-devel
+    - openssl
+    - ncurses-devel
+    - libsigsegv-devel
+    - ctags
+    - automake
+    - autoconf
+    - libtool
+    - ragel
+    - cmake
+    - re2c
+    - tmux
+    - vim-enhanced
+    - lua
+    - lua-devel
+    - luarocks
+    - xz
+    - clang-devel
+    - file
+    - net-tools
+    - wget
+    - python-devel
+    - python-pip
+    - dtach
+    - mercurial
+    - tar
+    - zsh
+    - dnf-plugins-core
+
