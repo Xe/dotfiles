@@ -21,19 +21,22 @@ export PATH=/usr/local/go/bin:$PATH
 
 # Golang stuff
 (mkdir -p ~/go/{pkg,bin,src})
-go get -u -v github.com/mattn/todo
-go get -u -v github.com/motemen/ghq
-go get -u -v github.com/Xe/tools/license/...
-go get -u -v github.com/nsf/gocode
-go get -u -v github.com/rogpeppe/godef
-go get -u -v golang.org/x/tools/cmd/oracle
+go get -u github.com/mattn/todo
+go get -u github.com/motemen/ghq
+go get -u github.com/Xe/tools/license/...
+go get -u github.com/nsf/gocode
+go get -u github.com/rogpeppe/godef
+go get -u golang.org/x/tools/cmd/oracle
 
 # Spacemacs
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d/
 
-emacs --daemon
-# Just in case
-sleep 2
-/usr/bin/emacsclient --eval "(kill-emacs)"
+if ! [ -n "$DOCKER" ];
+then
+    emacs --daemon 2>/dev/null
+    # Just in case
+    sleep 2
+    /usr/bin/emacsclient --eval "(kill-emacs)"
+fi
 
 echo "Set up!"
