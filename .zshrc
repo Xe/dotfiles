@@ -50,7 +50,7 @@ NAME="%n@"
 
 if [ -n "$DOCKER" ]
 then
-	NAME="$NAME""docker:%m "
+	NAME="%{$fg[blue]%}$NAME""docker:%{$reset_color%}%m "
 else
 	NAME="$NAME""%m "
 fi
