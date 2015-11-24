@@ -449,3 +449,4 @@ client.connect_signal("unfocus", function(c) c.border_color = beautiful.border_n
 
 awful.util.spawn("nitrogen --restore &")
 awful.util.spawn("xautolock -time 10 -locker slock &")
+awful.util.spawn("xcompmgr &")
