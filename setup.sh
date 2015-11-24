@@ -6,6 +6,9 @@ function setlink
         ln -s $HOME/code/dotfiles/$1 $HOME/$1
 }
 
+rm ~/.zshrc
+rm ~/.emacs
+
 # set links
 setlink .zshrc
 setlink .zsh
