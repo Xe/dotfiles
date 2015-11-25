@@ -285,16 +285,61 @@ clientkeys = awful.util.table.join(
    
     awful.key({ modkey,           }, "t",      function (c) c.ontop = not c.ontop            end),
     awful.key({ modkey,           }, "n",
-        function (c)
-            -- The client currently has the input focus, so it cannot be
-            -- minimized, since minimized clients can't have the focus.
-            c.minimized = true
-        end),
+      function (c)
+          -- The client currently has the input focus, so it cannot be
+          -- minimized, since minimized clients can't have the focus.
+          c.minimized = true
+      end),
     awful.key({ modkey,           }, "m",
-        function (c)
-            c.maximized_horizontal = not c.maximized_horizontal
-            c.maximized_vertical   = not c.maximized_vertical
-        end)
+      function (c)
+          c.maximized_horizontal = not c.maximized_horizontal
+          c.maximized_vertical   = not c.maximized_vertical
+    end),
+    awful.key({ modkey, "Shift" }, "t", function (c)
+    -- toggle titlebar
+        if (c:titlebar_top():geometry()['height'] > 0) then
+            awful.titlebar(c, {size = 0})
+        else
+            local buttons = awful.util.table.join(
+                awful.button({ }, 1, function()
+                    client.focus = c
+                    c:raise()
+                    awful.mouse.client.move(c)
+                end),
+                awful.button({ }, 3, function()
+                    client.focus = c
+                    c:raise()
+                    awful.mouse.client.resize(c)
+                end)
+                )
+ 
+        -- Widgets that are aligned to the left
+        local left_layout = wibox.layout.fixed.horizontal()
+        left_layout:add(awful.titlebar.widget.iconwidget(c))
+        left_layout:buttons(buttons)
+ 
+        -- Widgets that are aligned to the right
+        local right_layout = wibox.layout.fixed.horizontal()
+        right_layout:add(awful.titlebar.widget.floatingbutton(c))
+        right_layout:add(awful.titlebar.widget.maximizedbutton(c))
+        right_layout:add(awful.titlebar.widget.closebutton(c))
+ 
+        -- The title goes in the middle
+        local middle_layout = wibox.layout.flex.horizontal()
+        local title = awful.titlebar.widget.titlewidget(c)
+        title:set_align("center")
+        middle_layout:add(title)
+        middle_layout:buttons(buttons)
+ 
+        -- Now bring it all together
+        local layout = wibox.layout.align.horizontal()
+        layout:set_left(left_layout)
+        layout:set_right(right_layout)
+        layout:set_middle(middle_layout)
+ 
+        awful.titlebar(c):set_widget(layout)
+        end
+    end)
 )
 
 -- Bind all key numbers to tags.
@@ -362,6 +407,8 @@ awful.rules.rules = {
                      raise = true,
                      keys = clientkeys,
                      buttons = clientbuttons } },
+    { rule = { instance = "crx_nckgahadagoaajjgafhacjanaoiihapd" },
+  properties = { floating = true }},
     { rule = { class = "MPlayer" },
       properties = { floating = true } },
     { rule = { class = "pinentry" },
