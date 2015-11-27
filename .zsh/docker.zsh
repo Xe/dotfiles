@@ -15,5 +15,8 @@ function psqlprompt {
 }
 
 if [ "$(uname)" = "Darwin" ]; then
-	export DOCKER_HOST=tcp://192.168.59.103:2375
+	export DOCKER_HOST=tcp://192.168.99.100:2376
+	DOCKER_MACHINE_NAME=default
+	DOCKER_TLS_VERIFY=1
+	DOCKER_CERT_PATH=/Users/xena/.docker/machine/machines/default
 fi
