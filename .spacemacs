@@ -12,7 +12,7 @@
       erlang nim extra-langs themes-megapack
       ruby lua eirc dockerfile puppet yaml javascript
       python rust shell-scripts github perspectives
-      cb-crontab xe-base xe-hoon xe-weechat xe-sr-speedbar
+      cb-crontab xe-base xe-hoon xe-weechat
       xe-restclient xe-highlight-indent-guides ansible
       typescript xe-matrix xe-stack
       xe-git-gutter xe-rainbow-delimiters c-c++)
