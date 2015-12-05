@@ -14,6 +14,6 @@ function psqlprompt {
 	docker run -it --link "$1":postgres --rm postgres sh -c 'exec psql -h "$POSTGRES_PORT_5432_TCP_ADDR" -p "$POSTGRES_PORT_5432_TCP_PORT" -U postgres'
 }
 
-if [ "$(uname)" = "Darwin" ]; then
+if [[ "$(uname)" == "Darwin" ]]; then
 	eval "$(docker-machine env default)"
 fi
