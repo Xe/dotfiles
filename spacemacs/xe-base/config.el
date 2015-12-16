@@ -128,3 +128,8 @@ Non-interactive arguments are Begin End Regexp"
         (tab-count (how-many-region (point-min) (point-max) "^\t")))
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
+
+(when (display-graphic-p)
+  (eval-after-load 'flycheck
+    '(custom-set-variables
+      '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
