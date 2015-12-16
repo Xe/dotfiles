@@ -39,7 +39,6 @@ Plugin 'embear/vim-localvimrc'
 Plugin 'dpwright/vim-tup'
 Plugin 'mattn/go-errcheck-vim'
 Plugin 'm2mdas/phpcomplete-extended'
-Plugin 'luochen1990/rainbow'
 Plugin 'vimwiki/vimwiki'
 Plugin 'exu/pgsql.vim'
 Plugin 'gilgigilgil/anderson.vim'
@@ -47,6 +46,7 @@ Plugin 'flazz/vim-colorschemes'
 Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-lua-ftplugin'
 Plugin 'rubik/vim-dg'
+Plugin 'elmcast/elm-vim'
 
 call vundle#end()
 
