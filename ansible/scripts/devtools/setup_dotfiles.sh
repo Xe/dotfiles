@@ -38,6 +38,16 @@ go get github.com/rogpeppe/godef
 go get golang.org/x/tools/cmd/oracle
 go get golang.org/x/tools/cmd/goimports
 
+# Vim
+git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
+head -n 52 ~/.vimrc >> ~/.vimrc-temp
+vim -u ~/.vimrc-temp +PluginInstall +qall
+rm ~/.vimrc-temp
+
+# Binary extensions
+(cd ~/.vim/bundle/YouCompleteMe; ./install.py --clang-completer --gocode-completer) &
+(cd ~/.vim/bundle/vimproc.vim; make) &
+
 # Set up emacs
 emacs --daemon
 sleep 2
@@ -47,5 +57,7 @@ killall emacs
 emacs --daemon
 sleep 2
 killall emacs
+
+wait
 
 echo "Set up!"
