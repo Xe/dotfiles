@@ -3,3 +3,5 @@
 - include: packages.yml
 - include: docker.yml
 - include: golang.yml
+- include: useraccount.yml
+- include: haskellstack.yml

@@ -1,0 +1,10 @@
+---
+- name: install stack repo
+  get_url:
+    url: https://s3.amazonaws.com/download.fpcomplete.com/fedora/23/fpco.repo
+    dest: /etc/yum.repos.d/fpco.repo
+
+- name: install stack
+  dnf:
+    name: stack
+    state: present
