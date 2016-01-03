@@ -5,4 +5,4 @@
   ignore_errors: yes
 
 - name: install dotfiles
-script: ./scripts/devtools/setup_dotfiles.sh creates=/home/xena/code/dotfiles/.zshrc
+  script: ./scripts/devtools/setup_dotfiles.sh creates=/home/xena/code/dotfiles/.zshrc

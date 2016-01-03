@@ -2,8 +2,16 @@
 # Set up the insanity that is my development environment
 
 - name: base system setup
+  hosts: all
+  remote_user: root
   roles:
     - common
     - motd
     - variabledump
+
+- name: dotfiles
+  hosts: all
+  remote_user: xena
+  roles:
     - dotfiles
+

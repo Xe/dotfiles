@@ -1,7 +1,19 @@
 ---
 # Docker
 
-- name: install docker
-  shell: "curl -sSL https://get.docker.com/ | sh"
+- name: stop docker
+  service:
+    name: docker
+    state: stopped
+
+- name: set up docker config
+  copy:
+    src: docker-storage
+    dest: /etc/sysconfig/docker-storage
   notify:
     - enable docker
+
+- name: docker group
+  group:
+    name: docker
+    state: present

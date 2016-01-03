@@ -3,7 +3,7 @@
 
 - name: add emacs systemd unit
   copy:
-    src: ./static/dotfiles/emacs.service
+    src: emacs.service
     dest: ~/.config/systemd/user/emacs.service
   notify:
     - systemd-user reload
