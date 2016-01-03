@@ -1,0 +1,8 @@
+- name: clone dotfiles
+  git:
+    repo: https://github.com/Xe/dotfiles
+    dest: ~/code/dotfiles
+  ignore_errors: yes
+
+- name: install dotfiles
+script: ./scripts/devtools/setup_dotfiles.sh creates=/home/xena/code/dotfiles/.zshrc

@@ -1,5 +1,4 @@
 ---
-
 - name: create xena user account
   user:
     name: xena
@@ -7,3 +6,15 @@
     groups: docker
     shell: /bin/zsh
     state: present
+
+- name: create xena ssh keys folder
+  become: yes
+  become_user: xena
+  shell: mkdir -p ~/.ssh creates=/home/xena/.ssh
+
+- name: download xena ssh keys from github
+  become: yes
+  become_user: xena
+  get_url:
+    url: https://github.com/Xe.keys
+    dest: /home/xena/.ssh/authorized_keys

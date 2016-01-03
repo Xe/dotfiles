@@ -1,6 +1,0 @@
----
-
-- name: activate dotfiles
-  become: yes
-  become_user: xena
-  script: ./scripts/devtools/setup_dotfiles.sh creates=/home/xena/code/dotfiles/.zshrc

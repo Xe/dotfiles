@@ -1,0 +1,11 @@
+- name: make systemd user folder
+  shell: mkdir -p ~/.config/systemd/user creates=~/.config/systemd/user
+
+- name: add emacs systemd unit
+  copy:
+    src: ./static/dotfiles/emacs.service
+    dest: ~/.config/systemd/user/emacs.service
+  notify:
+    - systemd-user reload
+    - enable emacs
+    - start emacs

@@ -1,0 +1,4 @@
+- include: ./public_ip.yml
+
+- name: set up MOTD for the host
+  template: src=motd.j2 dest=/etc/motd

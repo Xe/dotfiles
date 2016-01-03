@@ -4,4 +4,6 @@
 - name: base system setup
   roles:
     - common
-    - devtools
+    - motd
+    - variabledump
+    - dotfiles

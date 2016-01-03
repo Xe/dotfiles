@@ -1,0 +1,5 @@
+- name: enable emacs
+  shell: systemctl --user enable emacs
+
+- name: start emacs
+  shell: systemctl --user start emacs

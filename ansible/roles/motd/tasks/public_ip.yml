@@ -1,0 +1,7 @@
+- name: get host's external IP address
+  # See http://www.commandlinefu.com/commands/view/5427/get-your-external-ip-address
+  # for alternatives to this command
+  command: curl --silent --fail https://api.ipify.org/
+  register: host_external_ip
+
+- set_fact: external_hostname="{{host_external_ip.stdout}}"
