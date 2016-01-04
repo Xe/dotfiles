@@ -50,4 +50,5 @@
     - tar
     - zsh
     - dnf-plugins-core
+    - php
 
