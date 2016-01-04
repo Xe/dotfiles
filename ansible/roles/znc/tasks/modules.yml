@@ -3,47 +3,35 @@
     path: /home/znc/prefix/lib/znc/awaynick.so
     state: absent
 
-- name: add privmsg.cpp
+- name: create folders
+  become: yes
+  become_user: znc
+  file:
+    path: "{{ item }}"
+    state: directory
+  with_items:
+    - /home/znc/.znc
+    - /home/znc/.znc/modules
+
+- name: copy modules
   become: yes
   become_user: znc
   copy:
-    src: privmsg.cpp
-    dest: /home/znc/.znc/modules/privmsg.cpp
+    src: "{{ item }}"
+    dest: "/home/znc/.znc/modules/{{ item }}"
+  with_items:
+    - privmsg.cpp
+    - ignore.cpp
+    - antiperform.cpp
 
-- name: build privmsg.cpp -> privmsg.so
+- name: build modules
   become: yes
   become_user: znc
-  shell: /home/znc/prefix/bin/znc-buildmod privmsg.cpp
+  shell: "/home/znc/prefix/bin/znc-buildmod {{ item }}.cpp"
   args:
-    creates: privmsg.so
+    creates: "{{ item }}.so"
     chdir: /home/znc/.znc/modules
-
-- name: add ignore.cpp
-  become: yes
-  become_user: znc
-  copy:
-    src: ignore.cpp
-    dest: /home/znc/.znc/modules/ignore.cpp
-
-- name: build ignore.cpp -> ignore.so
-  become: yes
-  become_user: znc
-  shell: /home/znc/prefix/bin/znc-buildmod ignore.cpp
-  args:
-    creates: ignore.so
-    chdir: /home/znc/.znc/modules
-
-- name: add antiperform.cpp
-  become: yes
-  become_user: znc
-  copy:
-    src: antiperform.cpp
-    dest: /home/znc/.znc/modules/antiperform.cpp
-
-- name: build antiperform.cpp -> privmsg.so
-  become: yes
-  become_user: znc
-  shell: /home/znc/prefix/bin/znc-buildmod antiperform.cpp
-  args:
-    creates: antiperform.so
-    chdir: /home/znc/.znc/modules
+  with_items:
+    - privmsg
+    - ignore
+    - antiperform
