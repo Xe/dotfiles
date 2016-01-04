@@ -1,0 +1,9 @@
+- name: create ZNC user
+  user:
+    name: znc
+    state: present
+
+- name: add ZNC user ssh keys
+  authorized_key:
+    user: znc
+    key: https://github.com/Xe.keys

@@ -1,0 +1,11 @@
+[Unit]
+Description=ZNC - an advanced IRC bouncer
+After=network.target
+
+[Service]
+ExecStart=/home/znc/prefix/bin/znc
+User=znc
+Type=forking
+
+[Install]
+WantedBy=multi-user.target

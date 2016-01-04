@@ -1,2 +1,7 @@
+greedo ansible_host=142.4.215.188
+
 [server]
-142.4.215.188
+greedo
+
+[znc]
+greedo

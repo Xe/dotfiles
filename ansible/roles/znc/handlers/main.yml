@@ -1,0 +1,4 @@
+- name: enable znc
+  service:
+    name: znc
+    enabled: yes

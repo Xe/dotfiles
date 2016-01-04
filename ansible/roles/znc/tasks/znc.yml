@@ -1,0 +1,71 @@
+- name: build dependencies
+  dnf: name={{ item }} state=present
+  with_items:
+    - automake
+    - c-ares-devel
+    - cyrus-sasl-devel
+    - gettext-devel
+    - libicu-devel
+    - openssl-devel
+    - perl(ExtUtils::Embed)
+    - systemd-units
+    - perl-devel
+    - swig
+    - python3-devel
+    - tcl-devel
+
+- include: user.yml
+
+- name: create download folder in home
+  become: yes
+  become_user: znc
+  file:
+    path: /home/znc/dl
+    state: directory
+    mode: 0755
+
+- name: create install root folder in home
+  become: yes
+  become_user: znc
+  file:
+    path: /home/znc/prefix
+    state: directory
+    mode: 0755
+
+- name: download ZNC tarball
+  become: yes
+  become_user: znc
+  get_url:
+    url: http://znc.in/releases/znc-1.6.2.tar.gz
+    dest: /home/znc/dl/znc-1.6.2.tar.gz
+
+- name: extract ZNC
+  become: yes
+  become_user: znc
+  shell: tar xf znc-1.6.2.tar.gz
+  args:
+    chdir: /home/znc/dl
+    creates: /home/znc/dl/znc-1.6.2/README.md
+
+- name: configure ZNC build system
+  become: yes
+  become_user: znc
+  shell: ./configure --enable-openssl --enable-perl --enable-tcl --enable-python --quiet --prefix=/home/znc/prefix
+  args:
+    chdir: /home/znc/dl/znc-1.6.2
+    creates: /home/znc/dl/znc-1.6.2/Makefile
+
+- name: compile ZNC
+  become: yes
+  become_user: znc
+  shell: "make -j8 && make install"
+  args:
+    chdir: /home/znc/dl/znc-1.6.2
+    creates: /home/znc/prefix/bin/znc
+
+- name: add ZNC systemd unit
+  copy:
+    src: znc.service
+    dest: /etc/systemd/system/znc.service
+  notify:
+    - enable znc

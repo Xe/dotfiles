@@ -15,3 +15,8 @@
   roles:
     - dotfiles
 
+- name: znc
+  hosts: znc
+  remote_user: root
+  roles:
+    - znc
