@@ -1,7 +1,7 @@
 ---
 # Include the other stuff
 - include: packages.yml
-- include: docker.yml
+# - include: docker.yml # only need this for bootstrapping on OVH F23
 - include: golang.yml
 - include: useraccount.yml
 - include: haskellstack.yml
