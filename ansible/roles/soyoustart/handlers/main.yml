@@ -1,0 +1,4 @@
+- name: activate conditional-kexec.service
+  service:
+    name: conditional-kexec
+    enabled: yes

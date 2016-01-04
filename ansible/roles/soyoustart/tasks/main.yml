@@ -1,0 +1,20 @@
+---
+# SoYouStart has terrible things. This aims to fix that
+
+- name: non-grsec kernel download
+  get_url:
+    url: ftp://ftp.ovh.net/made-in-ovh/bzImage/4.3.3/bzImage-4.3.3-xxxx-std-ipv6-64
+    dest: /boot/bzImage-4.3.3-xxxx-std-ipv6-64
+
+- name: add kexec script
+  copy:
+    src: conditional-kexec.sh
+    dest: /usr/local/bin/conditional-kexec
+    mode: 0755
+
+- name: add kexec systemd job
+  copy:
+    src: conditional-kexec.service
+    dest: /etc/systemd/system/conditional-kexec.service
+  notify:
+    - activate conditional-kexec.service

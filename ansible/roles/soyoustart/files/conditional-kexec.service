@@ -1,0 +1,9 @@
+[Unit]
+Description=Conditional hack around broken grsec kernel
+
+[Service]
+ExecStart=/usr/local/bin/conditional-kexec
+Type=oneshot
+
+[Install]
+WantedBy=basic.target

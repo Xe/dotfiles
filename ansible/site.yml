@@ -1,6 +1,14 @@
 ---
 # Set up the insanity that is my development environment
 
+- name: soyoustart idiocy
+  hosts: soyoustart
+  remote_user: root
+  roles:
+    - soyoustart
+  tags:
+    - init
+
 - name: base system setup
   hosts: all
   remote_user: root
@@ -8,15 +16,21 @@
     - common
     - motd
     - variabledump
+  tags:
+    - base
 
 - name: dotfiles
   hosts: all
   remote_user: xena
   roles:
     - dotfiles
+  tags:
+    - base
 
 - name: znc
   hosts: znc
   remote_user: root
   roles:
     - znc
+  tags:
+    - base
