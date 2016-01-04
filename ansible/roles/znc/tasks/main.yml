@@ -1,1 +1,3 @@
 - include: znc.yml
+- include: modules.yml
+- include: oidentd.yml

@@ -1,0 +1,11 @@
+- name: install oidentd
+  dnf:
+    name: oidentd
+    state: present
+
+- name: add oidentd config
+  copy:
+    src: oidentd.conf
+    dest: /etc/oidentd.conf
+  notify:
+    - enable oidentd

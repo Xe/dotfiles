@@ -2,3 +2,9 @@
   service:
     name: znc
     enabled: yes
+
+- name: enable oidentd
+  service:
+    name: oidentd
+    enabled: yes
+    state: started

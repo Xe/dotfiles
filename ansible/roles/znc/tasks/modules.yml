@@ -1,0 +1,19 @@
+- name: delete awaynick.so
+  file:
+    path: /home/znc/prefix/lib/znc/awaynick.so
+    state: absent
+
+- name: add privmsg.cpp
+  become: yes
+  become_user: znc
+  copy:
+    src: privmsg.cpp
+    dest: /home/znc/.znc/modules/privmsg.cpp
+
+- name: build privmsg.cpp -> privmsg.so
+  become: yes
+  become_user: znc
+  shell: /home/znc/prefix/bin/znc-buildmod privmsg.cpp
+  args:
+    creates: privmsg.so
+    chdir: /home/znc/.znc/modules
