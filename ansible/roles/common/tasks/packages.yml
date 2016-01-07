@@ -51,4 +51,7 @@
     - zsh
     - dnf-plugins-core
     - php
+    - abduco
+    - dvtm
+    - weechat
 
