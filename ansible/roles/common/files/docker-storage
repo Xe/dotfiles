@@ -7,4 +7,4 @@
 # If your installation did not set a custom storage for Docker, you
 # may do it below.
 
-DOCKER_STORAGE_OPTIONS='-g /home/docker/graph '
+DOCKER_STORAGE_OPTIONS=''
