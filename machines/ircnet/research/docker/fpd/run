@@ -1,3 +1,0 @@
-#!/bin/bash
-
-/app/pcfpd/pcfpd -p 8430 -f /app/pcfpd/policy-example.xml

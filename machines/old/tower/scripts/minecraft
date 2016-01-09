@@ -1,5 +1,0 @@
-#!/bin/bash
-
-java -jar ~/.minecraft/MCLauncher.jar
-
-exit 0

@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Minecraft
-Comment=Application for managing and playing games on Steam
-Exec=minecraft
-Icon=/home/xena/tmp/minecraft.png
-Terminal=false
-Type=Application
-Categories=Network;Game;
