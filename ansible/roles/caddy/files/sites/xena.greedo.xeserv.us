@@ -1,0 +1,12 @@
+xena.greedo.xeserv.us {
+	log syslog
+
+	tls me@christine.website
+
+	root /home/xena/public_html
+
+	markdown / {
+		template blog templates/blog.html
+		template index templates/index.html
+	}
+}

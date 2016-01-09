@@ -1,0 +1,15 @@
+- name: enable caddy repo
+  copy:
+    src: jdoss-caddy-fedora-23.repo
+    dest: /etc/yum.repos.d/jdoss-caddy-fedora-23.repo
+
+- name: install caddy
+  dnf:
+    name: caddy
+    state: present
+
+- name: install systemd unit
+  copy:
+    src: caddy.service
+    dest: /etc/systemd/system/caddy.service
+  notify: enable caddy

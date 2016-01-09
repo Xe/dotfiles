@@ -1,0 +1,5 @@
+- include: user.yml
+- include: install.yml
+- include: config.yml
+  tags:
+    - config

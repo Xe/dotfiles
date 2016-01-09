@@ -1,0 +1,2 @@
+- name: create caddy user
+  user: name=caddy system=yes home=/var/lib/caddy

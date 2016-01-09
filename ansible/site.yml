@@ -34,3 +34,11 @@
     - znc
   tags:
     - base
+
+- name: caddy
+  hosts: caddy
+  remote_user: root
+  roles:
+    - caddy
+  tags:
+    - caddy

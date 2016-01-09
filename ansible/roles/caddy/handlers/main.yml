@@ -1,0 +1,11 @@
+- name: restart caddy
+  service:
+    name: caddy
+    state: restarted
+    enabled: yes
+
+- name: enable caddy
+  service:
+    name: caddy
+    state: started
+    enabled: yes

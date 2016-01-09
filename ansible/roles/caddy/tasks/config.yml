@@ -1,0 +1,20 @@
+- name: create caddy folders
+  file: path={{ item }} state=directory
+  with_items:
+    - /etc/caddy
+    - /etc/caddy/sites
+
+- name: copy Caddy config to /etc/caddy/Caddyfile
+  copy:
+    src: Caddyfile
+    dest: /etc/caddy/Caddyfile
+  notify: restart caddy
+
+- name: copy sites config
+  copy:
+    src: "sites/{{ item }}"
+    dest: "/etc/caddy/sites/{{ item }}"
+  with_items:
+    - xena.greedo.xeserv.us
+    - znc.yolo-swag.com
+  notify: restart caddy
