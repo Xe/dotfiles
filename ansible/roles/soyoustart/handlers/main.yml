@@ -2,3 +2,9 @@
   service:
     name: conditional-kexec
     enabled: yes
+
+- name: activate fuck you iptables
+  service:
+    name: fuck-you-iptables
+    enabled: yes
+    state: started

@@ -18,3 +18,10 @@
     dest: /etc/systemd/system/conditional-kexec.service
   notify:
     - activate conditional-kexec.service
+
+- name: kill iptables rules
+  copy:
+    src: fuck-you-iptables.service
+    dest: /etc/systemd/system/fuck-you-iptables.service
+  notify:
+    - activate fuck you iptables

@@ -1,0 +1,10 @@
+[Unit]
+Description=Fuck you iptables
+After=network.target
+
+[Service]
+ExecStart=/sbin/iptables -F
+Type=oneshot
+
+[Install]
+WantedBy=basic.target
