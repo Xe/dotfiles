@@ -3,7 +3,7 @@
   user:
     name: xena
     comment: Christine Dodrill
-    groups: docker
+    groups: docker,tty
     shell: /bin/zsh
     state: present
 
