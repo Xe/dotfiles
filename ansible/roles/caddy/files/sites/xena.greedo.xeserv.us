@@ -9,4 +9,6 @@ xena.greedo.xeserv.us {
 		template blog templates/blog.html
 		template index templates/index.html
 	}
+
+	browse
 }
