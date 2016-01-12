@@ -1,0 +1,8 @@
+- name: Bootstrap copr support
+  dnf: name=dnf-plugins-core state=latest
+
+- name: Activate coprs
+  shell: "yes | dnf copr enable {{ item }}"
+  with_items:
+    - xena/nim
+    - xena/moonscript

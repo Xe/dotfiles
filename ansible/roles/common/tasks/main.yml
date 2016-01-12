@@ -1,5 +1,6 @@
 ---
 # Include the other stuff
+- include: coprs.yml
 - include: packages.yml
 - include: docker.yml # only need this for bootstrapping on OVH F23
 - include: golang.yml
