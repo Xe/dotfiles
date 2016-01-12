@@ -1,12 +1,17 @@
+- name: delete old caddy repo
+  file:
+    state: absent
+    path: /etc/yum.repos.d/jdoss-caddy-fedora-23.repo
+
 - name: enable caddy repo
-  copy:
-    src: jdoss-caddy-fedora-23.repo
-    dest: /etc/yum.repos.d/jdoss-caddy-fedora-23.repo
+  get_url:
+    url: https://copr.fedoraproject.org/coprs/xena/caddy/repo/fedora-23/xena-caddy-fedora-23.repo
+    dest: /etc/yum.repos.d/caddy.repo
 
 - name: install caddy
   dnf:
     name: caddy
-    state: present
+    state: latest
 
 - name: install systemd unit
   copy:
