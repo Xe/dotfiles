@@ -1,8 +1,8 @@
-[jdoss-caddy]
-name=Copr repo for caddy owned by jdoss
-baseurl=https://copr-be.cloud.fedoraproject.org/results/jdoss/caddy/fedora-$releasever-$basearch/
+[xena-caddy]
+name=Copr repo for caddy owned by xena
+baseurl=https://copr-be.cloud.fedoraproject.org/results/xena/caddy/fedora-$releasever-$basearch/
 skip_if_unavailable=True
 gpgcheck=1
-gpgkey=https://copr-be.cloud.fedoraproject.org/results/jdoss/caddy/pubkey.gpg
+gpgkey=https://copr-be.cloud.fedoraproject.org/results/xena/caddy/pubkey.gpg
 enabled=1
 enabled_metadata=1
