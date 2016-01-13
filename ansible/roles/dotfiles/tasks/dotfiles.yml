@@ -1,6 +1,6 @@
 - name: clone dotfiles
   git:
-    repo: https://github.com/Xe/dotfiles
+    repo: git@github.com:Xe/dotfiles
     dest: ~/code/dotfiles
   ignore_errors: yes
 
