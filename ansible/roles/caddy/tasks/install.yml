@@ -18,6 +18,3 @@
     src: caddy.service
     dest: /etc/systemd/system/caddy.service
   notify: enable caddy
-
-- name: caddy privilege
-  command: setcap cap_net_bind_service=+ep /usr/bin/caddy
