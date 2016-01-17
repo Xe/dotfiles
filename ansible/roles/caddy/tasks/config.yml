@@ -17,4 +17,5 @@
   with_items:
     - xena.greedo.xeserv.us
     - znc.yolo-swag.com
+    - xeserv.us
   notify: restart caddy

@@ -1,0 +1,22 @@
+- name: copy scripts
+  become: yes
+  become_user: matrix
+  copy:
+    mode: 0777
+    src: "{{ item }}"
+    dest: /var/lib/matrix/{{ item }}
+  with_items:
+    - install-synapse.sh
+    - run-synapse.sh
+
+- name: install synapse
+  become: yes
+  become_user: matrix
+  shell: bash /var/lib/matrix/install-synapse.sh chdir=/var/lib/matrix creates=/var/lib/matrix/.synapse/bin/activate
+
+- name: add systemd unit
+  copy:
+    src: synapse.service
+    dest: /etc/systemd/system/synapse.service
+  notify:
+    - start synapse

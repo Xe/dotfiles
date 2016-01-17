@@ -1,0 +1,5 @@
+- name: start synapse
+  service:
+    name: synapse.service
+    enabled: yes
+    state: started

@@ -42,3 +42,11 @@
     - caddy
   tags:
     - caddy
+
+- name: synapse
+  hosts: synapse
+  remote_user: root
+  roles:
+    - synapse
+  tags:
+    - synapse

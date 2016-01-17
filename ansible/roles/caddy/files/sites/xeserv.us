@@ -1,0 +1,10 @@
+xeserv.us {
+	log syslog
+	tls xena@yolo-swag.com
+
+	proxy /_matrix http://127.0.0.1:23456 {
+		proxy_header Host {host}
+	}
+
+	root /home/xena/public_html/vector
+}

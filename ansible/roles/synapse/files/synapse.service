@@ -1,0 +1,17 @@
+[Unit]
+Description=Synapse
+Documentation=https://matrix.org
+After=network.target
+
+[Service]
+User=matrix
+WorkingDirectory=/var/lib/matrix
+LimitNOFILE=4096
+ExecStart=/var/lib/matrix/run-synapse.sh
+Restart=always
+StartLimitInterval=0
+Type=forking
+PIDFile=/var/lib/matrix/.synapse/homeserver.pid
+
+[Install]
+WantedBy=multi-user.target
