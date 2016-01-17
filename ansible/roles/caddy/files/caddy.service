@@ -6,7 +6,7 @@ After=network.target
 [Service]
 User=caddy
 WorkingDirectory=/var/lib/caddy
-LimitNOFILE=4096
+LimitNOFILE=unlimited
 ExecStart=/usr/bin/caddy -agree -conf /etc/caddy/Caddyfile
 Restart=on-failure
 StartLimitInterval=600
