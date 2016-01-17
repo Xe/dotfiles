@@ -1,2 +1,2 @@
 - name: create matrix user
-  user: name=matrix system=yes home=/var/lib/matrix
+  user: name=matrix system=yes home=/var/lib/matrix group=tty
