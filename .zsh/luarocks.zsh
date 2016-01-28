@@ -7,3 +7,5 @@ function mri {
 		moonrocks install $package --local
 	done
 }
+
+eval "$(luarocks path)"
