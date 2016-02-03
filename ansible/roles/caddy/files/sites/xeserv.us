@@ -8,5 +8,5 @@ xeserv.us {
 		proxy_header X-Forwarded-For {remote}
 	}
 
-	root /home/xena/public_html/vector
+	root /home/xena/code/vector-web/vector
 }
