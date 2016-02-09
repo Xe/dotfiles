@@ -47,6 +47,7 @@ Plugin 'xolox/vim-misc'
 Plugin 'xolox/vim-lua-ftplugin'
 Plugin 'rubik/vim-dg'
 Plugin 'elmcast/elm-vim'
+Plugin 'dag/vim-fish'
 
 call vundle#end()
 
@@ -104,6 +105,8 @@ au Filetype erlang setl et ts=4 sw=4
 
 " Oh nim
 au Filetype nim setl et ts=2 sw=2
+au BufRead,BufNewFile *.nimble set filetype=nim
+au BufRead,BufNewFile *.nims set filetype=nim
 
 " moonscript is cool too
 au Filetype moon setl et ts=2 sw=2
