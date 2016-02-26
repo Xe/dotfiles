@@ -14,7 +14,7 @@
       python rust shell-scripts github perspectives
       cb-crontab xe-base xe-hoon xe-weechat
       xe-restclient xe-highlight-indent-guides ansible
-      typescript xe-matrix xe-stack
+      typescript xe-matrix xe-stack xe-mustache
       xe-git-gutter xe-rainbow-delimiters c-c++)
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t
@@ -71,5 +71,4 @@ before layers configuration."
 
 (defun dotspacemacs/user-config ()
   "Configuration function. All core config that can go elsewhere should go in the xe-base layer."
-  (global-company-mode)
-  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode)))
+  (global-company-mode))
