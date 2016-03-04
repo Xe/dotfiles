@@ -3,7 +3,8 @@
         bbdb-
         bbdb2erc
         bbdb-vcard
-        bbdb-ext))
+        bbdb-ext
+        gmail2bbdb))
 
 (defun xe-bbdb/init-bbdb ()
    (use-package bbdb))
@@ -19,3 +20,7 @@
 
 (defun xe-bbdb/init-bbdb-ext ()
   (use-package bbdb-ext))
+
+(defun xe-bbdb/init-gmail2bbdb ()
+   (use-package gmail2bbdb))
+

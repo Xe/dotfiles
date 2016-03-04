@@ -10,15 +10,15 @@
       (colors)
       markdown org syntax-checking go haskell
       erlang nim extra-langs themes-megapack
-      ruby lua eirc dockerfile puppet yaml javascript
-      python rust shell-scripts github perspectives
-      cb-crontab xe-base xe-hoon xe-weechat
+      ruby lua erc dockerfile puppet yaml javascript
+      python rust shell-scripts github spacemacs-layouts
+      cb-crontab xe-base xe-hoon xe-weechat xe-bbdb
       xe-restclient xe-highlight-indent-guides ansible
-      typescript xe-matrix xe-stack xe-mustache
+      typescript xe-matrix xe-stack xe-mustache xe-journal
       xe-git-gutter xe-rainbow-delimiters c-c++)
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t
-    dotspacemacs-additional-packages '(helm-company web-mode)))
+    dotspacemacs-additional-packages '(helm-company web-mode znc)))
 
 (defun dotspacemacs/init ()
   "Initialization function.
