@@ -15,6 +15,7 @@
       cb-crontab xe-base xe-hoon xe-weechat xe-bbdb
       xe-restclient xe-highlight-indent-guides ansible
       typescript xe-matrix xe-stack xe-mustache xe-journal
+      common-lisp emacs-lisp scheme xe-paredit
       xe-git-gutter xe-rainbow-delimiters c-c++)
     dotspacemacs-excluded-packages '()
     dotspacemacs-delete-orphan-packages t
