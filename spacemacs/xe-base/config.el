@@ -133,3 +133,19 @@ Non-interactive arguments are Begin End Regexp"
   (eval-after-load 'flycheck
     '(custom-set-variables
       '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages))))
+
+(defun kill-whitespace ()
+  "Kill the whitespace between two non-whitespace characters"
+  (interactive "*")
+  (save-excursion
+    (save-restriction
+      (save-match-data
+        (progn
+          (re-search-backward "[^ \t\r\n]" nil t)
+          (re-search-forward "[ \t\r\n]+" nil t)
+          (replace-match "" nil nil))))))
+
+(add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+(setq org-todo-keywords
+      '((sequence "TODO" "BLOCKED" "|" "DONE" "DELEGATED" "OBVIATED" "OVERHEAD")))
