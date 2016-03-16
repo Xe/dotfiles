@@ -2,24 +2,26 @@
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default
-    dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs")
-    dotspacemacs-configuration-layers
-    '(auto-completion better-defaults
-      (git :variables
-           git-gutter-use-fringe t)
-      (colors)
-      markdown org syntax-checking go haskell
-      erlang nim extra-langs themes-megapack
-      ruby lua erc dockerfile puppet yaml javascript
-      python rust shell-scripts github spacemacs-layouts
-      cb-crontab xe-base xe-hoon xe-weechat xe-bbdb
-      xe-restclient xe-highlight-indent-guides ansible
-      typescript xe-matrix xe-stack xe-mustache xe-journal
-      common-lisp emacs-lisp scheme xe-paredit
-      xe-git-gutter xe-rainbow-delimiters c-c++)
-    dotspacemacs-excluded-packages '()
-    dotspacemacs-delete-orphan-packages t
-    dotspacemacs-additional-packages '(helm-company web-mode znc)))
+   dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs")
+   dotspacemacs-configuration-layers
+   '(auto-completion
+     better-defaults
+     (git :variables
+          git-gutter-use-fringe t)
+     (colors)
+     markdown org syntax-checking go haskell
+     erlang nim extra-langs themes-megapack
+     ruby lua erc dockerfile puppet yaml javascript
+     python rust shell-scripts github spacemacs-layouts
+     cb-crontab xe-base xe-hoon xe-weechat xe-bbdb
+     xe-restclient xe-highlight-indent-guides ansible
+     typescript xe-matrix xe-stack xe-mustache xe-journal
+     common-lisp emacs-lisp scheme
+     xe-git xe-rainbow-delimiters c-c++ xe-tools
+     xe-paredit)
+   dotspacemacs-excluded-packages '()
+   dotspacemacs-delete-orphan-packages t
+   dotspacemacs-additional-packages '(helm-company web-mode znc)))
 
 (defun dotspacemacs/init ()
   "Initialization function.
