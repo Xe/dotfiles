@@ -4,7 +4,8 @@
         aggressive-indent
         evil-nerd-commenter
         vimish-fold
-        prodigy))
+        prodigy
+        (multi-term :location local)))
 
 (defun xe-tools/init-cheatsheet ()
   (use-package cheatsheet))
@@ -20,6 +21,10 @@
 
 (defun xe-tools/init-prodigy ()
   (use-package prodigy))
+
+(defun xe-tools/init-multi-term ()
+  (use-package multi-term)
+  (setq multi-term-program "/bin/bash"))
 
 (defun xe-tools/init-aggressive-indent ()
   (use-package aggressive-indent)
