@@ -1,8 +1,8 @@
 ;;; git gutter for xena's spacemacs
 
 (setq xe-git-gutter-packages
-      '(git-gutter-fringe))
+      '(git-gutter))
 
-(defun xe-git-gutter/init-git-gutter-fringe ()
-  (use-package git-gutter-fringe)
-  (setq git-gutter-fr:side 'right-fringe))
+(defun xe-git-gutter/init-git-gutter ()
+  (use-package git-gutter)
+  (global-git-gutter-mode +1))
