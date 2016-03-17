@@ -31,12 +31,15 @@ go get -u golang.org/x/tools/cmd/oracle
 # Spacemacs
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d/
 
-if ! [ -n "$DOCKER" ];
-then
-    emacs --daemon 2>/dev/null
-    # Just in case
-    sleep 2
-    /usr/bin/emacsclient --eval "(kill-emacs)"
-fi
+emacs --daemon 2>/dev/null
+# Just in case
+sleep 2
+/usr/bin/emacsclient --eval "(kill-emacs)"
+
+emacs --daemon 2>/dev/null
+# Just in case
+sleep 2
+/usr/bin/emacsclient --eval "(kill-emacs)"
+
 
 echo "Set up!"

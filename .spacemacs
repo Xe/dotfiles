@@ -2,7 +2,7 @@
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default
-   dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs" "~/life/cfg/spacemacs")
+   dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs")
    dotspacemacs-configuration-layers
    '(auto-completion
      better-defaults

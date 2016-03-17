@@ -33,6 +33,7 @@ RUN dnf -y groupinstall "Development Tools" &&\
 # Envvars!
 ENV HOME /home/xena
 ENV DOCKER YES
+ENV SHELL /bin/zsh
 ENV LANGUAGE en_US
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -63,3 +64,5 @@ ADD setup.sh /opt/xena/setup.sh
 
 RUN rm /home/xena/.zshrc && \
 bash /opt/xena/setup.sh
+
+CMD $SHELL -l
