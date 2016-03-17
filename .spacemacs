@@ -2,7 +2,7 @@
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default
-   dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs")
+   dotspacemacs-configuration-layer-path '("~/code/dotfiles/spacemacs" "~/life/cfg/spacemacs")
    dotspacemacs-configuration-layers
    '(auto-completion
      better-defaults
@@ -18,7 +18,15 @@
      typescript xe-matrix xe-stack xe-mustache xe-journal
      common-lisp emacs-lisp scheme
      xe-git xe-rainbow-delimiters c-c++ xe-tools
-     xe-paredit)
+     xe-docker xe-elnode xe-go
+
+     ;;; The following are private layers in spacemacs
+     ;;; You will need to remove these in your usage.
+
+     ;;; WTF is wrong with this thing, this layer needs to be last
+     ;;; for some ungodly reason
+     xe-paredit
+     )
    dotspacemacs-excluded-packages '()
    dotspacemacs-delete-orphan-packages t
    dotspacemacs-additional-packages '(helm-company web-mode znc)))
