@@ -3,7 +3,7 @@
 # setlink sets a symlink to my dotfiles repo for the correct file.
 function setlink
 {
-        ln -s $HOME/code/dotfiles/$1 $HOME/$1
+	ln -s $HOME/code/dotfiles/$1 $HOME/$1
 }
 
 rm ~/.zshrc
@@ -31,15 +31,12 @@ go get -u golang.org/x/tools/cmd/oracle
 # Spacemacs
 git clone https://github.com/syl20bnr/spacemacs ~/.emacs.d/
 
-emacs --daemon 2>/dev/null
-# Just in case
-sleep 2
-/usr/bin/emacsclient --eval "(kill-emacs)"
-
-emacs --daemon 2>/dev/null
-# Just in case
-sleep 2
-/usr/bin/emacsclient --eval "(kill-emacs)"
-
+if ! [ -n "$DOCKER" ];
+then
+	  emacs --daemon 2>/dev/null
+	  # Just in case
+	  sleep 2
+	  /usr/bin/emacsclient --eval "(kill-emacs)"
+fi
 
 echo "Set up!"
