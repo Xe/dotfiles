@@ -79,3 +79,4 @@ done
 
 # The next line enables shell command completion for gcloud.
 [ -d ~/google-cloud-sdk/ ] && source '/home/xena/google-cloud-sdk/completion.zsh.inc'
+[ $TERM = "dumb" ] && unsetopt zle && PS1='$ '
