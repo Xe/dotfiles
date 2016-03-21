@@ -1,7 +1,8 @@
 #!/bin/bash
 
 set -e
-set -x
+
+mkdir /tmp/xena-install
 
 # setlink sets a symlink to my dotfiles repo for the correct file.
 function setlink
@@ -40,6 +41,8 @@ function installemacs
 	git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d/
 
 	echo "Installing emacs packages... (this will take a while)"
+	echo "for detailed log output, run:"
+	echo "    $ tail -f /tmp/emacs.log"
 	emacs --daemon 2> /tmp/emacs.log
 	# Just in case
 	sleep 2
@@ -96,8 +99,6 @@ function installvim
 
 		parinstall ycm
 		parinstall vimproc
-
-		echo 'Done installing vim!'
 	)
 }
 
@@ -117,8 +118,6 @@ function installfish
 	fish -l -c "fisher update"
 	fish -l -c "fisher install bass"
 	fish -l -c "fisher install scorphish"
-
-	echo 'Done installing fish!'
 }
 
 # Basically a macro to parallely call an install$foo function
@@ -126,7 +125,8 @@ function parinstall
 {
 	(
 		echo "installing $1 $2"
-		install$1 $2
+		min="$(echo $2 | cut -d/ -f2)"
+		install$1 $2 > /tmp/xena-install/$1-$min-install.log 2> /tmp/xena-install/$1-$min-install.err
 		echo "installed $1 $2"
 	) &
 }
@@ -162,3 +162,8 @@ parinstall fish
 wait
 
 echo "Set up!"
+
+echo "Cleaning up log files (gzip)"
+
+tar czf /tmp/xena.log.tgz /tmp/xena-install/* /tmp/emacs.log
+rm -rf /tmp/xena-install /tmp/emacs.log
