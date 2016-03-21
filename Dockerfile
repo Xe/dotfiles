@@ -23,11 +23,12 @@ RUN dnf -y groupinstall "Development Tools" &&\
       dnf-plugins-core \
       file \
       lua-devel \
-      net-tools &&\
+      net-tools \
+      fish &&\
     useradd --create-home xena && \
     echo 'root:screencast' | chpasswd && \
     echo 'xena:user' | chpasswd && \
-    chsh xena -s /bin/zsh &&\
+    chsh xena -s /usr/bin/fish &&\
     luarocks install moonscript
 
 # Envvars!
