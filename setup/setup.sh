@@ -149,7 +149,7 @@ export TERM=screen
 parinstall emacs
 
 # Vim
-installvim
+parinstall vim
 
 # Golang stuff
 parinstall golang
