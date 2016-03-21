@@ -66,8 +66,6 @@ function installvimplugin
 
 	cd ~/.vim/bundle/$path
 	git submodule update --init --recursive
-
-	echo "vim plugin $plugin done"
 }
 
 function installycm
@@ -151,7 +149,7 @@ export TERM=screen
 parinstall emacs
 
 # Vim
-parinstall vim
+installvim
 
 # Golang stuff
 parinstall golang
