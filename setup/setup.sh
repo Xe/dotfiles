@@ -147,14 +147,14 @@ export GOPATH=/home/xena/go
 export PATH=/usr/local/go/bin:$PATH
 export TERM=screen
 
+# Spacemacs
+parinstall emacs
+
 # Vim
-installvim
+parinstall vim
 
 # Golang stuff
 parinstall golang
-
-# Spacemacs
-parinstall emacs
 
 # Fish
 parinstall fish
