@@ -1,20 +1,22 @@
+;; X stuff
 (setq x-select-enable-primary t)
 (setq x-select-enable-clipboard t)
 
+;; Line numbers
 (global-linum-mode 1)
 (defun linum-format-func (line)
-"Properly format the line number"
-(let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
+  "Properly format the line number"
+  (let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
     (propertize (format (format " %%%dd " w) line) 'face 'linum)))
 
 (setq linum-format 'linum-format-func)
 (setq initial-buffer-choice (lambda () (get-buffer spacemacs-buffer-name)))
-;(setq server-kill-new-buffers nil)
 
+;; Enable mouse mode in terminal
 (defun my-terminal-config (&optional frame)
-"Establish settings for the current terminal."
-(if (not frame) ;; The initial call.
-    (xterm-mouse-mode 1)
+  "Establish settings for the current terminal."
+  (if (not frame) ;; The initial call.
+      (xterm-mouse-mode 1)
     ;; Otherwise called via after-make-frame-functions.
     (if xterm-mouse-mode
         ;; Re-initialise the mode in case of a new terminal.
@@ -25,7 +27,9 @@
 (my-terminal-config)
 (add-hook 'after-make-frame-functions 'my-terminal-config)
 
-(defun my-go-mode-hook () "Use goimports instead of go-fmt"
+;; Use goimports instead of gofmt
+(defun my-go-mode-hook ()
+  "Use goimports instead of go-fmt"
   (setq gofmt-command "goimports")
   (add-hook 'before-save-hook 'gofmt-before-save)
   (if (not (string-match "go" compile-command))
@@ -63,10 +67,7 @@
           (t
            (_zerok/get-gb-src-folder parent)))))
 
-; Disable the highlighting for the current line
-(global-hl-line-mode -1)
-
-; I use .zsh for z shell scripts
+;; I use .zsh for z shell scripts
 (add-to-list 'auto-mode-alist '("\\.zsh\\'" . sh-mode))
 
 ;; ---------------------------------------------------------------------------
@@ -105,8 +106,9 @@
 ;;; Fix for https://github.com/syl20bnr/spacemacs/issues/2495.
 (setq flycheck-check-syntax-automatically '(new-line save))
 
+;; Other stuff
 (defun how-many-region (begin end regexp &optional interactive)
-  "Print number of non-trivial matches for REGEXP in region.                    
+  "Print number of non-trivial matches for REGEXP in region.
 Non-interactive arguments are Begin End Regexp"
   (interactive "r\nsHow many matches for (regexp): \np")
   (let ((count 0) opoint)
@@ -122,13 +124,17 @@ Non-interactive arguments are Begin End Regexp"
       count)))
 
 (defun infer-indentation-style ()
-  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if        
-  ;; neither, we use the current indent-tabs-mode                               
+  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if
+  ;; neither, we use the current indent-tabs-mode
+  (interactive)
   (let ((space-count (how-many-region (point-min) (point-max) "^  "))
         (tab-count (how-many-region (point-min) (point-max) "^\t")))
     (if (> space-count tab-count) (setq indent-tabs-mode nil))
     (if (> tab-count space-count) (setq indent-tabs-mode t))))
 
+(add-hook 'find-file-hook 'infer-indentation-style)
+
+;; Better flycheck integration
 (when (display-graphic-p)
   (eval-after-load 'flycheck
     '(custom-set-variables
@@ -145,7 +151,5 @@ Non-interactive arguments are Begin End Regexp"
           (re-search-forward "[ \t\r\n]+" nil t)
           (replace-match "" nil nil))))))
 
+;; Delete trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
-
-(setq org-todo-keywords
-      '((sequence "TODO" "BLOCKED" "|" "DONE" "DELEGATED" "OBVIATED" "OVERHEAD")))
