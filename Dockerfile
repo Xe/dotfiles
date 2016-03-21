@@ -34,7 +34,7 @@ RUN dnf -y groupinstall "Development Tools" &&\
 # Envvars!
 ENV HOME /home/xena
 ENV DOCKER YES
-ENV SHELL /bin/zsh
+ENV SHELL /usr/bin/fish
 ENV LANGUAGE en_US
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
