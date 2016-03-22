@@ -8,7 +8,8 @@ opts="-itv $HOME/.ssh:/home/xena/.ssh
         -v `pwd`:/home/xena/code/cwd
         -v /var/run/docker.sock
         --restart=always
-        --log-driver json-file"
+        --log-driver json-file
+        -e TERM=$TERM"
 
 language="$1"
 
