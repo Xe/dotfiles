@@ -65,7 +65,7 @@ ENV INITSYSTEM tini
 ADD ./bin/hostname /usr/local/bin/hostname
 
 ADD . /home/xena/code/dotfiles
-RUN chown -R xena: /home/xena/code/dotfiles
+RUN chown -R xena: /home/xena
 
 USER xena
 
