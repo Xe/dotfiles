@@ -10,6 +10,12 @@ opts="-itv $HOME/.ssh:/home/xena/.ssh
         --restart=always
         --log-driver json-file"
 
-image="docker.io/xena/dotfiles"
+language="$1"
+
+if ! [ -z "$language" ]; then
+	image="docker.io/xena/dotfiles-$language"
+else
+	image="docker.io/xena/dotfiles"
+fi
 
 docker run $opts $image
