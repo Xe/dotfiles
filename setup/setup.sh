@@ -204,7 +204,7 @@ parinstall golang
 parinstall fish
 
 # Nim
-parinstall nim
+#parinstall nim
 
 # Haskell
 #parinstall haskell
