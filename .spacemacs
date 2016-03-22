@@ -81,5 +81,4 @@ before layers configuration."
 )
 
 (defun dotspacemacs/user-config ()
-  "Configuration function. All core config that can go elsewhere should go in the xe-base layer."
-  (global-company-mode))
+  "Configuration function. All core config that can go elsewhere should go in the xe-base layer.")
