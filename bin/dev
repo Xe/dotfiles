@@ -1,0 +1,15 @@
+#!/bin/bash
+
+opts="-itv $HOME/.ssh:/home/xena/.ssh
+        -v /dev/log:/dev/log
+        -v $HOME/org:/home/xena/org
+        -v $HOME:/home/host
+        -v $HOME/.bbdb:/home/xena/.bbdb
+        -v `pwd`:/home/xena/code/cwd
+        -v /var/run/docker.sock
+        --restart=always
+        --log-driver json-file"
+
+image="docker.io/xena/dotfiles"
+
+docker run $opts $image

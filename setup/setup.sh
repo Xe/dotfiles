@@ -118,6 +118,11 @@ function installfish
 	fish -l -c "fisher install scorphish"
 }
 
+function installbin
+{
+	setlink bin
+}
+
 # Basically a macro to parallely call an install$foo function
 function parinstall
 {
@@ -140,6 +145,7 @@ setlink .tmux.conf
 setlink .spacemacs
 setlink .vimrc
 setlink .vim
+parinstall bin
 
 export GOPATH=/home/xena/go
 export PATH=/usr/local/go/bin:$PATH
