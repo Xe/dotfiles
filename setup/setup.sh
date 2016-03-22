@@ -32,6 +32,7 @@ function installgolang
 	goget github.com/jstemmer/gotags
 	goget github.com/klauspost/asmfmt/cmd/asmfmt
 	goget github.com/fatih/motion
+	goget github.com/constabulary/gb/...
 
 	echo 'Done installing go!'
 }
@@ -120,18 +121,57 @@ function installfish
 
 function installbin
 {
-	setlink bin
+		setlink bin
+}
+
+function installnim
+{
+		cd $HOME
+		mkdir prefix
+		cd prefix
+		wget http://nim-lang.org/download/nim-0.13.0.tar.xz
+		tar xf nim-0.13.0.tar.xz
+
+		(
+				cd nim-0.13.0
+				./build.sh
+		)
+
+		ln -s nim nim-0.13.0
+
+		PATH=$PATH:$HOME/prefix/nim/bin
+
+		mkdir -p $HOME/tmp
+		cd $HOME/tmp
+		(
+				git clone https://github.com/nim-lang/nimble.git
+				cd nimble
+				git clone -b v0.13.0 --depth 1 https://github.com/nim-lang/nim vendor/nim
+				nim -d:release c -r src/nimble install
+		)
+
+		rm -rf nimble
+
+		PATH=$PATH:$HOME/.nimble/bin
+
+		nimble install nimsuggest
+		nimble install c2nim
+}
+
+function installhaskell
+{
+		stack setup
 }
 
 # Basically a macro to parallely call an install$foo function
 function parinstall
 {
-	(
-		echo "installing $1 $2"
-		min="$(echo $2 | cut -d/ -f2)"
-		install$1 $2 > /tmp/xena-install/$1-$min-install.log 2> /tmp/xena-install/$1-$min-install.err
-		echo "installed $1 $2"
-	) &
+		(
+				echo "installing $1 $2"
+				min="$(echo $2 | cut -d/ -f2)"
+				install$1 $2 > /tmp/xena-install/$1-$min-install.log 2> /tmp/xena-install/$1-$min-install.err
+				echo "installed $1 $2"
+		) &
 }
 
 rm ~/.emacs
@@ -162,6 +202,12 @@ parinstall golang
 
 # Fish
 parinstall fish
+
+# Nim
+parinstall nim
+
+# Haskell
+#parinstall haskell
 
 wait
 
