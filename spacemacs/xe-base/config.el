@@ -153,3 +153,10 @@ Non-interactive arguments are Begin End Regexp"
 
 ;; Delete trailing whitespace on save
 (add-hook 'before-save-hook 'delete-trailing-whitespace)
+
+;; Look of disapproval
+;; https://github.com/mishok13/emacsen/blob/f5c01905290ff9465f61f6e7449200f614704cf5/lib/mishok-utils.el#L7-L10
+(defun look-of-disapproval ()
+  "Just in case we need this"
+  (interactive)
+  (insert "ಠ_ಠ"))
