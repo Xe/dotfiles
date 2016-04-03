@@ -160,3 +160,6 @@ Non-interactive arguments are Begin End Regexp"
   "Just in case we need this"
   (interactive)
   (insert "ಠ_ಠ"))
+
+(when (boundp 'global-company-mode)
+  (global-company-mode))
