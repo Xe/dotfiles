@@ -91,7 +91,7 @@
 ;;
 ;; And you can set it to your liking, like me: ;-)
 ;;
-;; (setq multi-term-program "/bin/zsh")
+(setq multi-term-program "/bin/zsh")
 ;;
 ;; `multi-term-default-dir' default is `~/', only use when current buffer
 ;; is not in a real directory.
@@ -128,8 +128,8 @@
 ;;; Change log:
 ;;
 ;; 2015/02/20
-;;      * Binding C-Backspace to `term-send-backward-kill-word' to follow emacs behaviour. 
-;; 
+;;      * Binding C-Backspace to `term-send-backward-kill-word' to follow emacs behaviour.
+;;
 ;; 2014/12/04
 ;;      * Ernesto Rodriguez Reina <erreina@gmail.com>
 ;;      Fixed the bug of cursor not return to the position it was before opened the dedicated terminal window when
