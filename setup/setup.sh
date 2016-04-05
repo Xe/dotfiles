@@ -116,7 +116,7 @@ function installfish
 	echo "Installing fisherman plugins"
 	fish -l -c "fisher update"
 	fish -l -c "fisher install bass"
-	fish -l -c "fisher install scorphish"
+	fish -l -c "fisher install lolfish"
 }
 
 function installbin
