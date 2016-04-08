@@ -163,3 +163,10 @@ Non-interactive arguments are Begin End Regexp"
 
 (when (boundp 'global-company-mode)
   (global-company-mode))
+
+(add-to-list 'company-backends
+             '(company-nim :with company-nim-builtin))
+
+(setq nim-nimsuggest-path "~/.nimble/bin/nimsuggest")
+
+(add-to-list 'aggressive-indent-excluded-modes 'html-mode 'nim-mode)
