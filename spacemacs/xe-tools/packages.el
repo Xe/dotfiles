@@ -1,8 +1,6 @@
 (setq xe-tools-packages
       '(cheatsheet
         ix
-        aggressive-indent
-        evil-nerd-commenter
         vimish-fold
         prodigy
         (multi-term :location local)))
@@ -13,9 +11,6 @@
 (defun xe-tools/init-ix ()
   (use-package ix))
 
-(defun xe-tools/init-evil-nerd-commenter ()
-  (use-package evil-nerd-commenter))
-
 (defun xe-tools/init-vimish-fold ()
   (use-package vimish-fold))
 
@@ -25,11 +20,3 @@
 (defun xe-tools/init-multi-term ()
   (use-package multi-term)
   (setq multi-term-program "/bin/bash"))
-
-(defun xe-tools/init-aggressive-indent ()
-  (use-package aggressive-indent)
-  (add-hook 'emacs-lisp-mode-hook #'aggressive-indent-mode)
-  (add-hook 'css-mode-hook #'aggressive-indent-mode)
-  (add-hook 'c-mode-hook #'aggressive-indent-mode)
-  (add-hook 'go-mode-hook #'aggressive-indent-mode)
-  (add-hook 'python-mode-hook #'aggressive-indent-mode))
