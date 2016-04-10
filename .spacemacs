@@ -13,7 +13,7 @@
      erlang nim extra-langs themes-megapack
      ruby lua erc dockerfile puppet yaml javascript
      python rust shell-scripts github spacemacs-layouts
-     cb-crontab xe-base xe-hoon xe-weechat xe-bbdb
+     cb-crontab xe-base xe-hoon xe-weechat
      xe-restclient xe-highlight-indent-guides ansible
      typescript xe-matrix xe-stack xe-mustache xe-journal
      common-lisp emacs-lisp scheme
@@ -27,7 +27,7 @@
      ;;; for some ungodly reason
      xe-paredit
      )
-   dotspacemacs-excluded-packages '()
+   dotspacemacs-excluded-packages '(evil-jumper assoc)
    dotspacemacs-delete-orphan-packages t
    dotspacemacs-additional-packages '(helm-company web-mode znc)))
 
