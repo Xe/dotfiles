@@ -1,5 +1,5 @@
 (defun camelcase-region (start end)
-  "Changes region from snake_case to camelCase"
+  "Changes region from snake_case to camel_case"
   (interactive "r")
   (save-restriction (narrow-to-region start end)
                     (goto-char (point-min))
@@ -7,7 +7,7 @@
                       (replace-match (upcase (match-string 1))))))
 
 (defun camelcase-word-or-region ()
-  "Changes word or region from snake_case to camelCase"
+  "Changes word or region from snake_case to camel_case"
   (interactive)
   (let (pos1 pos2 bds)
     (if (and transient-mark-mode mark-active)
@@ -30,7 +30,7 @@
    (split-name s) "_"))
 
 (defun snakecase-region (begin end)
-  "Convert the given region from camelCase to snake_case"
+  "Convert the given region from camel_case to snake_case"
   (interactive "r")
   (let* ((word (buffer-substring begin end))
          (underscored (underscore-string word)))
@@ -39,7 +39,7 @@
       (replace-string word underscored nil (point-min) (point-max)))))
 
 (defun snakecase-word-or-region ()
-  "Changes word or region from camelCase to snake_case"
+  "Changes word or region from camel_case to snake_case"
   (interactive)
   (let (pos1 pos2 bds)
     (if (and transient-mark-mode mark-active)

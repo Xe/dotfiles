@@ -171,3 +171,5 @@ Non-interactive arguments are Begin End Regexp"
   (setq nim-nimsuggest-path "~/.nimble/bin/nimsuggest"))
 
 (add-hook 'nim-mode-hook 'xe-base/nim-setup)
+
+(setq-default rust-enable-racer t)
