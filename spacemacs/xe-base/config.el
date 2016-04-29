@@ -227,13 +227,18 @@ directory to make multiple eshell windows easier."
   (let ((inhibit-read-only t))
     (erase-buffer)))
 
+(defun eshell/e (arg)
+  "opens a given file in emacs from eshell"
+  (find-file arg))
+
 (defmacro with-face (str &rest properties)
   `(propertize ,str 'face (list ,@properties)))
 
 (defun shk-eshell-prompt ()
   (let ((header-bg "#fff"))
     (concat
-     (with-face (concat (eshell/pwd) " ") :background header-bg)
+     "\n"
+     (with-face (concat (eshell/pwd) " ") :background header-bg :foreground "#888")
      (with-face (format-time-string "(%Y-%m-%d %H:%M) " (current-time)) :background header-bg :foreground "#888")
      (with-face
       (or (ignore-errors (format "(%s)" (vc-responsible-backend default-directory))) "")
