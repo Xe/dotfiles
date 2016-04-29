@@ -176,24 +176,25 @@ Non-interactive arguments are Begin End Regexp"
 
 (setq org-hide-emphasis-markers t)
 
-(let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
-                             ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
-                             ((x-list-fonts "Verdana")         '(:font "Verdana"))
-                             ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
-                             (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
-       (base-font-color     (face-foreground 'default nil 'default))
-       (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
+(when (display-graphic-p)
+  (let* ((variable-tuple (cond ((x-list-fonts "Source Sans Pro") '(:font "Source Sans Pro"))
+                              ((x-list-fonts "Lucida Grande")   '(:font "Lucida Grande"))
+                              ((x-list-fonts "Verdana")         '(:font "Verdana"))
+                              ((x-family-fonts "Sans Serif")    '(:family "Sans Serif"))
+                              (nil (warn "Cannot find a Sans Serif Font.  Install Source Sans Pro."))))
+        (base-font-color     (face-foreground 'default nil 'default))
+        (headline           `(:inherit default :weight bold :foreground ,base-font-color)))
 
-  (custom-theme-set-faces 'user
-                          `(org-level-8 ((t (,@headline ,@variable-tuple))))
-                          `(org-level-7 ((t (,@headline ,@variable-tuple))))
-                          `(org-level-6 ((t (,@headline ,@variable-tuple))))
-                          `(org-level-5 ((t (,@headline ,@variable-tuple))))
-                          `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
-                          `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
-                          `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
-                          `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
-                          `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))
+    (custom-theme-set-faces 'user
+                            `(org-level-8 ((t (,@headline ,@variable-tuple))))
+                            `(org-level-7 ((t (,@headline ,@variable-tuple))))
+                            `(org-level-6 ((t (,@headline ,@variable-tuple))))
+                            `(org-level-5 ((t (,@headline ,@variable-tuple))))
+                            `(org-level-4 ((t (,@headline ,@variable-tuple :height 1.1))))
+                            `(org-level-3 ((t (,@headline ,@variable-tuple :height 1.25))))
+                            `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
+                            `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
+                            `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil)))))))
 
 (defun eshell-here ()
   "Opens up a new shell in the directory associated with the
@@ -212,32 +213,3 @@ directory to make multiple eshell windows easier."
 
     (insert (concat "ls"))
     (eshell-send-input)))
-
-(global-set-key (kbd "C-!") 'eshell-here)
-
-(defun eshell/x ()
-  (insert "exit")
-  (eshell-send-input)
-  (delete-window))
-
-(defmacro with-face (str &rest properties)
-  `(propertize ,str 'face (list ,@properties)))
-
-(defun shk-eshell-prompt ()
-  (let ((header-bg "#fff"))
-    (concat
-     (with-face (concat (eshell/pwd) " ") :background header-bg)
-     (with-face (format-time-string "(%Y-%m-%d %H:%M) " (current-time)) :background header-bg :foreground "#888")
-     (with-face
-      (or (ignore-errors (format "(%s)" (vc-responsible-backend default-directory))) "")
-      :background header-bg)
-     (with-face "\n" :background header-bg)
-     (with-face user-login-name :foreground "blue")
-     "@"
-     (with-face "localhost" :foreground "green")
-     (if (= (user-uid) 0)
-         (with-face " #" :foreground "red")
-       " $")
-     " ")))
-(setq eshell-prompt-function 'shk-eshell-prompt)
-(setq eshell-highlight-prompt nil)
