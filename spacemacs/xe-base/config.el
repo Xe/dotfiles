@@ -194,3 +194,50 @@ Non-interactive arguments are Begin End Regexp"
                           `(org-level-2 ((t (,@headline ,@variable-tuple :height 1.5))))
                           `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
                           `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil))))))
+
+(defun eshell-here ()
+  "Opens up a new shell in the directory associated with the
+current buffer's file. The eshell is renamed to match that
+directory to make multiple eshell windows easier."
+  (interactive)
+  (let* ((parent (if (buffer-file-name)
+                     (file-name-directory (buffer-file-name))
+                   default-directory))
+         (height (/ (window-total-height) 3))
+         (name   (car (last (split-string parent "/" t)))))
+    (split-window-vertically (- height))
+    (other-window 1)
+    (eshell "new")
+    (rename-buffer (concat "*eshell: " name "*"))
+
+    (insert (concat "ls"))
+    (eshell-send-input)))
+
+(global-set-key (kbd "C-!") 'eshell-here)
+
+(defun eshell/x ()
+  (insert "exit")
+  (eshell-send-input)
+  (delete-window))
+
+(defmacro with-face (str &rest properties)
+  `(propertize ,str 'face (list ,@properties)))
+
+(defun shk-eshell-prompt ()
+  (let ((header-bg "#fff"))
+    (concat
+     (with-face (concat (eshell/pwd) " ") :background header-bg)
+     (with-face (format-time-string "(%Y-%m-%d %H:%M) " (current-time)) :background header-bg :foreground "#888")
+     (with-face
+      (or (ignore-errors (format "(%s)" (vc-responsible-backend default-directory))) "")
+      :background header-bg)
+     (with-face "\n" :background header-bg)
+     (with-face user-login-name :foreground "blue")
+     "@"
+     (with-face "localhost" :foreground "green")
+     (if (= (user-uid) 0)
+         (with-face " #" :foreground "red")
+       " $")
+     " ")))
+(setq eshell-prompt-function 'shk-eshell-prompt)
+(setq eshell-highlight-prompt nil)
