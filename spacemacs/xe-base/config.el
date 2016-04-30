@@ -243,10 +243,10 @@ directory to make multiple eshell windows easier."
      (with-face
       (or (ignore-errors (format "(%s)" (vc-responsible-backend default-directory))) "")
       :background header-bg)
-     (with-face "\n" :background header-bg)
+     "\n"
      (with-face user-login-name :foreground "blue")
      "@"
-     (with-face "localhost" :foreground "green")
+     (with-face system-name :foreground "green")
      (if (= (user-uid) 0)
          (with-face " #" :foreground "red")
        " $")
