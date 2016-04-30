@@ -3,7 +3,8 @@
 (setq x-select-enable-clipboard t)
 
 ;; Line numbers
-(global-linum-mode 1)
+
+(add-hook 'prog-mode-hook 'linum-mode)
 (defun linum-format-func (line)
   "Properly format the line number"
   (let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
