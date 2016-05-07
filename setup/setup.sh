@@ -27,7 +27,7 @@ export TERM=screen
 parinstall emacs
 
 # Vim
-parinstall vim
+#parinstall vim
 
 # Golang stuff
 parinstall golang
@@ -36,7 +36,7 @@ parinstall golang
 parinstall fish
 
 # Nim
-#parinstall nim
+parinstall nim
 
 # Haskell
 #parinstall haskell

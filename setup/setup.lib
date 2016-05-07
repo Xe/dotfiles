@@ -112,7 +112,7 @@ function installfish
 	echo "Installing fisherman plugins"
 	fish -l -c "fisher update"
 	fish -l -c "fisher install bass"
-	fish -l -c "fisher install lolfish"
+	fish -l -c "fisher install https://github.com/oh-my-fish/theme-scorphish"
 }
 
 function installbin
@@ -122,20 +122,9 @@ function installbin
 
 function installnim
 {
-		cd $HOME
-		mkdir prefix
-		cd prefix
-		wget http://nim-lang.org/download/nim-0.13.0.tar.xz
-		tar xf nim-0.13.0.tar.xz
+		vardene install $NIM_VERSION
 
-		(
-				cd nim-0.13.0
-				./build.sh
-		)
-
-		ln -s nim-0.13.0 nim
-
-		PATH=$PATH:$HOME/prefix/nim/bin
+		PATH=$PATH:$HOME/.vardene/active/bin
 
 		mkdir -p $HOME/tmp
 		cd $HOME/tmp
