@@ -110,8 +110,7 @@ function installfish
 	ln -s $HOME/code/dotfiles/fish $HOME/.config/fisherman/conf.d
 
 	echo "Installing fisherman plugins"
-	fish -l -c "fisher update"
-	fish -l -c "fisher install bass"
+	fish -l -c "fisher install https://github.com/edc/bass"
 	fish -l -c "fisher install https://github.com/oh-my-fish/theme-scorphish"
 }
 

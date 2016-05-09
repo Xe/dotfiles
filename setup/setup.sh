@@ -1,8 +1,9 @@
 #!/bin/bash
 
 set -e
+set -x
 
-source "$(basename $0)/setup.lib"
+source "/opt/xena/setup.lib"
 
 mkdir /tmp/xena-install
 
@@ -10,8 +11,6 @@ rm ~/.emacs
 rm -rf ~/.emacs.d
 
 # set links
-setlink .zshrc
-setlink .zsh
 setlink .gitconfig
 setlink .tmux.conf
 setlink .spacemacs
@@ -23,11 +22,9 @@ export GOPATH=/home/xena/go
 export PATH=/usr/local/go/bin:$PATH
 export TERM=screen
 
+
 # Spacemacs
 parinstall emacs
-
-# Vim
-#parinstall vim
 
 # Golang stuff
 parinstall golang
