@@ -2,9 +2,10 @@
 (setq x-select-enable-primary t)
 (setq x-select-enable-clipboard t)
 
-;; Line numbers
+(global-hl-line-mode -1)
 
-(add-hook 'prog-mode-hook 'linum-mode)
+;; Line numbers
+(global-linum-mode)
 (defun linum-format-func (line)
   "Properly format the line number"
   (let ((w (length (number-to-string (count-lines (point-min) (point-max))))))
@@ -254,3 +255,8 @@ directory to make multiple eshell windows easier."
      " ")))
 (setq eshell-prompt-function 'shk-eshell-prompt)
 (setq eshell-highlight-prompt nil)
+
+(eval-after-load 'paredit
+  '(progn (eval-after-load 'hy-mode
+            '(progn (add-hook 'hy-mode-hook #'paredit-mode)
+                    (add-hook 'hy-mode-hook #'smartparens-strict-mode)))))
