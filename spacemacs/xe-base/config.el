@@ -198,6 +198,8 @@ Non-interactive arguments are Begin End Regexp"
                             `(org-level-1 ((t (,@headline ,@variable-tuple :height 1.75))))
                             `(org-document-title ((t (,@headline ,@variable-tuple :height 1.5 :underline nil)))))))
 
+(set terminal-count 0)
+
 (defun eshell-here ()
   "Opens up a new shell in the directory associated with the
 current buffer's file. The eshell is renamed to match that
@@ -207,11 +209,14 @@ directory to make multiple eshell windows easier."
                      (file-name-directory (buffer-file-name))
                    default-directory))
          (height (/ (window-total-height) 3))
-         (name   (car (last (split-string parent "/" t)))))
+         (name   (car (last (split-string parent "/" t))))
+         (tnum terminal-count))
+
     (split-window-vertically (- height))
     (other-window 1)
     (eshell "new")
-    (rename-buffer (concat "*eshell: " name "*"))
+    (set terminal-count (+ tnum 1))
+    (rename-buffer (concat "*eshell: " tnum " " name "*"))
 
     (insert (concat "ls"))
     (eshell-send-input)))
@@ -227,11 +232,38 @@ directory to make multiple eshell windows easier."
   "clear the eshell buffer."
   (interactive)
   (let ((inhibit-read-only t))
-    (erase-buffer)))
+    (erase-buffer))
+  (eshell/ls))
 
 (defun eshell/e (arg)
   "opens a given file in emacs from eshell"
   (find-file arg))
+
+(defun eshell/eh (arg)
+  "opens a file in emacs from shell horizontally"
+  (split-window-vertically)
+  (other-window 1)
+  (find-file arg))
+
+(defun eshell/ev (arg)
+  "opens a file in emacs from shell vertically"
+  (split-window-horizontally)
+  (other-window 1)
+  (find-file arg))
+
+(defun eshell/status ()
+  "trigger a git status lookup"
+  (magit-status))
+
+(defun eshell/commit ()
+  "trigger a magit-commit for all edited files"
+  (magit-commit))
+
+(defun eshell/create-branch (kind name)
+  "Create a branch via my usual format"
+  (let ((separator "/")
+        (username "Xe"))
+  (magit-branch-and-checkout (concat username separator kind separator name) "HEAD")))
 
 (defmacro with-face (str &rest properties)
   `(propertize ,str 'face (list ,@properties)))
