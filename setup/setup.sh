@@ -21,9 +21,9 @@ export GOPATH=/home/xena/go
 export PATH=/usr/local/go/bin:$PATH
 export TERM=screen
 
-
 # Spacemacs
 parinstall emacs
+touch /tmp/emacs.log
 
 # Golang stuff
 parinstall golang
@@ -45,5 +45,6 @@ echo "Set up!"
 
 echo "Cleaning up log files (gzip)"
 
+touch /tmp/xena-install/logs
 tar czf /tmp/xena.log.tgz /tmp/xena-install/* /tmp/emacs.log
 rm -rf /tmp/xena-install /tmp/emacs.log

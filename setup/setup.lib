@@ -94,6 +94,8 @@ function installvim
 
 		parinstall ycm
 		parinstall vimproc
+
+		wait
 	)
 }
 
@@ -101,15 +103,20 @@ function installfish
 {
 		echo "Setting up fish"
 		export NONINTERACTIVE=1
+
+		set +e
+
 		curl -L http://get.oh-my.fish | fish
 
+		fish -l -c "exit"
+		mkdir -p /home/xena/.config/fish/functions
 		wget -O /home/xena/.config/fish/functions/git_branch_name.fish https://gist.githubusercontent.com/Xe/f92b87e17ca41d9814b684cac5344f54/raw/787259262285b0d40cf5017afb50e86df1bf8902/git_branch_name.fish
 		fish -l -c "omf install fishbone"
 		fish -l -c "omf install bang-bang"
 		fish -l -c "omf install https://github.com/oh-my-fish/plugin-gi"
 		fish -l -c "omf install https://github.com/edc/bass"
 
-		cp -vrf ~/code/dotfiles/fish ~/.config/fish/conf.d
+		cp -vrf ~/code/dotfiles/fish/*.fish ~/.config/fish/conf.d
 }
 
 function installbin
@@ -120,9 +127,15 @@ function installbin
 function installnim
 {
 		vardene install $NIM_VERSION
+		vardene activate $NIM_VERSION
 
 		PATH=$PATH:$HOME/.vardene/active/bin
 
+		#installnimble
+}
+
+function installnimble
+{
 		mkdir -p $HOME/tmp
 		cd $HOME/tmp
 		(
@@ -151,7 +164,7 @@ function parinstall
 		(
 				echo "installing $1 $2"
 				min="$(echo $2 | cut -d/ -f2)"
-				install$1 $2 #> /tmp/xena-install/$1-$min-install.log 2> /tmp/xena-install/$1-$min-install.err
+				install$1 $2
 				echo "installed $1 $2"
 		) &
 }
