@@ -99,24 +99,22 @@ function installvim
 
 function installfish
 {
-	echo "Setting up fish"
-	git clone https://github.com/fisherman/fisherman ~/.local/share/fisherman 2> /dev/null
-	mkdir -p ~/.config/fish{,erman}
+		echo "Setting up fish"
+		export NONINTERACTIVE=1
+		curl -L http://get.oh-my.fish | fish
 
-	echo "Fish config setup"
-	ln -s $HOME/code/dotfiles/config.fish $HOME/.config/fish/config.fish
+		wget -O /home/xena/.config/fish/functions/git_branch_name.fish https://gist.githubusercontent.com/Xe/f92b87e17ca41d9814b684cac5344f54/raw/787259262285b0d40cf5017afb50e86df1bf8902/git_branch_name.fish
+		fish -l -c "omf install fishbone"
+		fish -l -c "omf install bang-bang"
+		fish -l -c "omf install https://github.com/oh-my-fish/plugin-gi"
+		fish -l -c "omf install https://github.com/edc/bass"
 
-	echo "Fisherman parts"
-	ln -s $HOME/code/dotfiles/fish $HOME/.config/fisherman/conf.d
-
-	echo "Installing fisherman plugins"
-	fish -l -c "fisher install https://github.com/edc/bass"
-	fish -l -c "fisher install https://github.com/oh-my-fish/theme-scorphish"
+		cp -vrf ~/code/dotfiles/fish ~/.config/fish/conf.d
 }
 
 function installbin
 {
-		setlink bin
+		mkdir ~/bin
 }
 
 function installnim
@@ -153,7 +151,7 @@ function parinstall
 		(
 				echo "installing $1 $2"
 				min="$(echo $2 | cut -d/ -f2)"
-				install$1 $2 > /tmp/xena-install/$1-$min-install.log 2> /tmp/xena-install/$1-$min-install.err
+				install$1 $2 #> /tmp/xena-install/$1-$min-install.log 2> /tmp/xena-install/$1-$min-install.err
 				echo "installed $1 $2"
 		) &
 }

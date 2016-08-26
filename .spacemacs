@@ -1,4 +1,6 @@
 ;; -*- mode: dotspacemacs -*-
+(require 'gnus)
+
 (defun dotspacemacs/layers ()
   "Configuration Layers declaration."
   (setq-default

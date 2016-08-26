@@ -22,15 +22,16 @@ RUN dnf -y install \
       file \
       lua-devel \
       net-tools \
+      iproute \
       php \
       procps \
       bc \
       which \
+      man \
       fish &&\
     useradd --create-home xena && \
     echo 'root:screencast' | chpasswd && \
     echo 'xena:user' | chpasswd && \
-    chsh xena -s /usr/bin/fish &&\
     luarocks install moonscript
 
 # Envvars!
@@ -44,8 +45,7 @@ ENV LC_CTYPE en_US.UTF-8
 ENV SSH_TTY /dev/null
 
 # Software versions
-ENV GO_VERSION 1.6.2
-ENV DOCKER_VERSION 1.9.1
+ENV GO_VERSION 1.7
 ENV TINI_VERSION v0.9.0
 ENV VARDENE_VERSION 0.1.2
 ENV NIM_VERSION devel
@@ -53,10 +53,6 @@ ENV NIM_VERSION devel
 # Golang compilers
 RUN cd /usr/local && wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz && \
 	tar xf go$GO_VERSION.linux-amd64.tar.gz && rm go$GO_VERSION.linux-amd64.tar.gz
-
-# To use Docker please pass the docker socket as a bind mount
-RUN wget https://get.docker.com/builds/Linux/x86_64/docker-$DOCKER_VERSION -O /usr/local/bin/docker && \
-	chmod 555 /usr/local/bin/docker
 
 # Add Tini
 ADD https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static /tini
@@ -71,7 +67,7 @@ RUN chmod +x /usr/local/bin/vardene
 # Add fake hostname
 ADD ./bin/hostname /usr/local/bin/hostname
 
-ADD . /home/xena/code/dotfiles
+COPY . /home/xena/code/dotfiles
 RUN chown -R xena: /home/xena
 
 USER xena

@@ -1,7 +1,6 @@
 #!/bin/bash
 
 set -e
-set -x
 
 source "/opt/xena/setup.lib"
 
@@ -37,6 +36,8 @@ parinstall nim
 
 # Haskell
 #parinstall haskell
+
+echo "installing..."
 
 wait
 
