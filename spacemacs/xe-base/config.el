@@ -4,6 +4,8 @@
 
 (global-hl-line-mode -1)
 
+(require 'gnus)
+
 ;; Line numbers
 (global-linum-mode)
 (defun linum-format-func (line)
