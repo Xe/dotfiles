@@ -1,6 +1,6 @@
-FROM fedora:23
+FROM fedora:24
 
-RUN dnf -y install \
+RUN dnf -y install --best --allowerasing \
       "@Development Tools" \
       tar \
       git \
