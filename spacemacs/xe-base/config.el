@@ -357,3 +357,20 @@ PWD is not in a git repo (or the git command is not found)."
 
 ;; Replace [ and ] with _ in ADAPT file names
 (setq nnheader-file-name-translation-alist '((?[ . ?_) (?] . ?_)) )
+
+(defun my-jk ()
+  (interactive)
+  (let* ((initial-key ?j)
+         (final-key ?k)
+         (timeout 0.5)
+         (event (read-event nil nil timeout)))
+    (if event
+        ;; timeout met
+        (if (and (characterp event) (= event final-key))
+            (evil-normal-state)
+          (insert initial-key)
+          (push event unread-command-events))
+      ;; timeout exceeded
+      (insert initial-key))))
+
+(define-key evil-insert-state-map (kbd "j") 'my-jk)

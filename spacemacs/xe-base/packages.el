@@ -3,7 +3,8 @@
         (gitconfig)
         (virtual-desktops :location (recipe
                                      :fetcher github
-                                     :repo "chep/virtual-desktops.el"))))
+                                     :repo "chep/virtual-desktops.el"))
+        haskell-emacs))
 
 (defun xe-base/init-change-case ()
   (use-package change-case))
@@ -12,5 +13,9 @@
   (eval-after-load "projectile" '(use-package gitconfig)))
 
 (defun xe-base/init-virtual-desktops ()
-  (use-package virtual-desktops)
-  (eval-after-load 'virtual-desktops '(progn (virtual-desktops-mode) (setq virtual-desktops-auto-update t))))
+  ;(use-package virtual-desktops)
+  ;(eval-after-load 'virtual-desktops '(progn (virtual-desktops-mode) (setq virtual-desktops-auto-update t)))
+  )
+
+(defun xe-base/init-haskell-emacs ()
+  (use-package haskell-emacs))
