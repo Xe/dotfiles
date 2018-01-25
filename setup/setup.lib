@@ -1,40 +1,32 @@
 #!/bin/bash
 
 # setlink sets a symlink to my dotfiles repo for the correct file.
-function setlink
-{
+function setlink {
 	echo "Linking $1"
 	ln -s $HOME/code/dotfiles/$1 $HOME/$1
 }
 
-function goget
-{
+function goget {
 	go get -v -u $1
 }
 
-function installgolang
-{
+function installgolang {
 	mkdir -p ~/go/{pkg,bin,src}
-	goget github.com/mattn/todo
-	goget github.com/motemen/ghq
-	goget github.com/Xe/tools/license/...
+	goget github.com/Xe/x/tools/license/...
 	goget github.com/nsf/gocode
 	goget github.com/rogpeppe/godef
-	goget golang.org/x/tools/cmd/oracle
+	goget golang.org/x/tools/cmd/guru
 	goget golang.org/x/tools/cmd/gorename
 	goget github.com/alecthomas/gometalinter
-	goget github.com/golang/lint/golint
-	goget github.com/kisielk/errcheck
 	goget github.com/jstemmer/gotags
-	goget github.com/klauspost/asmfmt/cmd/asmfmt
-	goget github.com/fatih/motion
-	goget github.com/constabulary/gb/...
+
+	$HOME/go/bin/gometalinter --install --update
+	rm -rf $GOPATH/go/pkg
 
 	echo 'Done installing go!'
 }
 
-function installemacs
-{
+function installemacs {
 	git clone https://github.com/syl20bnr/spacemacs $HOME/.emacs.d/
 
 	echo "Installing emacs packages... (this will take a while)"
@@ -53,118 +45,35 @@ function installemacs
 	echo 'Done installing emacs!'
 }
 
-function installvimplugin
-{
-	plugin="$1"
-	path="$(echo $plugin | cut -d/ -f2)"
+function installfish {
+	echo "Setting up fish"
+	export NONINTERACTIVE=1
 
-	cd ~/.vim/bundle
-	git clone https://github.com/$plugin
+	set +e
 
-	cd ~/.vim/bundle/$path
-	git submodule update --init --recursive
+	curl -L http://get.oh-my.fish | fish
+
+	fish -l -c "exit"
+	mkdir -p /home/xena/.config/fish/functions
+	wget -O /home/xena/.config/fish/functions/git_branch_name.fish https://gist.githubusercontent.com/Xe/f92b87e17ca41d9814b684cac5344f54/raw/787259262285b0d40cf5017afb50e86df1bf8902/git_branch_name.fish
+	fish -l -c "omf install fishbone"
+	fish -l -c "omf install bang-bang"
+	fish -l -c "omf install https://github.com/oh-my-fish/plugin-gi"
+	fish -l -c "omf install https://github.com/edc/bass"
+
+	cp -vrf ~/code/dotfiles/fish/*.fish ~/.config/fish/conf.d
 }
 
-function installycm
-{
-	cd ~/.vim/bundle/YouCompleteMe
-	./install.sh --clang-completer
-}
-
-function installvimproc
-{
-	cd ~/.vim/bundle/vimproc.vim
-	make
-}
-
-function installvim
-{
-	(
-		echo "Setting up vundle"
-		git clone https://github.com/gmarik/Vundle.vim.git $HOME/.vim/bundle/Vundle.vim
-
-		cd ~/.vim/bundle
-		echo "extracting package list from vimrc..."
-		for plugin in $(cat ~/.vimrc | grep Plugin | cut -d"'" -f2)
-		do
-			parinstall vimplugin $plugin
-		done
-
-		wait
-
-		parinstall ycm
-		parinstall vimproc
-
-		wait
-	)
-}
-
-function installfish
-{
-		echo "Setting up fish"
-		export NONINTERACTIVE=1
-
-		set +e
-
-		curl -L http://get.oh-my.fish | fish
-
-		fish -l -c "exit"
-		mkdir -p /home/xena/.config/fish/functions
-		wget -O /home/xena/.config/fish/functions/git_branch_name.fish https://gist.githubusercontent.com/Xe/f92b87e17ca41d9814b684cac5344f54/raw/787259262285b0d40cf5017afb50e86df1bf8902/git_branch_name.fish
-		fish -l -c "omf install fishbone"
-		fish -l -c "omf install bang-bang"
-		fish -l -c "omf install https://github.com/oh-my-fish/plugin-gi"
-		fish -l -c "omf install https://github.com/edc/bass"
-
-		cp -vrf ~/code/dotfiles/fish/*.fish ~/.config/fish/conf.d
-}
-
-function installbin
-{
-		mkdir ~/bin
-}
-
-function installnim
-{
-		vardene install $NIM_VERSION
-		vardene activate $NIM_VERSION
-
-		PATH=$PATH:$HOME/.vardene/active/bin
-
-		#installnimble
-}
-
-function installnimble
-{
-		mkdir -p $HOME/tmp
-		cd $HOME/tmp
-		(
-				git clone https://github.com/nim-lang/nimble.git
-				cd nimble
-				git clone -b v0.13.0 --depth 1 https://github.com/nim-lang/nim vendor/nim
-				nim -d:release c -r src/nimble install
-		)
-
-		rm -rf nimble
-
-		PATH=$PATH:$HOME/.nimble/bin
-
-		nimble install nimsuggest
-		nimble install c2nim
-}
-
-function installhaskell
-{
-		stack setup
+function installbin {
+	mkdir ~/bin
 }
 
 # Basically a macro to parallely call an install$foo function
-function parinstall
-{
-		(
-				echo "installing $1 $2"
-				min="$(echo $2 | cut -d/ -f2)"
-				install$1 $2
-				echo "installed $1 $2"
-		) &
+function parinstall {
+	(
+		echo "installing $1 $2"
+		min="$(echo $2 | cut -d/ -f2)"
+		install$1 $2
+		echo "installed $1 $2"
+	) &
 }

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -6,7 +6,7 @@ source "/opt/xena/setup.lib"
 
 mkdir /tmp/xena-install
 
-rm ~/.emacs
+rm -rf ~/.emacs
 rm -rf ~/.emacs.d
 
 # set links
@@ -22,20 +22,14 @@ export PATH=/usr/local/go/bin:$PATH
 export TERM=screen
 
 # Spacemacs
-parinstall emacs
 touch /tmp/emacs.log
+parinstall emacs
 
 # Golang stuff
 parinstall golang
 
 # Fish
 parinstall fish
-
-# Nim
-parinstall nim
-
-# Haskell
-#parinstall haskell
 
 echo "installing..."
 

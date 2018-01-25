@@ -101,11 +101,6 @@
 ;; helm-company and then entering 'lmanyap' will give the option of
 ;; 'helm-company-map' as it fuzzy searches
 
-;; Key Binding
-;; I figured I'm going to be running this while typing so just used an
-;; insert mode map of Ctrl+o
-(define-key evil-insert-state-map (kbd "C-o") 'helm-company)
-
 ;;; cribbed from https://github.com/TheWizardTower/dotfiles/blob/master/emacs.d/site-start.d/90_golang.el#L21
 ;;; Fix for https://github.com/syl20bnr/spacemacs/issues/2495.
 (setq flycheck-check-syntax-automatically '(new-line save))
@@ -207,25 +202,6 @@ Non-interactive arguments are Begin End Regexp"
     (setq str (replace-match "" t t str)))
   str)
 
-(defun eshell-here ()
-  "Opens up a new shell in the directory associated with the
-current buffer's file. The eshell is renamed to match that
-directory to make multiple eshell windows easier."
-  (interactive)
-  (let* ((parent (if (buffer-file-name)
-                     (file-name-directory (buffer-file-name))
-                   default-directory))
-         (height (/ (window-total-height) 3))
-         (name   (car (last (split-string parent "/" t)))))
-
-    (split-window-vertically (- height))
-    (other-window 1)
-    (eshell "new")
-    (rename-buffer (concat "*eshell: " name "*"))
-
-    (insert (concat "ls"))
-    (eshell-send-input)))
-
 (spacemacs/set-leader-keys "she" 'eshell-here)
 
 (defun eshell/x ()
@@ -270,76 +246,6 @@ directory to make multiple eshell windows easier."
         (username (chomp (shell-command-to-string "git config github.user"))))
   (magit-branch-and-checkout (concat username separator kind separator name) "HEAD")))
 
-(defun curr-dir-git-branch-string (pwd)
-  "Returns current git branch as a string, or the empty string if
-PWD is not in a git repo (or the git command is not found)."
-  (interactive)
-  (when (and (eshell-search-path "git")
-             (locate-dominating-file pwd ".git"))
-    (let ((git-output (shell-command-to-string (concat "cd " pwd " && git branch | grep '\\*' | sed -e 's/^\\* //'"))))
-      (if (> (length git-output) 0)
-          (concat " :" (substring git-output 0 -1))
-        "(no branch)"))))
-
-(defun pwd-replace-home (pwd)
-  "Replace home in PWD with tilde (~) character."
-  (interactive)
-  (let* ((home (expand-file-name (getenv "HOME")))
-         (home-len (length home)))
-    (if (and
-         (>= (length pwd) home-len)
-         (equal home (substring pwd 0 home-len)))
-        (concat "~" (substring pwd home-len))
-      pwd)))
-
-(defun pwd-shorten-dirs (pwd)
-  "Shorten all directory names in PWD except the last two."
-  (let ((p-lst (split-string pwd "/")))
-    (if (> (length p-lst) 2)
-        (concat
-         (mapconcat (lambda (elm) (if (zerop (length elm)) ""
-                                    (substring elm 0 1)))
-                    (butlast p-lst 2)
-                    "/")
-         "/"
-         (mapconcat (lambda (elm) elm)
-                    (last p-lst 2)
-                    "/"))
-      pwd  ;; Otherwise, we just return the PWD
-      )))
-
-;; Turn off the default prompt.
-(setq eshell-highlight-prompt nil)
-
-(defun split-directory-prompt (directory)
-  (if (string-match-p ".*/.*" directory)
-      (list (file-name-directory directory) (file-name-base directory))
-    (list "" directory)))
-
-(setq eshell-prompt-function
-      (lambda ()
-        (let* ((directory (split-directory-prompt (pwd-shorten-dirs (pwd-replace-home (eshell/pwd)))))
-               (parent (car directory))
-               (name (cadr directory))
-               (branch (or (curr-dir-git-branch-string (eshell/pwd)) "")))
-
-          (if (eq 'dark (frame-parameter nil 'background-mode))
-              (concat   ;; Prompt for Dark Themes
-               (propertize parent 'face `(:foreground "#8888FF"))
-               (propertize name   'face `(:foreground "#8888FF" :weight bold))
-               (propertize branch 'face `(:foreground "green"))
-               (propertize " $"   'face `(:weight ultra-bold))
-               (propertize " "    'face `(:weight bold)))
-
-            (concat    ;; Prompt for Light Themes
-             (propertize parent 'face `(:foreground "blue"))
-             (propertize name   'face `(:foreground "blue" :weight bold))
-             (propertize branch 'face `(:foreground "dark green"))
-             (propertize " $"   'face `(:weight ultra-bold))
-             (propertize " "    'face `(:weight bold)))))))
-
-(setq eshell-highlight-prompt nil)
-
 (eval-after-load 'paredit
   '(progn (eval-after-load 'hy-mode
             '(progn (add-hook 'hy-mode-hook #'paredit-mode)
@@ -356,21 +262,4 @@ PWD is not in a git repo (or the git command is not found)."
 (setq gnus-ignored-newsgroups "^to\\.\\|^[0-9. ]+\\( \\|$\\)\\|^[\"]\"[#'()]")
 
 ;; Replace [ and ] with _ in ADAPT file names
-(setq nnheader-file-name-translation-alist '((?[ . ?_) (?] . ?_)) )
-
-(defun my-jk ()
-  (interactive)
-  (let* ((initial-key ?j)
-         (final-key ?k)
-         (timeout 0.5)
-         (event (read-event nil nil timeout)))
-    (if event
-        ;; timeout met
-        (if (and (characterp event) (= event final-key))
-            (evil-normal-state)
-          (insert initial-key)
-          (push event unread-command-events))
-      ;; timeout exceeded
-      (insert initial-key))))
-
-(define-key evil-insert-state-map (kbd "j") 'my-jk)
+(setq nnheader-file-name-translation-alist '((?[ . ?_) (?] . ?_)))
