@@ -43,7 +43,7 @@ before layers configuration."
    dotspacemacs-startup-banner nil
    dotspacemacs-always-show-changelog nil
    dotspacemacs-startup-lists '(recents projects)
-   dotspacemacs-themes '(zenburn)
+   dotspacemacs-themes '(twilight-anti-bright twilight-bright)
 
    dotspacemacs-colorize-cursor-according-to-state t
    dotspacemacs-default-font '("Fantasque Sans Mono"
